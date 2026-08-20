@@ -13,4 +13,10 @@ export interface GameDefinition {
   readonly load: () => Promise<GameModule>;
 }
 
-export const gameRegistry: readonly GameDefinition[] = [];
+export const gameRegistry: readonly GameDefinition[] = [
+  {
+    ...nextGreaterElementMetadata,
+    load: () => import("../games/next-greater-element/view"),
+  },
+];
+import { nextGreaterElementMetadata } from "../games/next-greater-element/game";
