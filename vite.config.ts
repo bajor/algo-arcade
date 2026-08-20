@@ -4,6 +4,7 @@ export default defineConfig({
   base: "/algos-mini-games/",
   test: {
     environment: "jsdom",
+    include: ["src/**/*.test.ts"],
     restoreMocks: true,
   },
 });
