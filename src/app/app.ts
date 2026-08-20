@@ -41,12 +41,14 @@ export function mountApp(root: HTMLElement): () => void {
     const slug = readGameSlug(window.location.hash);
     if (!slug) {
       renderHome(outlet);
+      focusRoute(outlet);
       return;
     }
 
     const game = gameRegistry.find((candidate) => candidate.slug === slug);
     if (!game) {
       renderNotFound(outlet);
+      focusRoute(outlet);
       return;
     }
 
@@ -58,7 +60,7 @@ export function mountApp(root: HTMLElement): () => void {
 
     outlet.innerHTML = "";
     gameCleanup = module.mount(outlet);
-    outlet.focus();
+    focusRoute(outlet);
   };
 
   const handleHashChange = (): void => {
@@ -74,6 +76,11 @@ export function mountApp(root: HTMLElement): () => void {
     window.removeEventListener("hashchange", handleHashChange);
     root.innerHTML = "";
   };
+}
+
+function focusRoute(outlet: HTMLElement): void {
+  window.scrollTo(0, 0);
+  outlet.focus({ preventScroll: true });
 }
 
 function readGameSlug(hash: string): string | undefined {

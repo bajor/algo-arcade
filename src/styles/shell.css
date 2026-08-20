@@ -75,6 +75,10 @@
   padding-block: clamp(40px, 8vw, 88px);
 }
 
+.route-outlet:focus-visible {
+  outline: 0;
+}
+
 .home-hero {
   max-width: 920px;
   padding-left: var(--space-3);
