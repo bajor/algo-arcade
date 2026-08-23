@@ -1,0 +1,26 @@
+:root {
+  color-scheme: dark;
+  --font-display: "Press Start 2P", monospace;
+  --font-body: "IBM Plex Mono", monospace;
+  --ink-0: #080b16;
+  --ink-1: #11182b;
+  --ink-2: #1c2942;
+  --paper: #f5f1d0;
+  --muted: #a8b5c7;
+  --cyan: #35e8df;
+  --cyan-dark: #087d83;
+  --magenta: #f04f9a;
+  --magenta-dark: #8e285e;
+  --yellow: #ffd34e;
+  --green: #65e572;
+  --red: #ff6464;
+  --blue: #5f80ff;
+  --border: 4px;
+  --space-1: 8px;
+  --space-2: 16px;
+  --space-3: 24px;
+  --space-4: 32px;
+  --space-5: 40px;
+  --shadow-pixel: 8px 8px 0 var(--ink-0);
+  --content-width: 1240px;
+}

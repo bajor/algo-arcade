@@ -1,0 +1,103 @@
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-width: 320px;
+  background: var(--ink-0);
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+  background: var(--ink-1);
+  color: var(--paper);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+button,
+a,
+input,
+select {
+  -webkit-tap-highlight-color: transparent;
+}
+
+a {
+  color: inherit;
+}
+
+button,
+input,
+select {
+  min-height: 44px;
+}
+
+:focus-visible {
+  outline: 4px solid var(--yellow);
+  outline-offset: 4px;
+}
+
+::selection {
+  background: var(--magenta);
+  color: var(--ink-0);
+}
+
+h1,
+h2,
+h3,
+p {
+  margin-top: 0;
+}
+
+h1,
+h2,
+h3,
+.eyebrow,
+.pixel-button {
+  font-family: var(--font-display);
+  line-height: 1.5;
+}
+
+.pixel-button {
+  display: inline-flex;
+  min-height: 48px;
+  align-items: center;
+  justify-content: center;
+  border: var(--border) solid var(--paper);
+  background: var(--magenta);
+  box-shadow: 6px 6px 0 var(--ink-0);
+  color: var(--paper);
+  cursor: pointer;
+  font-size: 0.7rem;
+  text-decoration: none;
+}
+
+.pixel-button:hover {
+  background: var(--paper);
+  color: var(--ink-0);
+}
+
+.pixel-button:active {
+  box-shadow: 2px 2px 0 var(--ink-0);
+  transform: translate(4px, 4px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}

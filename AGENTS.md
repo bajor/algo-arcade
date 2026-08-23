@@ -20,6 +20,8 @@ animates an answer; it must make the algorithm's state and decisions visible.
   dependency, or server-side rendering.
 - Every algorithm must support user-editable input. Valid input regenerates a
   deterministic trace; invalid input shows a precise, actionable error.
+- Every game must generate fresh valid examples procedurally so repeated play
+  teaches the decision pattern instead of one memorized answer.
 - Every algorithm must provide both Explore mode and Challenge mode.
 - Reuse the shared application shell, controls, layout, design tokens, and
   game contracts. Do not create a visually or structurally isolated microsite.
@@ -102,21 +104,22 @@ registry.
 Every game must provide the following behavior:
 
 1. Show at least one useful preset example.
-2. Let the learner edit the example using a format explained next to the input.
-3. Validate bounds and syntax before starting a run.
-4. Reset to the first snapshot when accepted input changes.
-5. Generate a deterministic trace with one conceptual action per snapshot.
-6. Display the input, active items, working data structure, known output, and
+2. Provide a clearly labeled control that generates a fresh example.
+3. Let the learner edit the example using a format explained next to the input.
+4. Validate bounds and syntax before starting a run.
+5. Reset to the first snapshot when accepted input changes.
+6. Generate a deterministic trace with one conceptual action per snapshot.
+7. Display the input, active items, working data structure, known output, and
    current operation distinctly.
-7. Explain why the current operation occurs in plain language.
-8. Highlight the corresponding pseudocode line.
-9. Provide first, previous, play/pause, next, last, speed, and timeline controls.
-10. Allow moving backward without rerunning the algorithm.
-11. Show useful operation counts, such as comparisons, pushes, and pops.
-12. End with a concise summary of the result and complexity.
-13. Provide a keyboard-operable Challenge mode based on decisions in the trace.
-14. Explain incorrect answers and allow recovery without reloading the page.
-15. Work at 320 CSS pixels wide and at current desktop viewport sizes.
+8. Explain why the current operation occurs in plain language.
+9. Highlight the corresponding pseudocode line.
+10. Provide first, previous, play/pause, next, last, speed, and timeline controls.
+11. Allow moving backward without rerunning the algorithm.
+12. Show useful operation counts, such as comparisons, pushes, and pops.
+13. End with a concise summary of the result and complexity.
+14. Provide a keyboard-operable Challenge mode based on decisions in the trace.
+15. Explain incorrect answers and allow recovery without reloading the page.
+16. Work at 320 CSS pixels wide and at current desktop viewport sizes.
 
 Do not hide essential state inside animation. When motion is disabled or a
 learner jumps through the timeline, every snapshot must remain understandable.
@@ -139,6 +142,23 @@ three separately inspectable resolve transitions rather than one opaque jump.
 
 Pseudocode lines must have stable identifiers. Trace events reference those
 identifiers; renderers must not infer the active line from an event's position.
+
+## Procedural Examples
+
+Procedural generation belongs outside the trace generator. Randomness may
+choose an example, but after validation that example must produce the same trace
+on every run.
+
+- Generate within the documented input bounds and validate generated values
+  through the same path used by edited examples.
+- Construct examples that exercise the algorithm's meaningful branches. Do not
+  rely on unconstrained random input that can repeatedly produce trivial runs.
+- Do not repeat the immediately previous generated example.
+- Keep presets and manual editing available for controlled investigation.
+- Start each new Challenge run with a fresh generated example unless the game's
+  learning design explicitly requires comparing the same trace.
+- Never read randomness, time, storage, or the DOM from a pure algorithm or
+  trace module.
 
 ## Explore Mode
 
@@ -165,6 +185,8 @@ canonical trace.
   incorrect and can try again.
 - Show a completion summary with accuracy and the decisions practiced.
 - Reset challenge progress when the example changes.
+- Use a fresh procedurally generated example when a challenge is restarted so
+  scores reflect pattern recognition rather than memorization.
 
 ## NES-Inspired Visual System
 
@@ -220,8 +242,9 @@ specific commercial game.
 
 1. Read this file and inspect every existing game before designing the new one.
 2. Identify the smallest concrete problem that teaches the requested technique.
-3. Write down the input format, bounds, invariants, trace event kinds, challenge
-   decision, and expected final output before coding.
+3. Write down the input format, bounds, procedural-generation constraints,
+   invariants, trace event kinds, challenge decision, and expected final output
+   before coding.
 4. Reuse the registry, shell, playback controller, controls, tokens, and shared
    panels.
 5. Implement input validation and the pure trace generator first.
@@ -300,6 +323,8 @@ A new game is complete only when all of the following are true:
 
 - The requested technique has one focused, playable game.
 - Custom input, validation, presets, reset, and deterministic replay work.
+- Procedurally generated examples are valid, meaningful, and avoid immediate
+  repetition.
 - Explore and Challenge modes consume the same trace.
 - All required playback controls and explanations are present.
 - The game uses only the shared NES-inspired visual system.
