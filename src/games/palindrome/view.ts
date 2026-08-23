@@ -30,18 +30,19 @@ import {
 
 const gameUiConfig = {
   input: {
-    formatLabel: "1-12 integers, separated by commas or spaces",
+    formatLabel:
+      "1-48 printable ASCII characters; punctuation ignored, case-insensitive",
     presets: EXAMPLE_PRESETS,
     parse: parseExample,
-    format: (example) => example.join(", "),
+    format: (example) => example,
     generate: (previous) => generateProceduralExample(Math.random, previous),
   },
   trace: {
     generate: generateTrace,
   },
   stage: {
-    className: "nge-stage",
-    title: "SIGNAL SCAN DECK",
+    className: "palindrome-stage",
+    title: "MIRROR SCAN GATE",
     operationLabel,
     renderBody: renderStageBody,
     explanation: stageExplanation,
@@ -53,13 +54,13 @@ const gameUiConfig = {
   },
   diagnostics: {
     entries: getDiagnostics,
-    ruleLabel: "STACK RULE",
-    rule: "Unresolved values remain in decreasing order. Equal values stay unresolved.",
+    ruleLabel: "NORMALIZATION RULE",
+    rule: "Ignore non-alphanumeric ASCII characters. Compare letters without ASCII case; digits compare exactly.",
   },
   challenge: {
-    briefTitle: "CALL THE NEXT STACK MOVE",
+    briefTitle: "CALL THE NEXT MIRROR MOVE",
     brief:
-      "A fresh sequence is generated for every run. Earn 100 points per correct decision; wrong calls show why and let you retry.",
+      "A fresh phrase is generated for every run. Earn 100 points per correct pointer decision; wrong calls explain the phrase characters and let you retry.",
     pointsPerCorrect: 100,
     decisions: getChallengeDecisions,
     snapshot: getChallengeSnapshot,
@@ -68,16 +69,16 @@ const gameUiConfig = {
     actions: CHALLENGE_ACTIONS,
     explainAnswer: explainChallengeAnswer,
     isComplete: (progress) => progress.cursor >= progress.decisions.length,
-    completionTitle: "STACK PILOT CLEARED",
+    completionTitle: "MIRROR SCAN CLEARED",
     completionRule:
-      "pop only when the current value is strictly greater than the stack top.",
+      "for each phrase, skip left noise first, then right noise; otherwise compare the pointer characters without ASCII case.",
   },
 } satisfies GameUiConfig<
   Example,
   TraceSnapshot,
   ChallengeDecision,
   ChallengeAction,
-  Extract<TraceSnapshot, { readonly kind: "compare" }>
+  Extract<TraceSnapshot, { readonly kind: "inspect" }>
 >;
 
 export function mount(

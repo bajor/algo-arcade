@@ -1,14 +1,5 @@
-import type { GameDefinition } from "../../app/registry";
+import { randomInteger } from "../../shared/random";
 import { validateExample, type Example, type TraceSnapshot } from "./algorithm";
-
-export const nextGreaterElementMetadata = {
-  slug: "next-greater-element",
-  title: "Stack Reactor",
-  technique: "Monotonic Stack",
-  description:
-    "Scan a signal row, keep unresolved values in order, and pop the stack when a stronger signal arrives.",
-  difficulty: "Beginner",
-} satisfies Omit<GameDefinition, "load">;
 
 export const EXAMPLE_PRESETS = Object.freeze([
   { label: "Mixed", value: "2, 1, 2, 4, 3" },
@@ -122,16 +113,15 @@ export function getChallengeDecisions(
   );
 }
 
-function randomInteger(
-  random: () => number,
-  minimum: number,
-  maximum: number,
-): number {
-  const sample = random();
-  if (!Number.isFinite(sample) || sample < 0 || sample >= 1) {
+export function getChallengeSnapshot(
+  trace: readonly TraceSnapshot[],
+  decision: ChallengeDecision,
+): Extract<TraceSnapshot, { readonly kind: "compare" }> {
+  const snapshot = trace[decision.snapshotIndex];
+  if (!snapshot || snapshot.kind !== "compare") {
     throw new Error(
-      "Random source must return a number from 0 inclusive to 1 exclusive.",
+      "Challenge decision does not reference a comparison snapshot.",
     );
   }
-  return Math.floor(sample * (maximum - minimum + 1)) + minimum;
+  return snapshot;
 }

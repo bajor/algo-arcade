@@ -30,18 +30,18 @@ import {
 
 const gameUiConfig = {
   input: {
-    formatLabel: "1-12 integers, separated by commas or spaces",
+    formatLabel: "1-16 lowercase letters or digits",
     presets: EXAMPLE_PRESETS,
     parse: parseExample,
-    format: (example) => example.join(", "),
+    format: (example) => example,
     generate: (previous) => generateProceduralExample(Math.random, previous),
   },
   trace: {
     generate: generateTrace,
   },
   stage: {
-    className: "nge-stage",
-    title: "SIGNAL SCAN DECK",
+    className: "unique-substring-stage",
+    title: "REPEAT BREAKER CACHE",
     operationLabel,
     renderBody: renderStageBody,
     explanation: stageExplanation,
@@ -53,13 +53,13 @@ const gameUiConfig = {
   },
   diagnostics: {
     entries: getDiagnostics,
-    ruleLabel: "STACK RULE",
-    rule: "Unresolved values remain in decreasing order. Equal values stay unresolved.",
+    ruleLabel: "UNIQUE-WINDOW INVARIANT",
+    rule: "Every character in the half-open window [left, right) appears exactly once and is present in the active cache.",
   },
   challenge: {
-    briefTitle: "CALL THE NEXT STACK MOVE",
+    briefTitle: "CALL THE CACHE MOVE",
     brief:
-      "A fresh sequence is generated for every run. Earn 100 points per correct decision; wrong calls show why and let you retry.",
+      "A fresh character tape is generated for every run. Earn 100 points per correct membership decision; wrong calls explain the cache state and let you retry.",
     pointsPerCorrect: 100,
     decisions: getChallengeDecisions,
     snapshot: getChallengeSnapshot,
@@ -68,16 +68,16 @@ const gameUiConfig = {
     actions: CHALLENGE_ACTIONS,
     explainAnswer: explainChallengeAnswer,
     isComplete: (progress) => progress.cursor >= progress.decisions.length,
-    completionTitle: "STACK PILOT CLEARED",
+    completionTitle: "REPEAT BREAKER CLEARED",
     completionRule:
-      "pop only when the current value is strictly greater than the stack top.",
+      "shrink when the incoming character is already cached; otherwise add it and expand.",
   },
 } satisfies GameUiConfig<
   Example,
   TraceSnapshot,
   ChallengeDecision,
   ChallengeAction,
-  Extract<TraceSnapshot, { readonly kind: "compare" }>
+  Extract<TraceSnapshot, { readonly kind: "inspect" }>
 >;
 
 export function mount(

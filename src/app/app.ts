@@ -38,29 +38,46 @@ export function mountApp(root: HTMLElement): () => void {
     gameCleanup?.();
     gameCleanup = undefined;
 
-    const slug = readGameSlug(window.location.hash);
-    if (!slug) {
+    const hash = window.location.hash;
+    if (!hash || hash === HOME_ROUTE) {
       renderHome(outlet);
       focusRoute(outlet);
       return;
     }
 
-    const game = gameRegistry.find((candidate) => candidate.slug === slug);
+    const slug = readGameSlug(hash);
+    if (!slug) {
+      renderNotFound(outlet);
+      focusRoute(outlet);
+      return;
+    }
+
+    const gameIndex = gameRegistry.findIndex(
+      (candidate) => candidate.slug === slug,
+    );
+    const game = gameRegistry[gameIndex];
     if (!game) {
       renderNotFound(outlet);
       focusRoute(outlet);
       return;
     }
 
-    outlet.innerHTML = `<p class="loading-message">LOADING ${game.title.toUpperCase()}...</p>`;
-    const module = await game.load();
-    if (routeVersion !== currentVersion) {
-      return;
-    }
+    try {
+      outlet.innerHTML = `<p class="loading-message">LOADING ${game.title.toUpperCase()}...</p>`;
+      const module = await game.load();
+      if (routeVersion !== currentVersion) return;
 
-    outlet.innerHTML = "";
-    gameCleanup = module.mount(outlet);
-    focusRoute(outlet);
+      outlet.innerHTML = "";
+      gameCleanup = module.mount(outlet, {
+        gameNumber: gameIndex + 1,
+        metadata: game,
+      });
+      focusRoute(outlet);
+    } catch {
+      if (routeVersion !== currentVersion) return;
+      renderLoadError(outlet, game.title);
+      focusRoute(outlet);
+    }
   };
 
   const handleHashChange = (): void => {
@@ -92,7 +109,7 @@ function renderHome(outlet: HTMLElement): void {
   const cards = gameRegistry
     .map(
       (game, index) => `
-        <a class="game-card" href="#/games/${game.slug}">
+        <a class="game-card" href="#/games/${game.slug}" data-game-number="${String(index + 1).padStart(2, "0")}">
           <span class="cartridge-number">GAME ${String(index + 1).padStart(2, "0")}</span>
           <span class="difficulty-tag">${game.difficulty}</span>
           <h2>${game.title}</h2>
@@ -130,6 +147,17 @@ function renderNotFound(outlet: HTMLElement): void {
     <section class="not-found">
       <p class="error-code">ERROR 404</p>
       <h1>CARTRIDGE NOT FOUND</h1>
+      <a class="pixel-button" href="${HOME_ROUTE}">RETURN TO ARCADE</a>
+    </section>
+  `;
+}
+
+function renderLoadError(outlet: HTMLElement, title: string): void {
+  outlet.innerHTML = `
+    <section class="not-found" role="alert">
+      <p class="error-code">LOAD ERROR</p>
+      <h1>${title.toUpperCase()} DID NOT START</h1>
+      <p>Return to the library and try loading the game again.</p>
       <a class="pixel-button" href="${HOME_ROUTE}">RETURN TO ARCADE</a>
     </section>
   `;

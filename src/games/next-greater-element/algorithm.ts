@@ -1,3 +1,5 @@
+import { parseIntegerList } from "../../shared/integer-input";
+
 const EXAMPLE_BRAND: unique symbol = Symbol("NextGreaterElementExample");
 
 export const EXAMPLE_LIMITS = Object.freeze({
@@ -70,33 +72,8 @@ interface MutableState {
 export const DEFAULT_EXAMPLE = createExample([2, 1, 2, 4, 3]);
 
 export function parseExample(raw: string): ParseResult {
-  const trimmed = raw.trim();
-  if (!trimmed) {
-    return failure("Enter at least one integer, such as 2, 1, 2, 4, 3.");
-  }
-
-  const startsWithBracket = trimmed.startsWith("[");
-  const endsWithBracket = trimmed.endsWith("]");
-  if (startsWithBracket !== endsWithBracket) {
-    return failure(
-      "Use both square brackets or neither: [2, 1, 2] or 2, 1, 2.",
-    );
-  }
-
-  const body = startsWithBracket ? trimmed.slice(1, -1).trim() : trimmed;
-  if (!body) {
-    return failure("Enter at least one integer inside the brackets.");
-  }
-
-  const tokens = body.split(/[\s,]+/).filter(Boolean);
-  const invalidToken = tokens.find((token) => !/^-?\d+$/.test(token));
-  if (invalidToken) {
-    return failure(
-      `"${invalidToken}" is not an integer. Separate values with commas or spaces.`,
-    );
-  }
-
-  return validateExample(tokens.map(Number));
+  const parsed = parseIntegerList(raw, "2, 1, 2, 4, 3");
+  return parsed.ok ? validateExample(parsed.values) : failure(parsed.error);
 }
 
 export function validateExample(values: readonly number[]): ParseResult {
