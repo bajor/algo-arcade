@@ -30,7 +30,7 @@ import {
 
 const gameUiConfig = {
   input: {
-    formatLabel: "1-16 lowercase letters or digits",
+    formatLabel: "1-16 lowercase ASCII letters (a-z)",
     presets: EXAMPLE_PRESETS,
     parse: parseExample,
     format: (example) => example,

@@ -13,20 +13,20 @@ Nintendo branding, characters, artwork, music, sounds, or other copied assets.
 All games use the same shared Explore and Challenge controls while keeping an
 algorithm-specific Stage and trace vocabulary.
 
-| Game           | Technique       | Goal                                                                                      |
-| -------------- | --------------- | ----------------------------------------------------------------------------------------- |
-| Stack Reactor  | Monotonic Stack | Find the first strictly greater value to the right of each number.                        |
-| Target Lock    | Two Pointers    | Find every unique value pair in a sorted array that sums to a target.                     |
-| Mirror Scan    | Two Pointers    | Test a phrase for palindrome symmetry while ignoring punctuation, spaces, and ASCII case. |
-| Window Rescue  | Sliding Window  | Find the shortest positive-number window whose sum reaches a target.                      |
-| Repeat Breaker | Sliding Window  | Find the earliest longest substring with no repeated characters.                          |
+| Game           | Technique       | Goal                                                                             |
+| -------------- | --------------- | -------------------------------------------------------------------------------- |
+| Stack Reactor  | Monotonic Stack | Find the first strictly greater value to the right of each number.               |
+| Target Lock    | Two Pointers    | Find every unique value pair in a sorted array that sums to a target.            |
+| Mirror Scan    | Two Pointers    | Test a lowercase ASCII string for exact palindrome symmetry.                     |
+| Window Rescue  | Sliding Window  | Find the shortest positive-number window whose sum reaches a target.             |
+| Repeat Breaker | Sliding Window  | Find the earliest longest lowercase ASCII substring with no repeated characters. |
 
 Representative examples are:
 
 ```text
 Stack Reactor:  [2, 1, 2, 4, 3] -> [4, 2, 4, -1, -1]
 Target Lock:    -4, -1, -1, 0, 1, 2, 2, 5, 10 | 4 -> (-1, 5), (2, 2)
-Mirror Scan:    Never odd or even -> palindrome
+Mirror Scan:    racecar -> palindrome
 Window Rescue: 2, 3, 1, 2, 4, 3 | 7 -> [4, 3] at [4, 6)
 Repeat Breaker: abcabcbb -> abc at [0, 3)
 ```

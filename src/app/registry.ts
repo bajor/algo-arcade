@@ -68,10 +68,9 @@ export const gameRegistry: readonly GameDefinition[] = [
     title: "Mirror Scan",
     technique: "Two Pointers",
     description:
-      "Scan a phrase from both ends, skip punctuation, and test mirrored characters without case.",
+      "Scan a lowercase string from both ends and compare mirrored characters exactly.",
     difficulty: "Beginner",
-    objective:
-      "Decide whether a phrase is a palindrome after ignoring punctuation, spaces, and ASCII case.",
+    objective: "Decide whether a lowercase string is a palindrome.",
     complexity: {
       time: "O(n)",
       space: "O(1)",
@@ -100,10 +99,10 @@ export const gameRegistry: readonly GameDefinition[] = [
     title: "Repeat Breaker",
     technique: "Sliding Window",
     description:
-      "Maintain a duplicate-free character cache while preserving the earliest longest run.",
+      "Maintain a duplicate-free cache across a lowercase string while preserving the earliest longest run.",
     difficulty: "Intermediate",
     objective:
-      "Find the earliest longest substring containing no repeated characters.",
+      "Find the earliest longest lowercase substring containing no repeated characters.",
     complexity: {
       time: "O(n)",
       space: "O(k)",

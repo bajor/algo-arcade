@@ -8,85 +8,67 @@ import {
   getChallengeSnapshot,
 } from "./game";
 
+function verdict(value: string): boolean | null | undefined {
+  const validated = validateExample(value);
+  if (!validated.ok) {
+    throw new Error(validated.error);
+  }
+  return generateTrace(validated.value).at(-1)?.verdict;
+}
+
 describe("palindrome game core", () => {
-  it("defines the four requested presets", () => {
+  it("defines one palindrome and one non-palindrome preset", () => {
     expect(EXAMPLE_PRESETS).toEqual([
-      { label: "Phrase", value: "Never odd or even" },
-      {
-        label: "Punctuation",
-        value: "A man, a plan, a canal: Panama!",
-      },
-      { label: "Mismatch", value: "Mirror scan" },
-      { label: "Digits", value: "12 3 21" },
+      { label: "Palindrome", value: "racecar" },
+      { label: "Not Palindrome", value: "algorithm" },
+    ]);
+    expect(EXAMPLE_PRESETS.map(({ value }) => verdict(value))).toEqual([
+      true,
+      false,
     ]);
   });
 
   it.each([
-    { sample: 0, expected: "! aaa:AAA ?" },
-    { sample: 0.5, expected: "?.nnnn:ONNN-!" },
+    { sample: 0, expected: "aaaaaa" },
+    { sample: 0.5, expected: "nnnnonnn" },
+    { sample: 0.999_999, expected: "zzzzzazzzz" },
   ])("builds the fixed procedural sample $sample", ({ sample, expected }) => {
     expect(generateProceduralExample(() => sample)).toBe(expected);
   });
 
-  it.each([0, 0.25, 0.5, 0.999_999])(
-    "validates generated sample %s through the normal input path",
-    (sample) => {
-      const generated = generateProceduralExample(() => sample);
-      expect(validateExample(generated)).toMatchObject({
-        ok: true,
-        value: generated,
-      });
-    },
-  );
-
-  it.each([
-    { sample: 0, verdict: true },
-    { sample: 0.5, verdict: false },
-  ])(
-    "generates verdict branch $verdict for sample $sample",
-    ({ sample, verdict }) => {
-      const trace = generateTrace(generateProceduralExample(() => sample));
-
-      expect(trace.at(-1)?.verdict).toBe(verdict);
-    },
-  );
-
-  it.each([
-    { sample: 0, branch: "skip-left" },
-    { sample: 0, branch: "skip-right" },
-    { sample: 0, branch: "match" },
-    { sample: 0.5, branch: "skip-left" },
-    { sample: 0.5, branch: "skip-right" },
-  ] as const)(
-    "guarantees the $branch branch for sample $sample",
-    ({ sample, branch }) => {
-      const eventKinds = generateTrace(
-        generateProceduralExample(() => sample),
-      ).map(({ kind }) => kind);
-
-      expect(eventKinds).toContain(branch);
-    },
-  );
-
-  it("introduces the false variant's mismatch after an outer match", () => {
-    const eventKinds = generateTrace(generateProceduralExample(() => 0.5)).map(
-      ({ kind }) => kind,
+  it("selects one palindrome outcome across the three random buckets", () => {
+    const outcomes = [0, 1 / 3, 2 / 3].map((sample) =>
+      verdict(generateProceduralExample(() => sample)),
     );
+
+    expect(outcomes).toEqual([true, false, false]);
+  });
+
+  it("avoids an immediate repeat", () => {
+    const previous = generateProceduralExample(() => 0);
+    const generated = generateProceduralExample(() => 0, previous);
+
+    expect(generated).not.toBe(previous);
+  });
+
+  it("preserves the verdict when avoiding an immediate repeat", () => {
+    const previous = generateProceduralExample(() => 0);
+    const generated = generateProceduralExample(() => 0, previous);
+
+    expect(verdict(generated)).toBe(true);
+  });
+
+  it("introduces a generated non-palindrome's mismatch after a match", () => {
+    const trace = generateTrace(generateProceduralExample(() => 0.5));
+    const eventKinds = trace.map(({ kind }) => kind);
 
     expect(eventKinds.indexOf("mismatch")).toBeGreaterThan(
       eventKinds.indexOf("match"),
     );
   });
 
-  it("avoids an immediate repeat without requesting another random sample", () => {
-    const previous = generateProceduralExample(() => 0.5);
-    const generated = generateProceduralExample(() => 0.5, previous);
-
-    expect(generated).not.toBe(previous);
-  });
-
   it("derives challenge decisions from inspect snapshots", () => {
-    const trace = generateTrace(generateProceduralExample(() => 0));
+    const trace = generateTrace(generateProceduralExample(() => 0.5));
     const decisions = getChallengeDecisions(trace);
 
     expect(decisions).toEqual(
@@ -106,12 +88,11 @@ describe("palindrome game core", () => {
   });
 
   it("resolves each challenge decision to its inspect snapshot", () => {
-    const trace = generateTrace(generateProceduralExample(() => 0));
+    const trace = generateTrace(generateProceduralExample(() => 0.5));
+    const decisions = getChallengeDecisions(trace);
 
     expect(
-      getChallengeDecisions(trace).map(
-        (decision) => getChallengeSnapshot(trace, decision).kind,
-      ),
-    ).toEqual(getChallengeDecisions(trace).map(() => "inspect"));
+      decisions.map((decision) => getChallengeSnapshot(trace, decision).kind),
+    ).toEqual(decisions.map(() => "inspect"));
   });
 });

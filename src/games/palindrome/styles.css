@@ -168,17 +168,6 @@
   text-align: center;
 }
 
-.palindrome-stage .character-cell.is-skipped {
-  border-style: dashed;
-  border-color: var(--muted);
-  color: var(--muted);
-}
-
-.palindrome-stage .character-cell.is-skipped .cell-status {
-  background: var(--muted);
-  color: var(--ink-0);
-}
-
 .palindrome-stage .character-cell.is-matched {
   border-color: var(--green);
   box-shadow: inset 0 0 0 2px var(--ink-0);
@@ -330,10 +319,6 @@
 
 .palindrome-stage .pal-legend-right {
   background: var(--magenta);
-}
-
-.palindrome-stage .pal-legend-skip {
-  background: var(--muted);
 }
 
 .palindrome-stage .pal-legend-match {

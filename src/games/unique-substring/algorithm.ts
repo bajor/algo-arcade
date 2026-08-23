@@ -1,3 +1,5 @@
+import { isLowercaseAsciiLetter } from "../../shared/lowercase-ascii";
+
 const EXAMPLE_BRAND: unique symbol = Symbol("UniqueSubstringExample");
 
 export const EXAMPLE_LIMITS = Object.freeze({
@@ -90,7 +92,7 @@ export function parseExample(raw: string): ParseResult {
 
 export function validateExample(value: string): ParseResult {
   if (value.length < EXAMPLE_LIMITS.minLength) {
-    return failure("Enter at least one lowercase ASCII letter or digit.");
+    return failure("Enter at least one lowercase ASCII letter.");
   }
 
   if (value.length > EXAMPLE_LIMITS.maxLength) {
@@ -101,12 +103,12 @@ export function validateExample(value: string): ParseResult {
 
   const characters = Array.from(value);
   const invalidIndex = characters.findIndex(
-    (character) => !/[a-z0-9]/.test(character),
+    (character) => !isLowercaseAsciiLetter(character),
   );
   if (invalidIndex !== -1) {
     const invalidCharacter = characters[invalidIndex];
     return failure(
-      `Character ${JSON.stringify(invalidCharacter)} at position ${String(invalidIndex + 1)} is invalid. Use only lowercase ASCII letters (a-z) and digits (0-9).`,
+      `Character ${JSON.stringify(invalidCharacter)} at position ${String(invalidIndex + 1)} is invalid. Use only lowercase ASCII letters (a-z).`,
     );
   }
 

@@ -30,8 +30,7 @@ import {
 
 const gameUiConfig = {
   input: {
-    formatLabel:
-      "1-48 printable ASCII characters; punctuation ignored, case-insensitive",
+    formatLabel: "1-48 lowercase ASCII letters (a-z)",
     presets: EXAMPLE_PRESETS,
     parse: parseExample,
     format: (example) => example,
@@ -54,13 +53,13 @@ const gameUiConfig = {
   },
   diagnostics: {
     entries: getDiagnostics,
-    ruleLabel: "NORMALIZATION RULE",
-    rule: "Ignore non-alphanumeric ASCII characters. Compare letters without ASCII case; digits compare exactly.",
+    ruleLabel: "EXACT MATCH RULE",
+    rule: "Compare each lowercase character exactly with the character at its mirrored position.",
   },
   challenge: {
     briefTitle: "CALL THE NEXT MIRROR MOVE",
     brief:
-      "A fresh phrase is generated for every run. Earn 100 points per correct pointer decision; wrong calls explain the phrase characters and let you retry.",
+      "A fresh lowercase string is generated for every run. Earn 100 points per correct match decision; wrong calls explain the pointer characters and let you retry.",
     pointsPerCorrect: 100,
     decisions: getChallengeDecisions,
     snapshot: getChallengeSnapshot,
@@ -71,7 +70,7 @@ const gameUiConfig = {
     isComplete: (progress) => progress.cursor >= progress.decisions.length,
     completionTitle: "MIRROR SCAN CLEARED",
     completionRule:
-      "for each phrase, skip left noise first, then right noise; otherwise compare the pointer characters without ASCII case.",
+      "compare the pointer characters exactly; move inward after a match and stop after a mismatch.",
   },
 } satisfies GameUiConfig<
   Example,

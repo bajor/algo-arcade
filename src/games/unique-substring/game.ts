@@ -1,14 +1,13 @@
 import { randomInteger } from "../../shared/random";
+import { LOWERCASE_ASCII_ALPHABET } from "../../shared/lowercase-ascii";
 import { validateExample, type Example, type TraceSnapshot } from "./algorithm";
 
 export const EXAMPLE_PRESETS = Object.freeze([
   Object.freeze({ label: "Classic", value: "abcabcbb" }),
   Object.freeze({ label: "All Same", value: "bbbbb" }),
   Object.freeze({ label: "Split Repeat", value: "pwwkew" }),
-  Object.freeze({ label: "Letters + Digits", value: "a1b2c3a4" }),
+  Object.freeze({ label: "All Unique", value: "algorithm" }),
 ]);
-
-const GENERATED_ALPHABET = "abcdefghijklmnopqrstuvwxyz0123456789";
 
 export type ChallengeAction = "expand" | "shrink";
 
@@ -28,11 +27,15 @@ export function generateProceduralExample(
   random: () => number = Math.random,
   previous?: string,
 ): Example {
-  let startIndex = randomInteger(random, 0, GENERATED_ALPHABET.length - 1);
+  let startIndex = randomInteger(
+    random,
+    0,
+    LOWERCASE_ASCII_ALPHABET.length - 1,
+  );
   let value = buildGeneratedValue(startIndex);
 
   if (value === previous) {
-    startIndex = (startIndex + 1) % GENERATED_ALPHABET.length;
+    startIndex = (startIndex + 1) % LOWERCASE_ASCII_ALPHABET.length;
     value = buildGeneratedValue(startIndex);
   }
 
@@ -81,8 +84,8 @@ export function getChallengeSnapshot(
 
 function buildGeneratedValue(startIndex: number): string {
   const character = (offset: number): string =>
-    GENERATED_ALPHABET.charAt(
-      (startIndex + offset) % GENERATED_ALPHABET.length,
+    LOWERCASE_ASCII_ALPHABET.charAt(
+      (startIndex + offset) % LOWERCASE_ASCII_ALPHABET.length,
     );
   return [
     character(0),

@@ -1,4 +1,5 @@
 import { randomInteger } from "../../shared/random";
+import { LOWERCASE_ASCII_ALPHABET } from "../../shared/lowercase-ascii";
 import {
   validateExample,
   type Example,
@@ -7,23 +8,14 @@ import {
 } from "./algorithm";
 
 export const EXAMPLE_PRESETS = Object.freeze([
-  Object.freeze({ label: "Phrase", value: "Never odd or even" }),
-  Object.freeze({
-    label: "Punctuation",
-    value: "A man, a plan, a canal: Panama!",
-  }),
-  Object.freeze({ label: "Mismatch", value: "Mirror scan" }),
-  Object.freeze({ label: "Digits", value: "12 3 21" }),
+  Object.freeze({ label: "Palindrome", value: "racecar" }),
+  Object.freeze({ label: "Not Palindrome", value: "algorithm" }),
 ]);
 
 const GENERATED_LIMITS = Object.freeze({
   minHalfLength: 3,
   maxHalfLength: 5,
 });
-const ALPHANUMERIC_CHARACTERS = "abcdefghijklmnopqrstuvwxyz";
-const LEFT_NOISE = Object.freeze(["! ", "?.", "[ "]);
-const RIGHT_NOISE = Object.freeze([" ?", "-!", " ]"]);
-
 export type ChallengeAction = InspectDecision;
 
 export interface ChallengeDecision {
@@ -37,6 +29,7 @@ export function generateProceduralExample(
   random: () => number = Math.random,
   previous?: Example,
 ): Example {
+  const shouldGeneratePalindrome = randomInteger(random, 1, 3) === 1;
   const halfLength = randomInteger(
     random,
     GENERATED_LIMITS.minHalfLength,
@@ -45,30 +38,29 @@ export function generateProceduralExample(
   const half = Array.from({ length: halfLength }, () =>
     randomCharacter(random),
   );
-  const isPalindrome = randomInteger(random, 0, 1) === 0;
-  let leftNoise = randomItem(random, LEFT_NOISE);
-  const rightNoise = randomItem(random, RIGHT_NOISE);
-  const mirroredHalf = [...half]
-    .reverse()
-    .map((character) => character.toUpperCase());
+  const mirroredHalf = [...half].reverse();
 
-  if (!isPalindrome) {
+  if (!shouldGeneratePalindrome) {
     const innerCharacter = half.at(-1);
     if (innerCharacter === undefined) {
       throw new Error("Generated half must contain a character.");
     }
-    mirroredHalf[0] = nextCharacter(innerCharacter).toUpperCase();
+    mirroredHalf[0] = nextCharacter(innerCharacter);
   }
 
-  let phrase = buildPhrase(leftNoise, half, mirroredHalf, rightNoise);
-  if (phrase === previous) {
-    leftNoise = leftNoise.startsWith("!")
-      ? `?${leftNoise.slice(1)}`
-      : `!${leftNoise.slice(1)}`;
-    phrase = buildPhrase(leftNoise, half, mirroredHalf, rightNoise);
+  let value = `${half.join("")}${mirroredHalf.join("")}`;
+  if (value === previous) {
+    const firstCharacter = half[0];
+    if (firstCharacter === undefined) {
+      throw new Error("Generated half must contain a character.");
+    }
+    const replacement = nextCharacter(firstCharacter);
+    half[0] = replacement;
+    mirroredHalf[mirroredHalf.length - 1] = replacement;
+    value = `${half.join("")}${mirroredHalf.join("")}`;
   }
 
-  const validated = validateExample(phrase);
+  const validated = validateExample(value);
   if (!validated.ok) {
     throw new Error(
       `Procedural generator created an invalid example: ${validated.error}`,
@@ -112,34 +104,18 @@ export function getChallengeSnapshot(
 }
 
 function randomCharacter(random: () => number): string {
-  const index = randomInteger(random, 0, ALPHANUMERIC_CHARACTERS.length - 1);
-  const character = ALPHANUMERIC_CHARACTERS[index];
+  const index = randomInteger(random, 0, LOWERCASE_ASCII_ALPHABET.length - 1);
+  const character = LOWERCASE_ASCII_ALPHABET[index];
   if (character === undefined) {
     throw new Error("Random character index is outside the character set.");
   }
   return character;
 }
 
-function randomItem<T>(random: () => number, items: readonly T[]): T {
-  const item = items[randomInteger(random, 0, items.length - 1)];
-  if (item === undefined) {
-    throw new Error("Cannot choose from an empty collection.");
-  }
-  return item;
-}
-
 function nextCharacter(character: string): string {
-  const index = ALPHANUMERIC_CHARACTERS.indexOf(character);
+  const index = LOWERCASE_ASCII_ALPHABET.indexOf(character);
   return (
-    ALPHANUMERIC_CHARACTERS[(index + 1) % ALPHANUMERIC_CHARACTERS.length] ?? "a"
+    LOWERCASE_ASCII_ALPHABET[(index + 1) % LOWERCASE_ASCII_ALPHABET.length] ??
+    "a"
   );
-}
-
-function buildPhrase(
-  leftNoise: string,
-  half: readonly string[],
-  mirroredHalf: readonly string[],
-  rightNoise: string,
-): string {
-  return `${leftNoise}${half.join("")}:${mirroredHalf.join("")}${rightNoise}`;
 }
