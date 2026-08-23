@@ -27,7 +27,7 @@ animates an answer; it must make the algorithm's state and decisions visible.
   game contracts. Do not create a visually or structurally isolated microsite.
 - Keep algorithm rules in one pure module. Rendering and challenge code must
   consume that module rather than reimplementing the algorithm.
-- The production build must work below the `/algos-mini-games/` GitHub Pages
+- The production build must work below the `/algo-arcade/` GitHub Pages
   repository path, not only at a domain root.
 
 ## Product Language
@@ -286,7 +286,7 @@ tests that assert the same rule at multiple levels without a distinct risk.
 
 ## GitHub Pages and Navigation
 
-- Vite's base path must be `/algos-mini-games/` in production.
+- Vite's base path must be `/algo-arcade/` in production.
 - Use hash-based client navigation if multiple screens need routes. Direct page
   reloads must never depend on a server rewrite.
 - Use relative or Vite-resolved asset references; do not hardcode domain names.
@@ -331,6 +331,6 @@ A new game is complete only when all of the following are true:
 - Mobile, desktop, keyboard, and reduced-motion behavior are usable.
 - Unit, DOM, and browser tests cover distinct happy paths and edge cases.
 - `make test` passes from a clean dependency install.
-- The production build works under `/algos-mini-games/`.
+- The production build works under `/algo-arcade/`.
 - The game appears in the registry and user documentation.
 - No copyrighted Nintendo assets or runtime server dependencies are present.

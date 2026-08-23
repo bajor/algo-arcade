@@ -1,6 +1,6 @@
 import { defineConfig } from "@playwright/test";
 
-const productionUrl = "http://127.0.0.1:4173/algos-mini-games/";
+const productionUrl = "http://127.0.0.1:4173/algo-arcade/";
 
 export default defineConfig({
   testDir: "./tests",
