@@ -3,8 +3,11 @@ import { expect, test, type Page } from "@playwright/test";
 type ChallengeAnswer = "pop" | "stop";
 
 async function expectedChallengeAnswer(page: Page): Promise<ChallengeAnswer> {
-  const values = await page.locator("#decision-prompt b").allTextContents();
-  return Number(values[0]) > Number(values[1]) ? "pop" : "stop";
+  const prompt = (await page.locator("#decision-prompt").textContent()) ?? "";
+  const values = /CURRENT (-?\d+) VS STACK TOP (-?\d+)/.exec(prompt);
+  if (!values)
+    throw new Error("Challenge prompt is missing comparison values.");
+  return Number(values[1]) > Number(values[2]) ? "pop" : "stop";
 }
 
 function answerName(answer: ChallengeAnswer): RegExp {
@@ -18,6 +21,17 @@ test("discovers the game and completes a custom Explore trace", async ({
   await expect(
     page.getByRole("heading", { name: "SEE EVERY ALGORITHM MOVE" }),
   ).toBeVisible();
+  await expect(page.getByText("5 LOADED")).toBeVisible();
+  for (const game of [
+    "Target Lock",
+    "Mirror Scan",
+    "Window Rescue",
+    "Repeat Breaker",
+  ]) {
+    await expect(
+      page.getByRole("link", { name: new RegExp(game) }),
+    ).toBeVisible();
+  }
 
   await page.getByRole("link", { name: /Stack Reactor/ }).click();
   await expect(page).toHaveURL(/#\/games\/next-greater-element$/);
@@ -75,4 +89,12 @@ test("generated Challenge explains errors and exercises both branches", async ({
   );
   await page.getByRole("button", { name: answerName(secondAnswer) }).click();
   await expect(page.locator(".score-box small")).toContainText("2 /");
+});
+
+test("shows an error for a malformed game route", async ({ page }) => {
+  await page.goto("./#/games/palindrome/");
+
+  await expect(
+    page.getByRole("heading", { name: "CARTRIDGE NOT FOUND" }),
+  ).toBeVisible();
 });
