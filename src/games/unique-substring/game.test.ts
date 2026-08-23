@@ -1,7 +1,8 @@
 import { describe, expect, it } from "vitest";
 
-import type { Example, TraceSnapshot } from "./algorithm";
+import { validateExample, type Example, type TraceSnapshot } from "./algorithm";
 import {
+  EXAMPLE_PRESETS,
   generateProceduralExample,
   getChallengeDecisions,
   getChallengeSnapshot,
@@ -45,18 +46,26 @@ const challengeDecision = {
 describe("unique substring game core", () => {
   it.each([
     { sample: 0, value: "abcbdef" },
-    { sample: 0.5, value: "stutvwx" },
-    { sample: 0.999_999, value: "9abacde" },
+    { sample: 0.5, value: "nopoqrs" },
+    { sample: 0.999_999, value: "zabacde" },
   ])("builds the fixed example for random sample $sample", (expected) => {
-    expect(generateProceduralExample(() => expected.sample)).toBe(
-      expected.value,
-    );
+    const generated = generateProceduralExample(() => expected.sample);
+
+    expect(generated).toBe(expected.value);
+  });
+
+  it("keeps every preset inside the lowercase input domain", () => {
+    expect(
+      EXAMPLE_PRESETS.every(({ value }) => validateExample(value).ok),
+    ).toBe(true);
   });
 
   it("changes an example when the random source immediately repeats", () => {
     const previous = generateProceduralExample(fixedRandom);
 
-    expect(generateProceduralExample(fixedRandom, previous)).not.toBe(previous);
+    const generated = generateProceduralExample(fixedRandom, previous);
+
+    expect(generated).not.toBe(previous);
   });
 });
 

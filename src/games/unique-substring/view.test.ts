@@ -60,15 +60,15 @@ describe("unique substring game", () => {
     expect(element(".best-run").textContent).toContain("LENGTH3");
   });
 
-  it("rejects uppercase without replacing the accepted result", () => {
-    submitExample("abc123");
+  it("rejects a digit without replacing the accepted result", () => {
+    submitExample("abcdef");
     click("last");
-    submitExample("Abc");
+    submitExample("abc1");
 
     expect(element("#input-error").textContent).toContain(
-      'Character "A" at position 1',
+      'Character "1" at position 4',
     );
-    expect(element(".best-run-value").textContent).toBe("abc123");
+    expect(element(".best-run-value").textContent).toBe("abcdef");
   });
 
   it("renders the selected shrink snapshot from the timeline", () => {
@@ -90,17 +90,27 @@ describe("unique substring game", () => {
     );
   });
 
-  it("explains a wrong Challenge shrink before accepting expand", () => {
+  it("renders the initial Challenge prompt", () => {
     click("show-challenge");
 
     expect(element("#decision-prompt").textContent).toContain(
       "ACTIVE CACHE {}",
     );
+  });
+
+  it("explains a wrong Challenge shrink without advancing", () => {
+    click("show-challenge");
     element<HTMLButtonElement>('[data-answer="shrink"]').click();
+
     expect(element(".challenge-feedback").textContent).toContain(
       "is not in the active cache {}",
     );
     expect(element(".score-box small").textContent).toContain("0 /");
+  });
+
+  it("accepts expand after a wrong Challenge answer", () => {
+    click("show-challenge");
+    element<HTMLButtonElement>('[data-answer="shrink"]').click();
 
     element<HTMLButtonElement>('[data-answer="expand"]').click();
     expect(element(".challenge-feedback").textContent).toContain("Correct:");

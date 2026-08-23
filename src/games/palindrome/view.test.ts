@@ -7,13 +7,13 @@ const metadata = {
   slug: "palindrome",
   title: "Mirror Scan",
   technique: "Two Pointers",
-  description: "Scan a phrase inward from both ends.",
+  description: "Scan a lowercase string inward from both ends.",
   difficulty: "Beginner",
-  objective: "Decide whether a phrase is a palindrome.",
+  objective: "Decide whether a lowercase string is a palindrome.",
   complexity: {
     time: "O(n)",
-    space: "O(n)",
-    label: "Linear time and linear trace space",
+    space: "O(1)",
+    label: "Linear time and constant auxiliary space",
   },
 } satisfies GameMetadata;
 
@@ -56,43 +56,27 @@ function submitExample(value: string): void {
   );
 }
 
-function answerChallengeIncorrectly(): void {
-  click("show-challenge");
-  answer("match");
-}
-
-function correctChallengeAnswer(): void {
-  answerChallengeIncorrectly();
-  answer("skip-left");
-}
-
 describe("palindrome game UI", () => {
-  it("shows the final verdict for a valid phrase", () => {
-    submitExample("A man, a plan, a canal: Panama!");
+  it("shows the final verdict for a valid lowercase string", () => {
+    submitExample("racecar");
     click("last");
 
     expect(element(".verdict-panel strong").textContent).toBe("PALINDROME");
   });
 
-  it("shows why input without an alphanumeric character is rejected", () => {
-    submitExample("---");
-
-    expect(element("#input-error").textContent).toBe(
-      "Include at least one ASCII letter or digit (A-Z, a-z, or 0-9).",
-    );
-  });
-
-  it("preserves the accepted final verdict when input has no alphanumeric character", () => {
-    submitExample("Mirror scan");
+  it("rejects a digit without replacing the accepted trace", () => {
+    submitExample("algorithm");
     click("last");
+    submitExample("abc1");
 
-    submitExample("---");
-
+    expect(element("#input-error").textContent).toContain(
+      'Character "1" at position 4',
+    );
     expect(element(".verdict-panel strong").textContent).toBe("NOT PALINDROME");
   });
 
   it("renders the snapshot selected on the timeline", () => {
-    submitExample("a,a");
+    submitExample("aa");
     const timeline = element<HTMLInputElement>('[name="timeline"]');
     timeline.value = "2";
     timeline.dispatchEvent(new Event("input", { bubbles: true }));
@@ -108,29 +92,22 @@ describe("palindrome game UI", () => {
     });
   });
 
-  it("explains an incorrect Challenge decision", () => {
-    answerChallengeIncorrectly();
+  it("explains a wrong Challenge answer without advancing", () => {
+    click("show-challenge");
+    answer("mismatch");
 
     expect(element(".challenge-feedback").textContent).toContain(
-      "The left pointer is checked first, so SKIP LEFT.",
+      "are exactly equal, so MATCH",
     );
-  });
-
-  it("does not advance after an incorrect Challenge decision", () => {
-    answerChallengeIncorrectly();
-
     expect(element(".score-box small").textContent).toContain("0 /");
   });
 
-  it("shows corrected Challenge feedback", () => {
-    correctChallengeAnswer();
+  it("accepts a correction after a wrong Challenge answer", () => {
+    click("show-challenge");
+    answer("mismatch");
 
-    expect(element(".challenge-feedback").textContent).toContain("Correct");
-  });
-
-  it("advances after a corrected Challenge decision", () => {
-    correctChallengeAnswer();
-
+    answer("match");
+    expect(element(".challenge-feedback").textContent).toContain("Correct:");
     expect(element(".score-box small").textContent).toContain("1 /");
   });
 });

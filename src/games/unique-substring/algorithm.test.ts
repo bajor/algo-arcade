@@ -46,18 +46,18 @@ describe("unique substring trace", () => {
     },
     {
       label: "already unique",
-      value: "abc123",
+      value: "abcdef",
       expected: {
-        substring: "abc123",
+        substring: "abcdef",
         start: 0,
         endExclusive: 6,
         length: 6,
       },
     },
     {
-      label: "alphanumeric",
-      value: "a1b2a1c",
-      expected: { substring: "b2a1c", start: 2, endExclusive: 7, length: 5 },
+      label: "shifted repeat",
+      value: "abcaef",
+      expected: { substring: "bcaef", start: 1, endExclusive: 6, length: 5 },
     },
   ])("finds the $label result", ({ value, expected }) => {
     expect(finalResult(value)).toEqual(expected);
@@ -76,7 +76,9 @@ describe("unique substring trace", () => {
     { raw: "", message: "at least one" },
     { raw: "abcdefghijklmnopq", message: "at most 16" },
     { raw: "Abc", message: 'Character "A" at position 1' },
+    { raw: "ab1", message: 'Character "1" at position 3' },
     { raw: "ab c", message: 'Character " " at position 3' },
+    { raw: "é", message: 'Character "é" at position 1' },
   ])("rejects invalid input '$raw' precisely", ({ raw, message }) => {
     const result = parseExample(raw);
     expect(result.ok).toBe(false);
@@ -86,7 +88,7 @@ describe("unique substring trace", () => {
     expect(result.error).toContain(message);
   });
 
-  it.each(["a", "abcdefghijklmnop", "abc123"])(
+  it.each(["a", "z", "abcdefghijklmnop"])(
     "accepts valid input '%s' without normalization",
     (value) => {
       expect(parseExample(value)).toMatchObject({ ok: true, value });
@@ -122,7 +124,7 @@ describe("unique substring trace", () => {
   });
 
   it("returns deeply equal traces for the same example", () => {
-    const input = example("a1b2a1c");
+    const input = example("abcaef");
 
     expect(generateTrace(input)).toEqual(generateTrace(input));
   });

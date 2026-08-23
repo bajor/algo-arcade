@@ -10,25 +10,9 @@ import type { TraceSnapshot } from "./algorithm";
 import type { ChallengeAction, ChallengeDecision } from "./game";
 
 export const PSEUDOCODE = [
-  { id: "initialize", code: "left = 0; right = phrase.length - 1" },
-  {
-    id: "center",
-    code: "if left == right and alphanumeric: accept the center",
-  },
-  {
-    id: "inspect-left",
-    code: "if phrase[left] is not ASCII alphanumeric",
-  },
-  { id: "skip-left", code: "left += 1; continue" },
-  {
-    id: "inspect-right",
-    code: "else if phrase[right] is not ASCII alphanumeric",
-  },
-  { id: "skip-right", code: "right -= 1; continue" },
-  {
-    id: "compare",
-    code: "compare lowercase(phrase[left]) and lowercase(phrase[right])",
-  },
+  { id: "initialize", code: "left = 0; right = string.length - 1" },
+  { id: "center", code: "if left == right: accept the center" },
+  { id: "compare", code: "compare string[left] and string[right]" },
   { id: "match", code: "if equal: left += 1; right -= 1" },
   { id: "mismatch", code: "else: verdict = false; stop" },
   { id: "complete", code: "return the verdict after the scan stops" },
@@ -37,13 +21,10 @@ export const PSEUDOCODE = [
 export const STAGE_LEGEND = [
   { label: "LEFT POINTER", markerClass: "pal-legend-left" },
   { label: "RIGHT POINTER", markerClass: "pal-legend-right" },
-  { label: "SKIP", markerClass: "pal-legend-skip" },
   { label: "MATCHED PAIR", markerClass: "pal-legend-match" },
 ] as const satisfies readonly StageLegendItem[];
 
 export const CHALLENGE_ACTIONS = [
-  { action: "skip-left", cue: "L >", label: "SKIP LEFT" },
-  { action: "skip-right", cue: "< R", label: "SKIP RIGHT" },
   { action: "match", cue: "=", label: "MATCH" },
   { action: "mismatch", cue: "X", label: "MISMATCH" },
 ] as const satisfies readonly ChallengeActionOption<ChallengeAction>[];
@@ -52,7 +33,7 @@ export function renderStageBody(snapshot: TraceSnapshot): string {
   return `
     <div class="mirror-scan-gate">
       ${renderPointerBoard(snapshot)}
-      <div class="character-viewport" tabindex="0" data-focus="stage-scroll" aria-label="Original phrase characters; scroll horizontally to inspect every index">
+      <div class="character-viewport" tabindex="0" data-focus="stage-scroll" aria-label="String characters; scroll horizontally to inspect every index">
         <ol class="character-track">${renderCharacterCells(snapshot)}</ol>
       </div>
       <div class="mirror-results">
@@ -74,8 +55,6 @@ export function operationLabel(
 
   const labels: Record<Exclude<TraceSnapshot["kind"], "inspect">, string> = {
     start: "POINTERS READY",
-    "skip-left": "SKIP LEFT + MOVE",
-    "skip-right": "SKIP RIGHT + MOVE",
     match: "MATCH + MOVE IN",
     mismatch: "MISMATCH: STOP",
     center: "CENTER REACHED",
@@ -102,7 +81,6 @@ export function getDiagnostics(
   return [
     { label: "INSPECTIONS", value: padCount(snapshot.counts.inspections) },
     { label: "COMPARISONS", value: padCount(snapshot.counts.comparisons) },
-    { label: "SKIPS", value: padCount(snapshot.counts.skips) },
     { label: "MATCHES", value: padCount(snapshot.counts.matches) },
   ];
 }
@@ -164,7 +142,7 @@ function renderPointerPort(
 ): string {
   const character = snapshot.chars[index];
   const token = character === undefined ? "OUT" : displayCharacter(character);
-  const label = `${side.toLowerCase()} pointer at index ${String(index)}, ${character === undefined ? "outside the phrase" : `character ${token}`}`;
+  const label = `${side.toLowerCase()} pointer at index ${String(index)}, ${character === undefined ? "outside the string" : `character ${token}`}`;
   return `
     <div class="pointer-port is-${side.toLowerCase()}" aria-label="${escapeHtml(label)}">
       <span>${side} POINTER</span>
@@ -177,7 +155,6 @@ function renderPointerPort(
 function renderCharacterCells(snapshot: TraceSnapshot): string {
   return snapshot.chars
     .map((character, index) => {
-      const ignored = snapshot.ignoredIndices.includes(index);
       const pairNumber = matchedPairNumber(snapshot, index);
       const mismatch =
         snapshot.verdict === false &&
@@ -185,7 +162,6 @@ function renderCharacterCells(snapshot: TraceSnapshot): string {
       const center =
         snapshot.kind === "center" && snapshot.centerIndex === index;
       const classes = ["character-cell"];
-      if (ignored) classes.push("is-skipped");
       if (pairNumber !== null) classes.push("is-matched");
       if (mismatch) classes.push("is-mismatch");
       if (center) classes.push("is-center");
@@ -196,18 +172,11 @@ function renderCharacterCells(snapshot: TraceSnapshot): string {
           ? '<span class="right-marker">RIGHT</span>'
           : "",
       ].join("");
-      const status = cellStatus(
-        character,
-        ignored,
-        pairNumber,
-        mismatch,
-        center,
-      );
+      const status = cellStatus(pairNumber, mismatch, center);
       const ariaLabel = cellAriaLabel(
         snapshot,
         character,
         index,
-        ignored,
         pairNumber,
         mismatch,
         center,
@@ -282,24 +251,20 @@ function matchedPairNumber(
 }
 
 function cellStatus(
-  character: string,
-  ignored: boolean,
   pairNumber: number | null,
   mismatch: boolean,
   center: boolean,
 ): string {
-  if (ignored) return "SKIP";
   if (pairNumber !== null) return `PAIR ${String(pairNumber).padStart(2, "0")}`;
   if (mismatch) return "BREAK";
   if (center) return "CENTER";
-  return isAsciiAlphanumeric(character) ? "READY" : "NOISE";
+  return "READY";
 }
 
 function cellAriaLabel(
   snapshot: TraceSnapshot,
   character: string,
   index: number,
-  ignored: boolean,
   pairNumber: number | null,
   mismatch: boolean,
   center: boolean,
@@ -309,7 +274,6 @@ function cellAriaLabel(
   ];
   if (snapshot.left === index) details.push("left pointer");
   if (snapshot.right === index) details.push("right pointer");
-  if (ignored) details.push("ignored noise, skip");
   if (pairNumber !== null) details.push(`matched pair ${String(pairNumber)}`);
   if (mismatch) details.push("mismatched pair");
   if (center) details.push("center character");
@@ -325,18 +289,9 @@ function expectedActionReason(
   const leftReference = `[${displayCharacter(leftCharacter)}] at index ${String(snapshot.leftIndex)}`;
   const rightReference = `[${displayCharacter(rightCharacter)}] at index ${String(snapshot.rightIndex)}`;
 
-  if (expected === "skip-left") {
-    return `${leftReference} is not an ASCII letter or digit. The left pointer is checked first, so SKIP LEFT.`;
-  }
-  if (expected === "skip-right") {
-    return `${leftReference} is alphanumeric, but ${rightReference} is not. SKIP RIGHT.`;
-  }
-
-  const leftNormalized = leftCharacter.toLowerCase();
-  const rightNormalized = rightCharacter.toLowerCase();
   return expected === "match"
-    ? `${leftReference} and ${rightReference} both normalize to [${leftNormalized}], so MATCH and move both pointers inward.`
-    : `${leftReference} normalizes to [${leftNormalized}], while ${rightReference} normalizes to [${rightNormalized}], so MISMATCH ends the scan.`;
+    ? `${leftReference} and ${rightReference} are exactly equal, so MATCH and move both pointers inward.`
+    : `${leftReference} and ${rightReference} differ, so MISMATCH ends the scan.`;
 }
 
 function actionLabel(action: ChallengeAction): string {
@@ -350,13 +305,9 @@ function displayCharacter(character: string): string {
 function characterAt(snapshot: TraceSnapshot, index: number): string {
   const character = snapshot.chars[index];
   if (character === undefined) {
-    throw new Error("Trace references a character outside the phrase.");
+    throw new Error("Trace references a character outside the string.");
   }
   return character;
-}
-
-function isAsciiAlphanumeric(character: string): boolean {
-  return /^[A-Za-z0-9]$/.test(character);
 }
 
 function padCount(value: number): string {

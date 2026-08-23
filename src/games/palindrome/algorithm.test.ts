@@ -8,8 +8,8 @@ import {
   type TraceSnapshot,
 } from "./algorithm";
 
-function example(phrase: string): Example {
-  const result = validateExample(phrase);
+function example(value: string): Example {
+  const result = validateExample(value);
   if (!result.ok) {
     throw new Error(result.error);
   }
@@ -17,9 +17,9 @@ function example(phrase: string): Example {
 }
 
 function completeSnapshot(
-  phrase: string,
+  value: string,
 ): Extract<TraceSnapshot, { readonly kind: "complete" }> {
-  const snapshot = generateTrace(example(phrase)).at(-1);
+  const snapshot = generateTrace(example(value)).at(-1);
   if (!snapshot || snapshot.kind !== "complete") {
     throw new Error("Trace did not complete.");
   }
@@ -28,81 +28,76 @@ function completeSnapshot(
 
 describe("palindrome validation and trace", () => {
   it.each([
-    { phrase: "Never odd or even", expected: true },
-    { phrase: "A man, a plan, a canal: Panama!", expected: true },
-    { phrase: "Mirror scan", expected: false },
-    { phrase: "Z", expected: true },
-    { phrase: "12-3-21", expected: true },
-  ])("evaluates '$phrase'", ({ phrase, expected }) => {
-    expect(completeSnapshot(phrase).verdict).toBe(expected);
+    { value: "racecar", expected: true },
+    { value: "abca", expected: false },
+    { value: "a", expected: true },
+    { value: "aa", expected: true },
+    { value: "ab", expected: false },
+  ])("evaluates '$value'", ({ value, expected }) => {
+    expect(completeSnapshot(value).verdict).toBe(expected);
   });
 
-  it("preserves the raw printable phrase", () => {
-    const phrase = "  A,b A!  ";
-
-    expect(parseExample(phrase)).toMatchObject({ ok: true, value: phrase });
-  });
+  it.each(["a", "z", "a".repeat(48)])(
+    "accepts lowercase boundary input '%s' without normalization",
+    (value) => {
+      expect(parseExample(value)).toMatchObject({ ok: true, value });
+    },
+  );
 
   it.each([
-    { phrase: "---", message: "letter or digit" },
-    { phrase: "", message: "at least 1" },
-    { phrase: "a".repeat(49), message: "at most 48" },
-    { phrase: "valid\n", message: "printable ASCII" },
-  ])("rejects invalid phrase input", ({ phrase, message }) => {
-    const result = validateExample(phrase);
+    { value: "", message: "at least one" },
+    { value: "a".repeat(49), message: "at most 48" },
+    { value: "Racecar", message: 'Character "R" at position 1' },
+    { value: "abc1", message: 'Character "1" at position 4' },
+    { value: "ab c", message: 'Character " " at position 3' },
+    { value: "valid\n", message: 'Character "\\n" at position 6' },
+    { value: "é", message: 'Character "é" at position 1' },
+  ])("rejects invalid input '$value' precisely", ({ value, message }) => {
+    const result = validateExample(value);
     expect(result.ok).toBe(false);
     if (result.ok) {
-      throw new Error("Invalid phrase was accepted.");
+      throw new Error("Invalid string was accepted.");
     }
     expect(result.error).toContain(message);
   });
 
-  it("skips the left character first when both pointers hold punctuation", () => {
-    const firstInspection = generateTrace(example("!a?")).find(
-      (snapshot) => snapshot.kind === "inspect",
-    );
-
-    expect(firstInspection).toMatchObject({
-      decision: "skip-left",
-      leftIndex: 0,
-      rightIndex: 2,
-    });
-  });
-
-  it("records an outer match before a late inner mismatch", () => {
-    const trace = generateTrace(example("abx,a"));
+  it("records each comparison before its match or mismatch", () => {
+    const trace = generateTrace(example("abca"));
 
     expect(trace.map(({ kind }) => kind)).toEqual([
       "start",
       "inspect",
       "match",
       "inspect",
-      "skip-right",
-      "inspect",
       "mismatch",
       "complete",
     ]);
   });
 
-  it("counts each recorded operation", () => {
-    expect(completeSnapshot("abx,a").counts).toEqual({
-      inspections: 3,
+  it("counts each comparison operation", () => {
+    expect(completeSnapshot("abca").counts).toEqual({
+      inspections: 2,
       comparisons: 2,
-      skips: 1,
       matches: 1,
     });
   });
 
-  it("returns the same trace for the same example", () => {
-    const input = example("!Aa?");
-    const firstTrace = generateTrace(input);
-    const secondTrace = generateTrace(input);
+  it("records a single lowercase character as the center", () => {
+    expect(generateTrace(example("a")).map(({ kind }) => kind)).toEqual([
+      "start",
+      "center",
+      "complete",
+    ]);
+  });
 
-    expect(firstTrace).toEqual(secondTrace);
+  it("returns the same trace for the same example", () => {
+    const input = example("racecar");
+
+    expect(generateTrace(input)).toEqual(generateTrace(input));
   });
 
   it("deeply freezes every snapshot", () => {
-    const trace = generateTrace(example("!Aa?"));
+    const trace = generateTrace(example("racecar"));
 
     expect(Object.isFrozen(trace)).toBe(true);
     expect(
@@ -110,7 +105,6 @@ describe("palindrome validation and trace", () => {
         (snapshot) =>
           Object.isFrozen(snapshot) &&
           Object.isFrozen(snapshot.chars) &&
-          Object.isFrozen(snapshot.ignoredIndices) &&
           Object.isFrozen(snapshot.matchedIndexPairs) &&
           snapshot.matchedIndexPairs.every((pair) => Object.isFrozen(pair)) &&
           Object.isFrozen(snapshot.counts),
@@ -118,21 +112,14 @@ describe("palindrome validation and trace", () => {
     ).toBe(true);
   });
 
-  it("keeps earlier ignored indices independent from later updates", () => {
-    const trace = generateTrace(example("!Aa?"));
-    const start = trace[0];
-    const complete = trace.at(-1);
-
-    expect(start?.ignoredIndices).toEqual([]);
-    expect(complete?.ignoredIndices).toEqual([0, 3]);
-  });
-
   it("keeps earlier matched pairs independent from later updates", () => {
-    const trace = generateTrace(example("!Aa?"));
-    const start = trace[0];
-    const complete = trace.at(-1);
+    const trace = generateTrace(example("racecar"));
 
-    expect(start?.matchedIndexPairs).toEqual([]);
-    expect(complete?.matchedIndexPairs).toEqual([[1, 2]]);
+    expect(trace[0]?.matchedIndexPairs).toEqual([]);
+    expect(trace.at(-1)?.matchedIndexPairs).toEqual([
+      [0, 6],
+      [1, 5],
+      [2, 4],
+    ]);
   });
 });

@@ -68,13 +68,13 @@ test("Mirror Scan completes Explore and recovers in Challenge", async ({
     page.getByRole("heading", { level: 1, name: "Mirror Scan" }),
   ).toBeVisible();
 
-  await page.getByLabel("1-48 printable ASCII").fill("Never odd or even");
+  await page.getByLabel("1-48 lowercase ASCII letters").fill("racecar");
   await page.getByRole("button", { name: "RUN TRACE" }).click();
   await page.getByRole("button", { name: "Last step" }).click();
   await expect(page.locator(".verdict-panel strong")).toHaveText("PALINDROME");
   await expectNoPageOverflow(page);
 
-  await expectChallengeRecovery(page, /SKIP RIGHT/, /SKIP LEFT/);
+  await expectChallengeRecovery(page, /MISMATCH/, /= MATCH/);
   await expectNoPageOverflow(page);
 });
 
@@ -105,7 +105,7 @@ test("Repeat Breaker completes Explore and recovers in Challenge", async ({
     page.getByRole("heading", { level: 1, name: "Repeat Breaker" }),
   ).toBeVisible();
 
-  await page.getByLabel("1-16 lowercase letters").fill("abcabcbb");
+  await page.getByLabel("1-16 lowercase ASCII letters").fill("abcabcbb");
   await page.getByRole("button", { name: "RUN TRACE" }).click();
   await page.getByRole("button", { name: "Last step" }).click();
   await expect(page.locator(".best-run-value")).toHaveText("abc");
