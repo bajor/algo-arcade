@@ -14,7 +14,7 @@ Stack Reactor teaches the monotonic-stack technique through Next Greater
 Element. Given an integer sequence, it finds the first strictly greater value
 to the right of each item.
 
-The default example is:
+A built-in preset is:
 
 ```text
 Input:  [2, 1, 2, 4, 3]
@@ -24,7 +24,10 @@ Output: [4, 2, 4, -1, -1]
 Explore mode provides complete trace playback, including comparisons, pushes,
 pops, output updates, operation counts, and active pseudocode. Challenge mode
 asks the learner to predict whether the algorithm must pop the stack or stop
-popping and push the current value.
+popping and push the current value. The opening example and every new Challenge
+run are generated procedurally, avoid immediate repetition, and include both
+pop and stop decisions. Presets and manual input remain available for controlled
+dry runs.
 
 ## Local Development
 

@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700" role="img" aria-labelledby="title description">
   <title id="title">Monotonic stack game data flow</title>
-  <desc id="description">Editable input passes through validation into one pure trace generator. Immutable snapshots then drive both Explore mode and Challenge mode before rendering on the shared stage.</desc>
+  <desc id="description">A procedural generator, preset, or edited input passes through validation into one pure trace generator. Immutable snapshots then drive both Explore mode and Challenge mode before rendering on the shared stage.</desc>
   <defs>
     <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
       <path d="M 0 0 L 10 5 L 0 10 z" fill="#35e8df" />
@@ -24,9 +24,9 @@
   <rect class="panel" x="64" y="126" width="210" height="150" />
   <rect class="badge" x="80" y="142" width="32" height="32" />
   <text class="number" x="88" y="165">01</text>
-  <text class="label" x="80" y="202">EDIT EXAMPLE</text>
-  <text class="copy" x="80" y="230">1-12 integers</text>
-  <text class="copy" x="80" y="252">presets or custom</text>
+  <text class="label" x="80" y="202">EXAMPLE SOURCE</text>
+  <text class="copy" x="80" y="230">procedural / preset</text>
+  <text class="copy" x="80" y="252">or custom input</text>
 
   <path class="arrow" d="M 274 201 H 354" />
 

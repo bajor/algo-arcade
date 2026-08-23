@@ -1,12 +1,16 @@
 import "./styles.css";
 
 import {
-  DEFAULT_EXAMPLE,
   generateTrace,
   parseExample,
+  type Example,
   type TraceSnapshot,
 } from "./algorithm";
-import { getChallengeDecisions, type ChallengeAction } from "./game";
+import {
+  generateProceduralExample,
+  getChallengeDecisions,
+  type ChallengeAction,
+} from "./game";
 import {
   explainChallengeAnswer,
   renderGame,
@@ -15,7 +19,6 @@ import {
   type GameViewModel,
 } from "./render";
 
-const DEFAULT_INPUT = DEFAULT_EXAMPLE.join(", ");
 const DEFAULT_SPEED_MS = 700;
 
 interface MutableGameState {
@@ -30,9 +33,10 @@ interface MutableGameState {
 }
 
 export function mount(root: HTMLElement): () => void {
-  const trace = generateTrace(DEFAULT_EXAMPLE);
+  let lastGeneratedExample = generateProceduralExample();
+  const trace = generateTrace(lastGeneratedExample);
   const state: MutableGameState = {
-    rawInput: DEFAULT_INPUT,
+    rawInput: lastGeneratedExample.join(", "),
     validationError: "",
     trace,
     stepIndex: 0,
@@ -91,18 +95,37 @@ export function mount(root: HTMLElement): () => void {
       return;
     }
 
-    const nextTrace = generateTrace(parsed.value);
+    installExample(parsed.value, rawInput);
+    render();
+  };
+
+  const installExample = (example: Example, rawInput: string): void => {
+    const nextTrace = generateTrace(example);
     stopPlayback();
+    state.rawInput = rawInput;
     state.validationError = "";
     state.trace = nextTrace;
     state.stepIndex = 0;
     state.challenge = newChallenge(nextTrace);
-    render();
+  };
+
+  const installGeneratedExample = (): void => {
+    const generated = generateProceduralExample(
+      Math.random,
+      lastGeneratedExample,
+    );
+    lastGeneratedExample = generated;
+    installExample(generated, generated.join(", "));
   };
 
   const showMode = (mode: GameMode): void => {
     stopPlayback();
+    if (mode === state.mode) {
+      render(mode === "explore" ? "show-explore" : "show-challenge");
+      return;
+    }
     state.mode = mode;
+    if (mode === "challenge") installGeneratedExample();
     render(mode === "explore" ? "show-explore" : "show-challenge");
   };
 
@@ -150,6 +173,10 @@ export function mount(root: HTMLElement): () => void {
       preset: () => {
         acceptInput(element.dataset.value ?? "");
       },
+      randomize: () => {
+        installGeneratedExample();
+        render("randomize");
+      },
       "restart-challenge": () => {
         restartChallenge();
       },
@@ -174,7 +201,7 @@ export function mount(root: HTMLElement): () => void {
   };
 
   const restartChallenge = (): void => {
-    state.challenge = newChallenge(state.trace);
+    installGeneratedExample();
     render("challenge-answer");
   };
 

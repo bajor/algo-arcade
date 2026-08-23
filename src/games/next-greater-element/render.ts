@@ -53,7 +53,7 @@ export function renderGame(model: GameViewModel): string {
       </header>
 
       ${renderModeSwitch(model.mode)}
-      ${renderInputConsole(model)}
+      ${model.mode === "explore" ? renderInputConsole(model) : ""}
       ${model.mode === "explore" ? renderExplore(model) : renderChallenge(model)}
     </article>
   `;
@@ -110,7 +110,12 @@ function renderInputConsole(model: GameViewModel): string {
         </div>
         <p id="input-error" class="input-error" role="alert">${escapeHtml(model.validationError)}</p>
       </form>
-      <div class="preset-bank" aria-label="Example presets">${presets}</div>
+      <div class="preset-bank" aria-label="Example generator and presets">
+        <button class="random-example" type="button" data-action="randomize">
+          NEW RANDOM
+        </button>
+        ${presets}
+      </div>
     </section>
   `;
 }
@@ -153,7 +158,7 @@ function renderChallenge(model: GameViewModel): string {
       <div>
         <p class="eyebrow">PREDICTION MODE</p>
         <h2 id="challenge-title">CALL THE NEXT STACK MOVE</h2>
-        <p>Earn 100 points per correct decision. Wrong calls show why and let you retry.</p>
+        <p>A fresh sequence is generated for every run. Earn 100 points per correct decision; wrong calls show why and let you retry.</p>
       </div>
       <div class="score-box">
         <span>SCORE</span>
@@ -373,7 +378,7 @@ function renderChallengeComplete(challenge: ChallengeProgress): string {
       <div class="final-score">${String(challenge.correct * 100).padStart(4, "0")}</div>
       <p>You predicted ${String(challenge.correct)} comparison decisions with ${String(accuracy)}% accuracy.</p>
       <p>The practiced rule: pop only when the current value is <strong>strictly greater</strong> than the stack top.</p>
-      <button class="pixel-button" type="button" data-action="restart-challenge">REPLAY CHALLENGE</button>
+      <button class="pixel-button" type="button" data-action="restart-challenge">NEW RANDOM CHALLENGE</button>
     </section>
   `;
 }

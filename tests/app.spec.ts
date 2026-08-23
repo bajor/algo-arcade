@@ -1,4 +1,15 @@
-import { expect, test } from "@playwright/test";
+import { expect, test, type Page } from "@playwright/test";
+
+type ChallengeAnswer = "pop" | "stop";
+
+async function expectedChallengeAnswer(page: Page): Promise<ChallengeAnswer> {
+  const values = await page.locator("#decision-prompt b").allTextContents();
+  return Number(values[0]) > Number(values[1]) ? "pop" : "stop";
+}
+
+function answerName(answer: ChallengeAnswer): RegExp {
+  return answer === "pop" ? /POP TOP/ : /STOP & PUSH/;
+}
 
 test("discovers the game and completes a custom Explore trace", async ({
   page,
@@ -31,17 +42,36 @@ test("discovers the game and completes a custom Explore trace", async ({
   ).toBe(true);
 });
 
-test("explains a wrong Challenge decision and accepts the correction", async ({
+test("generates a fresh example on demand", async ({ page }) => {
+  await page.goto("./#/games/next-greater-element");
+  const input = page.getByLabel("1-12 integers");
+  const firstExample = await input.inputValue();
+
+  await page.getByRole("button", { name: "NEW RANDOM" }).click();
+
+  await expect(input).not.toHaveValue(firstExample);
+});
+
+test("generated Challenge explains errors and exercises both branches", async ({
   page,
 }) => {
   await page.goto("./#/games/next-greater-element");
   await page.getByRole("button", { name: /CHALLENGE/ }).click();
 
-  await page.getByRole("button", { name: /POP TOP/ }).click();
+  const firstAnswer = await expectedChallengeAnswer(page);
+  const wrongAnswer = firstAnswer === "pop" ? "stop" : "pop";
+  await page.getByRole("button", { name: answerName(wrongAnswer) }).click();
   await expect(page.getByRole("status")).toContainText("Try again");
-  await expect(page.locator(".score-box small")).toContainText("0 / 6 CLEARED");
+  await expect(page.locator(".score-box small")).toContainText("0 /");
 
-  await page.getByRole("button", { name: /STOP & PUSH/ }).click();
+  await page.getByRole("button", { name: answerName(firstAnswer) }).click();
   await expect(page.getByRole("status")).toContainText("Correct");
-  await expect(page.locator(".score-box small")).toContainText("1 / 6 CLEARED");
+  await expect(page.locator(".score-box small")).toContainText("1 /");
+
+  const secondAnswer = await expectedChallengeAnswer(page);
+  expect(new Set([firstAnswer, secondAnswer])).toEqual(
+    new Set<ChallengeAnswer>(["pop", "stop"]),
+  );
+  await page.getByRole("button", { name: answerName(secondAnswer) }).click();
+  await expect(page.locator(".score-box small")).toContainText("2 /");
 });
