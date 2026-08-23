@@ -20,8 +20,9 @@ test("discovers the game and completes a custom Explore trace", async ({
   ).toBeVisible();
 
   await page.getByRole("link", { name: /Stack Reactor/ }).click();
+  await expect(page).toHaveURL(/#\/games\/next-greater-element$/);
   await expect(
-    page.getByRole("heading", { name: "Stack Reactor" }),
+    page.getByRole("heading", { level: 1, name: "Stack Reactor" }),
   ).toBeVisible();
   expect(await page.evaluate(() => window.scrollY)).toBe(0);
 
