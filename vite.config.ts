@@ -1,7 +1,7 @@
 import { defineConfig } from "vitest/config";
 
 export default defineConfig({
-  base: "/algos-mini-games/",
+  base: "/algo-arcade/",
   test: {
     environment: "jsdom",
     include: ["src/**/*.test.ts"],

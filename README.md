@@ -43,7 +43,7 @@ npx playwright install chromium
 npm run dev
 ```
 
-Vite serves the project below `/algos-mini-games/`, matching the production
+Vite serves the project below `/algo-arcade/`, matching the production
 GitHub Pages path.
 
 ## Quality Gate
@@ -64,7 +64,7 @@ complete quality gate before uploading `dist/` and deploying to GitHub Pages.
 The repository owner must select **GitHub Actions** under **Settings > Pages >
 Build and deployment > Source** once. The production URL is:
 
-<https://bajor.github.io/algos-mini-games/>
+<https://bajor.github.io/algo-arcade/>
 
 ## Adding Games
 
