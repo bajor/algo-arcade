@@ -1,5 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 
+import { gameRegistry } from "../../app/registry";
 import { mount } from "./view";
 
 let root: HTMLElement;
@@ -8,7 +9,9 @@ let cleanup: () => void;
 beforeEach(() => {
   root = document.createElement("div");
   document.body.append(root);
-  cleanup = mount(root);
+  const metadata = gameRegistry[0];
+  if (!metadata) throw new Error("Expected NGE registry metadata.");
+  cleanup = mount(root, { gameNumber: 1, metadata });
 });
 
 afterEach(() => {
@@ -42,14 +45,13 @@ function displayedExample(): string {
 }
 
 function expectedChallengeAnswer(): "pop" | "stop" {
-  const values = [...root.querySelectorAll("#decision-prompt b")].map((node) =>
-    Number(node.textContent),
-  );
-  const currentValue = values[0];
-  const topValue = values[1];
-  if (currentValue === undefined || topValue === undefined) {
+  const prompt = element("#decision-prompt").textContent ?? "";
+  const values = /CURRENT (-?\d+) VS STACK TOP (-?\d+)/.exec(prompt);
+  if (!values) {
     throw new Error("Challenge prompt is missing comparison values.");
   }
+  const currentValue = Number(values[1]);
+  const topValue = Number(values[2]);
   return currentValue > topValue ? "pop" : "stop";
 }
 

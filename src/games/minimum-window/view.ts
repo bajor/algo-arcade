@@ -30,18 +30,19 @@ import {
 
 const gameUiConfig = {
   input: {
-    formatLabel: "1-12 integers, separated by commas or spaces",
+    formatLabel: "1-12 positive integers | target",
     presets: EXAMPLE_PRESETS,
     parse: parseExample,
-    format: (example) => example.join(", "),
+    format: (example) =>
+      `${example.values.join(", ")} | ${String(example.target)}`,
     generate: (previous) => generateProceduralExample(Math.random, previous),
   },
   trace: {
     generate: generateTrace,
   },
   stage: {
-    className: "nge-stage",
-    title: "SIGNAL SCAN DECK",
+    className: "minimum-window-stage",
+    title: "WINDOW RESCUE SCANNER",
     operationLabel,
     renderBody: renderStageBody,
     explanation: stageExplanation,
@@ -53,13 +54,13 @@ const gameUiConfig = {
   },
   diagnostics: {
     entries: getDiagnostics,
-    ruleLabel: "STACK RULE",
-    rule: "Unresolved values remain in decreasing order. Equal values stay unresolved.",
+    ruleLabel: "POSITIVE-VALUES INVARIANT",
+    rule: "Every value is positive, so expanding can only increase the sum and shrinking can only decrease it.",
   },
   challenge: {
-    briefTitle: "CALL THE NEXT STACK MOVE",
+    briefTitle: "CALL THE NEXT SCANNER ACTION",
     brief:
-      "A fresh sequence is generated for every run. Earn 100 points per correct decision; wrong calls show why and let you retry.",
+      "A fresh rescue tape is generated for every run. Expand while the sum is below target. When a window qualifies, evaluate it for BEST RESCUE before shrinking. Earn 100 points per correct call; wrong calls explain the rule and let you retry.",
     pointsPerCorrect: 100,
     decisions: getChallengeDecisions,
     snapshot: getChallengeSnapshot,
@@ -68,16 +69,16 @@ const gameUiConfig = {
     actions: CHALLENGE_ACTIONS,
     explainAnswer: explainChallengeAnswer,
     isComplete: (progress) => progress.cursor >= progress.decisions.length,
-    completionTitle: "STACK PILOT CLEARED",
+    completionTitle: "RESCUE SCANNER CERTIFIED",
     completionRule:
-      "pop only when the current value is strictly greater than the stack top.",
+      "expand while the sum is below target; when it reaches target, evaluate the qualifying window before shrinking from the left.",
   },
 } satisfies GameUiConfig<
   Example,
   TraceSnapshot,
   ChallengeDecision,
   ChallengeAction,
-  Extract<TraceSnapshot, { readonly kind: "compare" }>
+  Extract<TraceSnapshot, { readonly kind: "decide" }>
 >;
 
 export function mount(

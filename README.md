@@ -8,26 +8,35 @@ algorithm trace.
 The interface uses an original NES-era-inspired visual system. It does not use
 Nintendo branding, characters, artwork, music, sounds, or other copied assets.
 
-## First Game: Stack Reactor
+## Game Catalog
 
-Stack Reactor teaches the monotonic-stack technique through Next Greater
-Element. Given an integer sequence, it finds the first strictly greater value
-to the right of each item.
+All games use the same shared Explore and Challenge controls while keeping an
+algorithm-specific Stage and trace vocabulary.
 
-A built-in preset is:
+| Game           | Technique       | Goal                                                                                      |
+| -------------- | --------------- | ----------------------------------------------------------------------------------------- |
+| Stack Reactor  | Monotonic Stack | Find the first strictly greater value to the right of each number.                        |
+| Target Lock    | Two Pointers    | Find every unique value pair in a sorted array that sums to a target.                     |
+| Mirror Scan    | Two Pointers    | Test a phrase for palindrome symmetry while ignoring punctuation, spaces, and ASCII case. |
+| Window Rescue  | Sliding Window  | Find the shortest positive-number window whose sum reaches a target.                      |
+| Repeat Breaker | Sliding Window  | Find the earliest longest substring with no repeated characters.                          |
+
+Representative examples are:
 
 ```text
-Input:  [2, 1, 2, 4, 3]
-Output: [4, 2, 4, -1, -1]
+Stack Reactor:  [2, 1, 2, 4, 3] -> [4, 2, 4, -1, -1]
+Target Lock:    -4, -1, -1, 0, 1, 2, 2, 5, 10 | 4 -> (-1, 5), (2, 2)
+Mirror Scan:    Never odd or even -> palindrome
+Window Rescue: 2, 3, 1, 2, 4, 3 | 7 -> [4, 3] at [4, 6)
+Repeat Breaker: abcabcbb -> abc at [0, 3)
 ```
 
-Explore mode provides complete trace playback, including comparisons, pushes,
-pops, output updates, operation counts, and active pseudocode. Challenge mode
-asks the learner to predict whether the algorithm must pop the stack or stop
-popping and push the current value. The opening example and every new Challenge
-run are generated procedurally, avoid immediate repetition, and include both
-pop and stop decisions. Presets and manual input remain available for controlled
-dry runs.
+Explore mode provides complete trace playback, active pseudocode, operation
+counts, and plain-language explanations. Challenge mode asks the learner to
+predict the next algorithm decision from the same canonical trace. Fresh
+procedural examples avoid immediate repetition and deliberately exercise the
+important branches of each technique. Presets and manual input remain available
+for controlled dry runs.
 
 ## Local Development
 

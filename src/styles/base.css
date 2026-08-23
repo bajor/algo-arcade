@@ -75,7 +75,7 @@ h3,
   border: var(--border) solid var(--paper);
   background: var(--magenta);
   box-shadow: 6px 6px 0 var(--ink-0);
-  color: var(--paper);
+  color: var(--ink-0);
   cursor: pointer;
   font-size: 0.7rem;
   text-decoration: none;

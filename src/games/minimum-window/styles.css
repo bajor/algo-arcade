@@ -1,0 +1,392 @@
+.minimum-window-stage .scanner-layout {
+  display: grid;
+  min-height: 440px;
+  grid-template-columns: minmax(0, 1fr) 288px;
+}
+
+.minimum-window-stage .tape-bay {
+  min-width: 0;
+  padding: var(--space-4);
+  border-right: var(--border) solid var(--paper);
+}
+
+.minimum-window-stage .scanner-heading,
+.minimum-window-stage .window-coordinate,
+.minimum-window-stage .scanner-stations,
+.minimum-window-stage .sum-meter,
+.minimum-window-stage .rescue-archive {
+  font-size: 0.68rem;
+}
+
+.minimum-window-stage .scanner-heading {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-2);
+  margin-bottom: var(--space-2);
+  color: var(--cyan);
+  font-family: var(--font-display);
+  font-size: 0.48rem;
+}
+
+.minimum-window-stage .scanner-heading span:last-child {
+  color: var(--muted);
+}
+
+.minimum-window-stage .window-coordinate {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 12px;
+  border: 2px solid var(--yellow);
+  background: var(--ink-2);
+}
+
+.minimum-window-stage .window-coordinate span,
+.minimum-window-stage .scanner-stations span,
+.minimum-window-stage .sum-meter > span,
+.minimum-window-stage .rescue-archive > span {
+  color: var(--muted);
+  font-family: var(--font-display);
+  font-size: 0.47rem;
+}
+
+.minimum-window-stage .window-coordinate strong {
+  color: var(--yellow);
+  font-family: var(--font-display);
+}
+
+.minimum-window-stage .window-coordinate small {
+  margin-left: auto;
+  color: var(--muted);
+}
+
+.minimum-window-stage .tape-scroll {
+  max-width: 100%;
+  margin-top: var(--space-2);
+  overflow-x: auto;
+  border: 2px solid var(--stage-border);
+  background: var(--ink-1);
+  scrollbar-color: var(--cyan-dark) var(--ink-0);
+}
+
+.minimum-window-stage .tape-scroll:focus-visible {
+  outline: var(--border) solid var(--yellow);
+  outline-offset: 2px;
+}
+
+.minimum-window-stage .value-tape {
+  display: flex;
+  width: max-content;
+  min-width: 100%;
+  align-items: center;
+  padding: 48px 16px 44px;
+}
+
+.minimum-window-stage .tape-slot {
+  position: relative;
+  width: 72px;
+  min-width: 72px;
+}
+
+.minimum-window-stage .tape-cell {
+  position: relative;
+  display: grid;
+  width: 72px;
+  height: 80px;
+  place-items: center;
+  border: 3px solid var(--stage-border);
+  background: var(--ink-0);
+  color: var(--paper);
+}
+
+.minimum-window-stage .tape-cell small {
+  position: absolute;
+  top: 4px;
+  left: 5px;
+  color: var(--muted);
+  font-size: 0.55rem;
+}
+
+.minimum-window-stage .tape-cell strong {
+  margin-top: 5px;
+  font-family: var(--font-display);
+  font-size: 1rem;
+}
+
+.minimum-window-stage .tape-cell > span {
+  position: absolute;
+  right: -3px;
+  bottom: -3px;
+  left: -3px;
+  padding: 3px;
+  background: var(--stage-border);
+  color: var(--paper);
+  font-size: 0.52rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.minimum-window-stage .tape-cell.is-active {
+  border-top-color: var(--yellow);
+  border-bottom-color: var(--yellow);
+  background: var(--ink-2);
+}
+
+.minimum-window-stage .tape-cell.is-active > span {
+  background: var(--yellow);
+  color: var(--ink-0);
+}
+
+.minimum-window-stage .tape-cell.is-next {
+  border-color: var(--magenta);
+  box-shadow: 0 -6px 0 var(--magenta-dark);
+}
+
+.minimum-window-stage .tape-cell.is-next > span {
+  background: var(--magenta);
+  color: var(--ink-0);
+}
+
+.minimum-window-stage .tape-cell.is-exit {
+  box-shadow: 0 6px 0 var(--cyan-dark);
+}
+
+.minimum-window-stage .tape-boundary {
+  position: relative;
+  display: grid;
+  width: 24px;
+  min-width: 24px;
+  height: 80px;
+  place-items: center;
+}
+
+.minimum-window-stage .tape-boundary strong {
+  color: var(--yellow);
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  white-space: nowrap;
+}
+
+.minimum-window-stage .tape-marker {
+  position: absolute;
+  left: 50%;
+  color: var(--muted);
+  font-family: var(--font-display);
+  font-size: 0.42rem;
+  line-height: 1.4;
+  text-align: center;
+  white-space: nowrap;
+  transform: translateX(-50%);
+}
+
+.minimum-window-stage .tape-marker-entry {
+  top: -32px;
+  color: var(--magenta);
+}
+
+.minimum-window-stage .tape-marker-exit {
+  bottom: -30px;
+  color: var(--cyan);
+}
+
+.minimum-window-stage .scanner-stations {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+}
+
+.minimum-window-stage .scanner-stations div {
+  display: grid;
+  gap: 6px;
+  padding: 10px;
+  border-left: 4px solid var(--cyan);
+  background: var(--ink-2);
+}
+
+.minimum-window-stage .scanner-stations div:last-child {
+  border-left-color: var(--magenta);
+}
+
+.minimum-window-stage .scanner-stations strong {
+  color: var(--paper);
+  font-size: 0.7rem;
+}
+
+.minimum-window-stage .rescue-console {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  background: var(--ink-1);
+}
+
+.minimum-window-stage .sum-meter,
+.minimum-window-stage .rescue-archive {
+  padding: var(--space-2);
+  border: 3px solid var(--stage-border);
+  background: var(--ink-0);
+}
+
+.minimum-window-stage .sum-meter {
+  display: grid;
+  gap: 12px;
+}
+
+.minimum-window-stage .sum-meter strong {
+  color: var(--yellow);
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+}
+
+.minimum-window-stage .sum-meter small {
+  color: var(--muted);
+  font-size: 0.62rem;
+}
+
+.minimum-window-stage .sum-meter.is-met {
+  border-color: var(--green);
+}
+
+.minimum-window-stage .sum-meter.is-met strong,
+.minimum-window-stage .sum-meter.is-met small {
+  color: var(--green);
+}
+
+.minimum-window-stage .sum-meter progress {
+  width: 100%;
+  height: 20px;
+  border: 2px solid var(--paper);
+  border-radius: 0;
+  appearance: none;
+}
+
+.minimum-window-stage .sum-meter progress::-webkit-progress-bar {
+  background: var(--ink-2);
+}
+
+.minimum-window-stage .sum-meter progress::-webkit-progress-value {
+  background: var(--yellow);
+}
+
+.minimum-window-stage .sum-meter progress::-moz-progress-bar {
+  background: var(--yellow);
+}
+
+.minimum-window-stage .sum-meter.is-met progress::-webkit-progress-value {
+  background: var(--green);
+}
+
+.minimum-window-stage .sum-meter.is-met progress::-moz-progress-bar {
+  background: var(--green);
+}
+
+.minimum-window-stage .rescue-archive {
+  flex: 1;
+  border-color: var(--green);
+}
+
+.minimum-window-stage .rescue-archive dl {
+  display: grid;
+  gap: 10px;
+  margin: var(--space-2) 0 0;
+}
+
+.minimum-window-stage .rescue-archive dl div {
+  padding: 10px;
+  border-left: 4px solid var(--green);
+  background: var(--ink-2);
+}
+
+.minimum-window-stage .rescue-archive dt {
+  color: var(--muted);
+  font-size: 0.58rem;
+}
+
+.minimum-window-stage .rescue-archive dd {
+  margin: 5px 0 0;
+  color: var(--green);
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.minimum-window-stage .rescue-archive.is-empty {
+  display: grid;
+  align-content: center;
+  text-align: center;
+}
+
+.minimum-window-stage .rescue-archive.is-empty > strong {
+  margin-top: var(--space-3);
+  color: var(--muted);
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+}
+
+.minimum-window-stage .rescue-archive.is-empty p {
+  color: var(--muted);
+}
+
+.minimum-window-stage .minimum-window-legend-active {
+  background: var(--yellow);
+}
+
+.minimum-window-stage .minimum-window-legend-entry {
+  background: var(--magenta);
+}
+
+.minimum-window-stage .minimum-window-legend-exit {
+  background: var(--cyan);
+}
+
+.minimum-window-stage .minimum-window-legend-best {
+  background: var(--green);
+}
+
+@media (max-width: 880px) {
+  .minimum-window-stage .scanner-layout {
+    grid-template-columns: minmax(0, 1fr) 240px;
+  }
+
+  .minimum-window-stage .tape-bay {
+    padding: var(--space-3);
+  }
+}
+
+@media (max-width: 720px) {
+  .minimum-window-stage .scanner-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .minimum-window-stage .tape-bay {
+    border-right: 0;
+    border-bottom: var(--border) solid var(--paper);
+  }
+
+  .minimum-window-stage .rescue-console {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 460px) {
+  .minimum-window-stage .tape-bay {
+    padding: var(--space-2);
+  }
+
+  .minimum-window-stage .scanner-heading,
+  .minimum-window-stage .window-coordinate {
+    align-items: start;
+    flex-direction: column;
+  }
+
+  .minimum-window-stage .window-coordinate small {
+    margin-left: 0;
+  }
+
+  .minimum-window-stage .scanner-stations,
+  .minimum-window-stage .rescue-console {
+    grid-template-columns: 1fr;
+  }
+}

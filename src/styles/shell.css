@@ -155,7 +155,7 @@
   right: -16px;
   bottom: -28px;
   color: var(--ink-1);
-  content: "01";
+  content: attr(data-game-number);
   font-family: var(--font-display);
   font-size: 7rem;
   line-height: 1;
@@ -208,7 +208,7 @@
 }
 
 .card-action {
-  color: var(--magenta);
+  color: var(--cyan);
 }
 
 .empty-library,

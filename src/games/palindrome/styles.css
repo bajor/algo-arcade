@@ -1,0 +1,377 @@
+.palindrome-stage .mirror-scan-gate {
+  min-width: 0;
+  padding: var(--space-3);
+  background: var(--ink-1);
+}
+
+.palindrome-stage .pointer-board {
+  display: grid;
+  grid-template-columns: minmax(88px, 1fr) minmax(72px, 0.8fr) minmax(88px, 1fr);
+  gap: var(--space-2);
+  align-items: stretch;
+  margin-bottom: var(--space-2);
+}
+
+.palindrome-stage .pointer-port {
+  display: grid;
+  min-width: 0;
+  min-height: 96px;
+  place-items: center;
+  padding: 8px;
+  border: 3px solid var(--stage-border);
+  background: var(--ink-2);
+  text-align: center;
+}
+
+.palindrome-stage .pointer-port.is-left {
+  border-color: var(--yellow);
+  box-shadow: -5px 0 0 var(--yellow);
+}
+
+.palindrome-stage .pointer-port.is-right {
+  border-color: var(--magenta);
+  box-shadow: 5px 0 0 var(--magenta);
+}
+
+.palindrome-stage .pointer-port span,
+.palindrome-stage .pointer-port small,
+.palindrome-stage .mirror-axis span,
+.palindrome-stage .match-bay h3,
+.palindrome-stage .verdict-panel span,
+.palindrome-stage .verdict-panel small {
+  font-family: var(--font-display);
+  font-size: 0.48rem;
+}
+
+.palindrome-stage .pointer-port span,
+.palindrome-stage .pointer-port small {
+  color: var(--muted);
+}
+
+.palindrome-stage .pointer-port strong {
+  overflow: hidden;
+  max-width: 100%;
+  color: var(--paper);
+  font-family: var(--font-display);
+  font-size: 1rem;
+  text-overflow: ellipsis;
+}
+
+.palindrome-stage .mirror-axis {
+  display: grid;
+  min-width: 0;
+  place-items: center;
+  color: var(--cyan);
+  text-align: center;
+}
+
+.palindrome-stage .mirror-axis i {
+  width: 100%;
+  height: 3px;
+  background: var(--cyan-dark);
+}
+
+.palindrome-stage .mirror-axis span {
+  line-height: 1.6;
+}
+
+.palindrome-stage .character-viewport {
+  min-width: 0;
+  max-width: 100%;
+  padding: 20px 16px 16px;
+  overflow-x: auto;
+  border: 3px solid var(--stage-border);
+  background: var(--ink-0);
+  scrollbar-color: var(--cyan-dark) var(--ink-0);
+}
+
+.palindrome-stage .character-viewport:focus-visible {
+  outline: 3px solid var(--cyan);
+  outline-offset: 3px;
+}
+
+.palindrome-stage .character-track {
+  display: flex;
+  width: max-content;
+  min-width: 100%;
+  gap: 8px;
+  align-items: end;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.palindrome-stage .character-cell {
+  position: relative;
+  display: grid;
+  width: 68px;
+  min-width: 68px;
+  height: 88px;
+  place-items: center;
+  border: 3px solid var(--stage-border);
+  background: var(--ink-2);
+  color: var(--paper);
+}
+
+.palindrome-stage .character-cell > small {
+  position: absolute;
+  top: 4px;
+  left: 5px;
+  color: var(--muted);
+  font-size: 0.56rem;
+}
+
+.palindrome-stage .character-glyph {
+  margin-top: 4px;
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+}
+
+.palindrome-stage .pointer-markers {
+  position: absolute;
+  top: -20px;
+  right: -3px;
+  left: -3px;
+  display: flex;
+  height: 18px;
+  gap: 2px;
+}
+
+.palindrome-stage .pointer-markers span {
+  display: grid;
+  min-width: 0;
+  flex: 1;
+  place-items: center;
+  color: var(--ink-0);
+  font-size: 0.46rem;
+  font-weight: 700;
+}
+
+.palindrome-stage .left-marker {
+  background: var(--yellow);
+}
+
+.palindrome-stage .right-marker {
+  background: var(--magenta);
+}
+
+.palindrome-stage .cell-status {
+  position: absolute;
+  right: -3px;
+  bottom: -3px;
+  left: -3px;
+  padding: 3px 1px;
+  background: var(--stage-border);
+  color: var(--paper);
+  font-size: 0.52rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.palindrome-stage .character-cell.is-skipped {
+  border-style: dashed;
+  border-color: var(--muted);
+  color: var(--muted);
+}
+
+.palindrome-stage .character-cell.is-skipped .cell-status {
+  background: var(--muted);
+  color: var(--ink-0);
+}
+
+.palindrome-stage .character-cell.is-matched {
+  border-color: var(--green);
+  box-shadow: inset 0 0 0 2px var(--ink-0);
+}
+
+.palindrome-stage .character-cell.is-matched .cell-status {
+  background: var(--green);
+  color: var(--ink-0);
+}
+
+.palindrome-stage .character-cell.is-mismatch {
+  border-color: var(--red);
+  box-shadow: 0 5px 0 var(--red);
+}
+
+.palindrome-stage .character-cell.is-mismatch .cell-status {
+  background: var(--red);
+  color: var(--ink-0);
+}
+
+.palindrome-stage .character-cell.is-center {
+  border-color: var(--cyan);
+}
+
+.palindrome-stage .character-cell.is-center .cell-status {
+  background: var(--cyan);
+  color: var(--ink-0);
+}
+
+.palindrome-stage .mirror-results {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(184px, 0.3fr);
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+}
+
+.palindrome-stage .match-bay,
+.palindrome-stage .verdict-panel {
+  min-width: 0;
+  border: 3px solid var(--stage-border);
+  background: var(--ink-2);
+}
+
+.palindrome-stage .match-bay h3 {
+  margin: 0;
+  padding: 10px 12px;
+  border-bottom: 2px solid var(--stage-border);
+  color: var(--cyan);
+}
+
+.palindrome-stage .match-link-track {
+  display: flex;
+  min-height: 88px;
+  gap: 12px;
+  align-items: center;
+  padding: 12px;
+  overflow-x: auto;
+}
+
+.palindrome-stage .match-link-track > p {
+  margin: auto;
+  color: var(--muted);
+  font-family: var(--font-display);
+  font-size: 0.5rem;
+}
+
+.palindrome-stage .match-link {
+  display: grid;
+  min-width: 196px;
+  grid-template-columns: 48px 1fr 48px;
+  align-items: center;
+}
+
+.palindrome-stage .match-link > span {
+  display: grid;
+  min-height: 52px;
+  place-items: center;
+  border: 2px solid var(--green);
+  background: var(--ink-0);
+}
+
+.palindrome-stage .match-link b {
+  color: var(--green);
+  font-family: var(--font-display);
+}
+
+.palindrome-stage .match-link small {
+  color: var(--muted);
+  font-size: 0.52rem;
+}
+
+.palindrome-stage .match-link i {
+  height: 4px;
+  background: var(--green);
+  text-align: center;
+}
+
+.palindrome-stage .match-link em {
+  position: relative;
+  top: -9px;
+  padding-inline: 4px;
+  background: var(--ink-2);
+  color: var(--green);
+  font-size: 0.48rem;
+  font-style: normal;
+}
+
+.palindrome-stage .verdict-panel {
+  display: grid;
+  min-height: 132px;
+  place-items: center;
+  align-content: center;
+  gap: 10px;
+  padding: 12px;
+  text-align: center;
+}
+
+.palindrome-stage .verdict-panel span,
+.palindrome-stage .verdict-panel small {
+  color: var(--muted);
+}
+
+.palindrome-stage .verdict-panel strong {
+  color: var(--yellow);
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  line-height: 1.7;
+}
+
+.palindrome-stage .verdict-panel.is-palindrome {
+  border-color: var(--green);
+}
+
+.palindrome-stage .verdict-panel.is-palindrome strong {
+  color: var(--green);
+}
+
+.palindrome-stage .verdict-panel.is-not-palindrome {
+  border-color: var(--red);
+}
+
+.palindrome-stage .verdict-panel.is-not-palindrome strong {
+  color: var(--red);
+}
+
+.palindrome-stage .pal-legend-left {
+  background: var(--yellow);
+}
+
+.palindrome-stage .pal-legend-right {
+  background: var(--magenta);
+}
+
+.palindrome-stage .pal-legend-skip {
+  background: var(--muted);
+}
+
+.palindrome-stage .pal-legend-match {
+  background: var(--green);
+}
+
+@media (max-width: 640px) {
+  .palindrome-stage .mirror-scan-gate {
+    padding: 16px;
+  }
+
+  .palindrome-stage .mirror-results {
+    grid-template-columns: 1fr;
+  }
+
+  .palindrome-stage .verdict-panel {
+    min-height: 112px;
+  }
+}
+
+@media (max-width: 380px) {
+  .palindrome-stage .pointer-board {
+    grid-template-columns: minmax(72px, 1fr) 56px minmax(72px, 1fr);
+    gap: 6px;
+  }
+
+  .palindrome-stage .pointer-port {
+    min-height: 88px;
+    padding-inline: 4px;
+  }
+
+  .palindrome-stage .pointer-port span,
+  .palindrome-stage .pointer-port small,
+  .palindrome-stage .mirror-axis span {
+    font-size: 0.42rem;
+  }
+
+  .palindrome-stage .character-viewport {
+    padding-inline: 10px;
+  }
+}
