@@ -1,0 +1,317 @@
+.anagram-grouping-stage .assembly-layout {
+  display: grid;
+  min-height: 472px;
+  grid-template-columns: minmax(0, 1fr) 320px;
+}
+
+.anagram-grouping-stage .signature-workbench {
+  min-width: 0;
+  padding: var(--space-4);
+  border-right: var(--border) solid var(--paper);
+}
+
+.anagram-grouping-stage .group-bay-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  color: var(--cyan);
+  font-family: var(--font-display);
+  font-size: 0.48rem;
+}
+
+.anagram-grouping-stage .signature-scanner {
+  display: grid;
+  grid-template-columns: minmax(120px, 1fr) 40px minmax(120px, 1fr);
+  margin-top: var(--space-3);
+  border: 3px solid var(--yellow);
+  background: var(--ink-2);
+  box-shadow: 5px 5px 0 var(--ink-0);
+}
+
+.anagram-grouping-stage .scanner-word,
+.anagram-grouping-stage .scanner-signature,
+.anagram-grouping-stage .lookup-status {
+  display: grid;
+  min-width: 0;
+  min-height: 88px;
+  place-items: center;
+  padding: 8px;
+  text-align: center;
+}
+
+.anagram-grouping-stage .scanner-word span,
+.anagram-grouping-stage .scanner-signature span,
+.anagram-grouping-stage .lookup-status span {
+  color: var(--muted);
+  font-size: 0.54rem;
+}
+
+.anagram-grouping-stage .scanner-word strong,
+.anagram-grouping-stage .scanner-signature strong,
+.anagram-grouping-stage .lookup-status strong {
+  overflow: hidden;
+  max-width: 100%;
+  color: var(--paper);
+  font-family: var(--font-display);
+  font-size: 0.64rem;
+  text-overflow: ellipsis;
+}
+
+.anagram-grouping-stage .scanner-signature strong {
+  color: var(--cyan);
+  letter-spacing: 0.12em;
+}
+
+.anagram-grouping-stage .scanner-arrow {
+  display: grid;
+  place-items: center;
+  border-inline: 3px solid var(--yellow);
+  color: var(--yellow);
+  font-family: var(--font-display);
+  font-size: 0.62rem;
+}
+
+.anagram-grouping-stage .lookup-status {
+  min-height: 56px;
+  grid-column: 1 / -1;
+  grid-template-columns: 1fr 2fr;
+  border-top: 3px solid var(--yellow);
+}
+
+.anagram-grouping-stage .lookup-status strong {
+  color: var(--yellow);
+}
+
+.anagram-grouping-stage .signature-directory {
+  margin-top: var(--space-3);
+  border: 3px solid var(--cyan-dark);
+  background: var(--ink-1);
+}
+
+.anagram-grouping-stage .signature-directory > div {
+  padding: 12px;
+  border-bottom: 2px solid var(--cyan-dark);
+}
+
+.anagram-grouping-stage .signature-directory > div span {
+  color: var(--cyan);
+  font-family: var(--font-display);
+  font-size: 0.42rem;
+}
+
+.anagram-grouping-stage .signature-directory h3 {
+  margin: 6px 0 0;
+  color: var(--paper);
+  font-size: 0.68rem;
+}
+
+.anagram-grouping-stage .signature-directory ol {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(112px, 1fr));
+  gap: 8px;
+  margin: 0;
+  padding: 12px;
+  list-style: none;
+}
+
+.anagram-grouping-stage .signature-directory li {
+  display: grid;
+  min-width: 0;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  border: 2px solid var(--cyan-dark);
+  background: var(--ink-2);
+}
+
+.anagram-grouping-stage .signature-directory li span {
+  overflow: hidden;
+  color: var(--cyan);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-overflow: ellipsis;
+}
+
+.anagram-grouping-stage .signature-directory li strong {
+  color: var(--paper);
+  font-size: 0.56rem;
+}
+
+.anagram-grouping-stage .empty-directory {
+  margin: 0;
+  padding: var(--space-3);
+  color: var(--muted);
+  font-family: var(--font-display);
+  font-size: 0.54rem;
+  text-align: center;
+}
+
+.anagram-grouping-stage .group-bay-console {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  padding: var(--space-3);
+  background: var(--ink-1);
+}
+
+.anagram-grouping-stage .group-bay-heading {
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--stage-border);
+}
+
+.anagram-grouping-stage .group-bay-heading strong {
+  color: var(--paper);
+}
+
+.anagram-grouping-stage .group-bay-list {
+  display: grid;
+  gap: 12px;
+  margin: 12px 0;
+  padding: 0;
+  list-style: none;
+}
+
+.anagram-grouping-stage .group-bay {
+  border: 3px solid var(--green);
+  background: var(--ink-2);
+  box-shadow: 4px 4px 0 var(--ink-0);
+}
+
+.anagram-grouping-stage .group-bay.is-latest {
+  border-color: var(--green);
+  box-shadow: 4px 4px 0 var(--green);
+}
+
+.anagram-grouping-stage .group-bay > div:first-child {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px;
+  border-bottom: 2px solid var(--green);
+  color: var(--muted);
+  font-size: 0.52rem;
+}
+
+.anagram-grouping-stage .group-bay > div:first-child strong {
+  color: var(--green);
+  font-family: var(--font-display);
+  font-size: 0.46rem;
+}
+
+.anagram-grouping-stage .group-words {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 12px;
+}
+
+.anagram-grouping-stage .group-words span {
+  max-width: 100%;
+  overflow: hidden;
+  padding: 7px 8px;
+  border: 2px solid var(--green);
+  background: var(--ink-1);
+  color: var(--paper);
+  font-weight: 700;
+  text-overflow: ellipsis;
+}
+
+.anagram-grouping-stage .empty-bays {
+  display: grid;
+  flex: 1;
+  place-content: center;
+  padding: var(--space-3);
+  color: var(--muted);
+  text-align: center;
+}
+
+.anagram-grouping-stage .empty-bays strong {
+  color: var(--paper);
+  font-family: var(--font-display);
+  font-size: 0.58rem;
+}
+
+.anagram-grouping-stage .assembly-result {
+  display: grid;
+  gap: 8px;
+  margin: auto 0 0;
+  padding: 12px;
+  border: 3px solid var(--green);
+  background: var(--ink-2);
+}
+
+.anagram-grouping-stage .assembly-result span {
+  color: var(--green);
+  font-family: var(--font-display);
+  font-size: 0.46rem;
+}
+
+.anagram-grouping-stage .assembly-result strong {
+  overflow-wrap: anywhere;
+  color: var(--paper);
+  line-height: 1.6;
+}
+
+.anagram-grouping-stage .anagram-legend-incoming {
+  background: var(--yellow);
+}
+
+.anagram-grouping-stage .anagram-legend-signature {
+  background: var(--cyan);
+}
+
+.anagram-grouping-stage .anagram-legend-known {
+  border: 2px solid var(--cyan-dark);
+}
+
+.anagram-grouping-stage .anagram-legend-group {
+  background: var(--green);
+}
+
+@media (max-width: 880px) {
+  .anagram-grouping-stage .assembly-layout {
+    grid-template-columns: minmax(0, 1fr) 264px;
+  }
+
+  .anagram-grouping-stage .signature-workbench {
+    padding: var(--space-3);
+  }
+}
+
+@media (max-width: 720px) {
+  .anagram-grouping-stage .assembly-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .anagram-grouping-stage .signature-workbench {
+    border-right: 0;
+    border-bottom: var(--border) solid var(--paper);
+  }
+}
+
+@media (max-width: 460px) {
+  .anagram-grouping-stage .signature-workbench,
+  .anagram-grouping-stage .group-bay-console {
+    padding: 16px;
+  }
+
+  .anagram-grouping-stage .signature-scanner {
+    grid-template-columns: minmax(0, 1fr) 32px minmax(0, 1fr);
+  }
+
+  .anagram-grouping-stage .scanner-word strong,
+  .anagram-grouping-stage .scanner-signature strong {
+    font-size: 0.54rem;
+  }
+
+  .anagram-grouping-stage .lookup-status {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+
+  .anagram-grouping-stage .signature-directory ol {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

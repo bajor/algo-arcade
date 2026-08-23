@@ -13,13 +13,17 @@ Nintendo branding, characters, artwork, music, sounds, or other copied assets.
 All games use the same shared Explore and Challenge controls while keeping an
 algorithm-specific Stage and trace vocabulary.
 
-| Game           | Technique       | Goal                                                                             |
-| -------------- | --------------- | -------------------------------------------------------------------------------- |
-| Stack Reactor  | Monotonic Stack | Find the first strictly greater value to the right of each number.               |
-| Target Lock    | Two Pointers    | Find every unique value pair in a sorted array that sums to a target.            |
-| Mirror Scan    | Two Pointers    | Test a lowercase ASCII string for exact palindrome symmetry.                     |
-| Window Rescue  | Sliding Window  | Find the shortest positive-number window whose sum reaches a target.             |
-| Repeat Breaker | Sliding Window  | Find the earliest longest lowercase ASCII substring with no repeated characters. |
+| Game             | Technique            | Goal                                                                             |
+| ---------------- | -------------------- | -------------------------------------------------------------------------------- |
+| Stack Reactor    | Monotonic Stack      | Find the first strictly greater value to the right of each number.               |
+| Target Lock      | Two Pointers         | Find every unique value pair in a sorted array that sums to a target.            |
+| Mirror Scan      | Two Pointers         | Test a lowercase ASCII string for exact palindrome symmetry.                     |
+| Window Rescue    | Sliding Window       | Find the shortest positive-number window whose sum reaches a target.             |
+| Repeat Breaker   | Sliding Window       | Find the earliest longest lowercase ASCII substring with no repeated characters. |
+| Range Relay      | Prefix Sum           | Answer a half-open range sum with two prefix lookups and subtraction.            |
+| Anagram Assembly | Hashing / Signatures | Group words by sorted signatures while preserving stable order.                  |
+| Token Tally      | Frequency Map        | Count repeated tokens in first-seen key order.                                   |
+| Histogram Forge  | Counting / Histogram | Count values in four fixed ranges and identify every tallest bin.                |
 
 Representative examples are:
 
@@ -29,6 +33,10 @@ Target Lock:    -4, -1, -1, 0, 1, 2, 2, 5, 10 | 4 -> (-1, 5), (2, 2)
 Mirror Scan:    racecar -> palindrome
 Window Rescue: 2, 3, 1, 2, 4, 3 | 7 -> [4, 3] at [4, 6)
 Repeat Breaker: abcabcbb -> abc at [0, 3)
+Range Relay: 2, -1, 4, 3 | 1:4 -> 6
+Anagram Assembly: eat, tea, tan, ate, nat, bat -> [[eat,tea,ate],[tan,nat],[bat]]
+Token Tally: red, blue, red, gold, blue, red -> {red: 3, blue: 2, gold: 1}
+Histogram Forge: 4, 18, 26, 31, 51, 74, 75, 99, 26 -> {0-24: 2, 25-49: 3, 50-74: 2, 75-99: 2}
 ```
 
 Explore mode provides complete trace playback, active pseudocode, operation

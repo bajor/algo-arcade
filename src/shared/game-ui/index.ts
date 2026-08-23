@@ -1,4 +1,5 @@
-export { escapeHtml } from "./render";
+export { escapeHtml, renderItemFeed } from "./render";
+export type { ItemFeedConfig, ItemFeedItem, ItemFeedState } from "./render";
 export { mountGameUi } from "./runtime";
 export type {
   ChallengeActionOption,

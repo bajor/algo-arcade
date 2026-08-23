@@ -21,12 +21,16 @@ test("discovers the game and completes a custom Explore trace", async ({
   await expect(
     page.getByRole("heading", { name: "SEE EVERY ALGORITHM MOVE" }),
   ).toBeVisible();
-  await expect(page.getByText("5 LOADED")).toBeVisible();
+  await expect(page.getByText("9 LOADED")).toBeVisible();
   for (const game of [
     "Target Lock",
     "Mirror Scan",
     "Window Rescue",
     "Repeat Breaker",
+    "Range Relay",
+    "Anagram Assembly",
+    "Token Tally",
+    "Histogram Forge",
   ]) {
     await expect(
       page.getByRole("link", { name: new RegExp(game) }),

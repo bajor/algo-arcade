@@ -116,6 +116,94 @@ test("Repeat Breaker completes Explore and recovers in Challenge", async ({
   await expectNoPageOverflow(page);
 });
 
+test("Range Relay completes Explore and recovers in Challenge", async ({
+  page,
+}) => {
+  await page.goto("./#/games/prefix-sum");
+  await expect(
+    page.getByRole("heading", { level: 1, name: "Range Relay" }),
+  ).toBeVisible();
+
+  await page
+    .getByLabel("1-12 integers | start:end (half-open range)")
+    .fill("2, -1, 4, 3 | 1:4");
+  await page.getByRole("button", { name: "RUN TRACE" }).click();
+  await page.getByRole("button", { name: "Last step" }).click();
+  await expect(page.locator('[data-result="range-sum"]')).toHaveText("6");
+  await expectNoPageOverflow(page);
+
+  await expectChallengeRecovery(page, /ADD/, /SUBTRACT/);
+  await expectNoPageOverflow(page);
+});
+
+test("Anagram Assembly completes Explore and recovers in Challenge", async ({
+  page,
+}) => {
+  await page.goto("./#/games/anagram-grouping");
+  await expect(
+    page.getByRole("heading", { level: 1, name: "Anagram Assembly" }),
+  ).toBeVisible();
+
+  await page
+    .getByLabel("1-10 comma-delimited lowercase words; 1-10 letters each")
+    .fill("eat, tea, tan, ate, nat, bat");
+  await page.getByRole("button", { name: "RUN TRACE" }).click();
+  await page.getByRole("button", { name: "Last step" }).click();
+  await expect(page.getByText("FINAL OUTPUT").locator("..")).toContainText(
+    "[[eat,tea,ate],[tan,nat],[bat]]",
+  );
+  await expectNoPageOverflow(page);
+
+  await expectChallengeRecovery(page, /APPEND TO GROUP/, /CREATE NEW GROUP/);
+  await expectNoPageOverflow(page);
+});
+
+test("Token Tally completes Explore and recovers in Challenge", async ({
+  page,
+}) => {
+  await page.goto("./#/games/frequency-map");
+  await expect(
+    page.getByRole("heading", { level: 1, name: "Token Tally" }),
+  ).toBeVisible();
+
+  await page
+    .getByLabel("1-12 comma-delimited lowercase words; 1-12 letters each")
+    .fill("red, blue, red, gold, blue, red");
+  await page.getByRole("button", { name: "RUN TRACE" }).click();
+  await page.getByRole("button", { name: "Last step" }).click();
+  await expect(page.getByText("FINAL COUNTS").locator("..")).toContainText(
+    "{red: 3, blue: 2, gold: 1}",
+  );
+  await expectNoPageOverflow(page);
+
+  await expectChallengeRecovery(page, /INCREMENT COUNT/, /INSERT COUNT 1/);
+  await expectNoPageOverflow(page);
+});
+
+test("Histogram Forge completes Explore and recovers in Challenge", async ({
+  page,
+}) => {
+  await page.goto("./#/games/histogram-counting");
+  await expect(
+    page.getByRole("heading", { level: 1, name: "Histogram Forge" }),
+  ).toBeVisible();
+
+  await page
+    .getByLabel("1-16 integers from 0 to 99, separated by commas or spaces")
+    .fill("4, 18, 26, 31, 51, 74, 75, 99, 26");
+  await page.getByRole("button", { name: "RUN TRACE" }).click();
+  await page.getByRole("button", { name: "Last step" }).click();
+  await expect(
+    page
+      .getByLabel("Histogram result and complexity")
+      .locator('[data-result-bin="25-49"] dd'),
+  ).toHaveText("3");
+  await expectNoPageOverflow(page);
+
+  await expectChallengeRecovery(page, /RANGE 0-24/, /RANGE 50-74/);
+  await expectNoPageOverflow(page);
+});
+
 test("shared game controls support keyboard operation", async ({ page }) => {
   await page.goto("./#/games/pair-sum");
   const input = page.getByLabel("2-12 sorted integers");

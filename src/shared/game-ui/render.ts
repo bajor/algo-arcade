@@ -6,6 +6,43 @@ import type {
   GameUiState,
 } from "./types";
 
+export type ItemFeedState = "pending" | "current" | "processed" | "latest";
+
+export interface ItemFeedItem {
+  readonly label: string;
+  readonly text: string;
+  readonly status: string;
+  readonly state: ItemFeedState;
+}
+
+export interface ItemFeedConfig {
+  readonly heading: string;
+  readonly summary: string;
+  readonly scrollLabel: string;
+  readonly items: readonly ItemFeedItem[];
+}
+
+export function renderItemFeed(config: ItemFeedConfig): string {
+  const items = config.items
+    .map(
+      (item, index) => `
+        <li class="item-feed-card is-${item.state}" data-item-index="${String(index)}">
+          <small>${escapeHtml(item.label)}</small>
+          <strong>${escapeHtml(item.text)}</strong>
+          <span>${escapeHtml(item.status)}</span>
+        </li>
+      `,
+    )
+    .join("");
+
+  return `
+    <div class="item-feed-heading"><span>${escapeHtml(config.heading)}</span><strong>${escapeHtml(config.summary)}</strong></div>
+    <div class="item-feed-scroll" tabindex="0" data-focus="stage-scroll" aria-label="${escapeHtml(config.scrollLabel)}">
+      <ol class="item-feed-list">${items}</ol>
+    </div>
+  `;
+}
+
 export function renderGameUi<
   Example,
   Snapshot,

@@ -225,6 +225,105 @@
   box-shadow: var(--shadow-pixel);
 }
 
+.algorithm-stage .item-feed-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  color: var(--cyan);
+  font-family: var(--font-display);
+  font-size: 0.48rem;
+}
+
+.algorithm-stage .item-feed-heading strong {
+  color: var(--muted);
+  font-weight: 400;
+}
+
+.algorithm-stage .item-feed-scroll {
+  max-width: 100%;
+  margin-top: 12px;
+  overflow-x: auto;
+  border: 2px solid var(--stage-border);
+  background: var(--ink-1);
+  scrollbar-color: var(--cyan-dark) var(--ink-0);
+}
+
+.algorithm-stage .item-feed-scroll:focus-visible {
+  outline: 3px solid var(--yellow);
+  outline-offset: 2px;
+}
+
+.algorithm-stage .item-feed-list {
+  display: flex;
+  width: max-content;
+  min-width: 100%;
+  gap: 8px;
+  margin: 0;
+  padding: 16px;
+  list-style: none;
+}
+
+.algorithm-stage .item-feed-card {
+  display: grid;
+  min-width: 104px;
+  min-height: 88px;
+  grid-template-rows: auto 1fr auto;
+  border: 3px dashed var(--stage-border);
+  background: var(--ink-2);
+  text-align: center;
+}
+
+.algorithm-stage .item-feed-card small,
+.algorithm-stage .item-feed-card span {
+  padding: 5px;
+  color: var(--muted);
+  font-size: 0.54rem;
+}
+
+.algorithm-stage .item-feed-card strong {
+  align-self: center;
+  overflow: hidden;
+  padding: 4px;
+  color: var(--paper);
+  font-family: var(--font-display);
+  font-size: 0.58rem;
+  text-overflow: ellipsis;
+}
+
+.algorithm-stage .item-feed-card span {
+  background: var(--stage-border);
+  color: var(--paper);
+  font-weight: 700;
+}
+
+.algorithm-stage .item-feed-card.is-current {
+  border-style: solid;
+  border-color: var(--yellow);
+  box-shadow: 0 -6px 0 var(--yellow);
+}
+
+.algorithm-stage .item-feed-card.is-current span {
+  background: var(--yellow);
+  color: var(--ink-0);
+}
+
+.algorithm-stage .item-feed-card.is-processed,
+.algorithm-stage .item-feed-card.is-latest {
+  border-style: solid;
+  border-color: var(--green);
+}
+
+.algorithm-stage .item-feed-card.is-processed span,
+.algorithm-stage .item-feed-card.is-latest span {
+  background: var(--green);
+  color: var(--ink-0);
+}
+
+.algorithm-stage .item-feed-card.is-latest {
+  box-shadow: 0 -6px 0 var(--green);
+}
+
 .stage-header {
   display: flex;
   min-height: 72px;
