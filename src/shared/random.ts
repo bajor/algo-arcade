@@ -11,3 +11,19 @@ export function randomInteger(
   }
   return Math.floor(sample * (maximum - minimum + 1)) + minimum;
 }
+
+export function shuffleCopy<T>(
+  values: readonly T[],
+  random: () => number,
+): readonly T[] {
+  const shuffled = [...values];
+
+  for (let index = shuffled.length - 1; index > 0; index -= 1) {
+    const swapIndex = randomInteger(random, 0, index);
+    const value = shuffled[index] as T;
+    shuffled[index] = shuffled[swapIndex] as T;
+    shuffled[swapIndex] = value;
+  }
+
+  return Object.freeze(shuffled);
+}

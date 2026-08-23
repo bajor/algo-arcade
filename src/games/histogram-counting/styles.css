@@ -1,0 +1,426 @@
+.histogram-stage .histogram-forge-layout {
+  display: grid;
+  min-width: 0;
+  min-height: 520px;
+  grid-template-columns: minmax(0, 1fr) 264px;
+}
+
+.histogram-stage .histogram-workbench {
+  min-width: 0;
+  padding: var(--space-3);
+  border-right: var(--border) solid var(--paper);
+}
+
+.histogram-stage .current-value-console {
+  display: flex;
+  min-height: 64px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+  padding: 12px 16px;
+  border: 3px solid var(--yellow);
+  background: var(--ink-2);
+  box-shadow: 5px 5px 0 var(--ink-0);
+}
+
+.histogram-stage .current-value-console span,
+.histogram-stage .feed-heading span,
+.histogram-stage .report-heading span,
+.histogram-stage .tallest-result span,
+.histogram-stage .forge-complexity > span {
+  color: var(--cyan);
+  font-family: var(--font-display);
+  font-size: 0.46rem;
+}
+
+.histogram-stage .current-value-console strong {
+  color: var(--yellow);
+  font-family: var(--font-display);
+  font-size: clamp(0.58rem, 2vw, 0.78rem);
+  line-height: 1.7;
+  text-align: right;
+}
+
+.histogram-stage .feed-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.histogram-stage .feed-heading strong {
+  color: var(--muted);
+  font-size: 0.65rem;
+}
+
+.histogram-stage .input-feed {
+  display: flex;
+  min-height: 76px;
+  gap: 6px;
+  align-items: center;
+  margin-bottom: 16px;
+  padding: 10px;
+  overflow-x: auto;
+  border: 2px solid var(--stage-border);
+  background: var(--ink-1);
+  overscroll-behavior-inline: contain;
+  scrollbar-color: var(--cyan-dark) var(--ink-0);
+}
+
+.histogram-stage .input-feed:focus-visible {
+  outline: 3px solid var(--yellow);
+  outline-offset: 2px;
+}
+
+.histogram-stage .feed-cell {
+  display: grid;
+  width: 52px;
+  min-width: 52px;
+  height: 54px;
+  grid-template-columns: 16px 1fr;
+  grid-template-rows: 1fr 16px;
+  place-items: center;
+  border: 2px solid var(--stage-border);
+  background: var(--ink-2);
+}
+
+.histogram-stage .feed-cell small {
+  align-self: stretch;
+  display: grid;
+  grid-row: 1 / -1;
+  place-items: center;
+  background: var(--stage-border);
+  color: var(--paper);
+  font-size: 0.48rem;
+}
+
+.histogram-stage .feed-cell strong {
+  color: var(--paper);
+  font-family: var(--font-display);
+  font-size: 0.62rem;
+}
+
+.histogram-stage .feed-cell span {
+  align-self: stretch;
+  display: grid;
+  width: 100%;
+  place-items: center;
+  background: var(--ink-0);
+  color: var(--muted);
+  font-size: 0.42rem;
+}
+
+.histogram-stage .feed-cell.is-processed {
+  border-color: var(--green);
+}
+
+.histogram-stage .feed-cell.is-processed small,
+.histogram-stage .feed-cell.is-processed span {
+  background: var(--green);
+  color: var(--ink-0);
+}
+
+.histogram-stage .feed-cell.is-current {
+  border-color: var(--yellow);
+  box-shadow: 0 -5px 0 var(--yellow);
+}
+
+.histogram-stage .feed-cell.is-current span {
+  background: var(--yellow);
+  color: var(--ink-0);
+}
+
+.histogram-stage .histogram-board {
+  min-width: 0;
+  padding: 14px;
+  overflow-x: auto;
+  border: 3px solid var(--stage-border);
+  background: var(--ink-1);
+}
+
+.histogram-stage .tower-grid {
+  display: grid;
+  min-width: 224px;
+  grid-template-columns: repeat(4, minmax(48px, 1fr));
+  gap: 10px;
+  align-items: end;
+}
+
+.histogram-stage .histogram-tower {
+  display: grid;
+  min-width: 0;
+  grid-template-rows: 40px 234px 34px 28px;
+  border: 3px solid var(--stage-border);
+  background: var(--ink-2);
+  text-align: center;
+}
+
+.histogram-stage .tower-count {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+  padding: 5px;
+  border-bottom: 2px solid var(--stage-border);
+  background: var(--ink-0);
+}
+
+.histogram-stage .tower-count span {
+  color: var(--muted);
+  font-size: 0.42rem;
+}
+
+.histogram-stage .tower-count strong {
+  color: var(--cyan);
+  font-family: var(--font-display);
+  font-size: 0.65rem;
+}
+
+.histogram-stage .tower-shaft {
+  display: flex;
+  min-width: 0;
+  align-items: end;
+  padding: 5px;
+  background: var(--ink-1);
+}
+
+.histogram-stage .tower-blocks {
+  display: flex;
+  width: 100%;
+  flex-direction: column-reverse;
+  gap: 2px;
+}
+
+.histogram-stage .tower-block {
+  display: block;
+  width: 100%;
+  height: 12px;
+  border: 2px solid var(--cyan);
+  background: var(--cyan-dark);
+}
+
+.histogram-stage .tower-block.is-new {
+  border-color: var(--yellow);
+  background: var(--yellow);
+}
+
+.histogram-stage .tower-range {
+  display: grid;
+  place-items: center;
+  border-top: 3px solid var(--paper);
+  color: var(--paper);
+  font-family: var(--font-display);
+  font-size: clamp(0.42rem, 1.2vw, 0.58rem);
+}
+
+.histogram-stage .tower-state {
+  display: grid;
+  place-items: center;
+  background: var(--stage-border);
+  color: var(--paper);
+  font-size: 0.44rem;
+  font-weight: 600;
+}
+
+.histogram-stage .histogram-tower.is-selected {
+  border-color: var(--yellow);
+  box-shadow:
+    4px 0 0 var(--yellow),
+    -4px 0 0 var(--yellow);
+}
+
+.histogram-stage .histogram-tower.is-selected .tower-state {
+  background: var(--yellow);
+  color: var(--ink-0);
+}
+
+.histogram-stage .histogram-tower.is-tallest {
+  border-color: var(--green);
+  box-shadow: 0 -7px 0 var(--green);
+}
+
+.histogram-stage .histogram-tower.is-tallest .tower-state {
+  background: var(--green);
+  color: var(--ink-0);
+}
+
+.histogram-stage .forge-report {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  background: var(--ink-1);
+}
+
+.histogram-stage .report-heading {
+  display: flex;
+  min-height: 58px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 10px 12px;
+  border-bottom: 2px solid var(--stage-border);
+}
+
+.histogram-stage .report-heading strong {
+  color: var(--yellow);
+  font-family: var(--font-display);
+  font-size: 0.44rem;
+}
+
+.histogram-stage .histogram-result {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin: 0;
+}
+
+.histogram-stage .histogram-result div {
+  display: grid;
+  min-height: 82px;
+  place-items: center;
+  border-right: 2px solid var(--stage-border);
+  border-bottom: 2px solid var(--stage-border);
+}
+
+.histogram-stage .histogram-result div:nth-child(even) {
+  border-right: 0;
+}
+
+.histogram-stage .histogram-result dt {
+  color: var(--muted);
+  font-family: var(--font-display);
+  font-size: 0.42rem;
+}
+
+.histogram-stage .histogram-result dd {
+  margin: 0;
+  color: var(--cyan);
+  font-family: var(--font-display);
+  font-size: 1rem;
+}
+
+.histogram-stage .tallest-result {
+  display: grid;
+  gap: 10px;
+  margin: 16px;
+  padding: 12px;
+  border: 3px double var(--green);
+  background: var(--ink-2);
+  text-align: center;
+}
+
+.histogram-stage .tallest-result strong {
+  color: var(--green);
+  font-family: var(--font-display);
+  font-size: 0.52rem;
+  line-height: 1.7;
+}
+
+.histogram-stage .forge-complexity {
+  display: grid;
+  gap: 8px;
+  margin-top: auto;
+  padding: 16px;
+  border-top: 2px solid var(--stage-border);
+}
+
+.histogram-stage .forge-complexity strong {
+  color: var(--yellow);
+  font-family: var(--font-display);
+  font-size: 0.5rem;
+}
+
+.histogram-stage .forge-complexity small {
+  color: var(--muted);
+  font-size: 0.6rem;
+}
+
+.histogram-stage .histogram-legend-current {
+  background: var(--yellow);
+  box-shadow: 0 -3px 0 var(--yellow);
+}
+
+.histogram-stage .histogram-legend-selected {
+  border: 2px solid var(--yellow);
+  background: transparent;
+}
+
+.histogram-stage .histogram-legend-tallest {
+  background: var(--green);
+}
+
+@media (max-width: 840px) {
+  .histogram-stage .histogram-forge-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .histogram-stage .histogram-workbench {
+    border-right: 0;
+    border-bottom: var(--border) solid var(--paper);
+  }
+
+  .histogram-stage .forge-report {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .histogram-stage .report-heading,
+  .histogram-stage .forge-complexity {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 520px) {
+  .histogram-stage .histogram-workbench {
+    padding: 16px;
+  }
+
+  .histogram-stage .current-value-console {
+    align-items: start;
+    flex-direction: column;
+  }
+
+  .histogram-stage .current-value-console strong {
+    text-align: left;
+  }
+
+  .histogram-stage .histogram-board {
+    padding: 8px;
+  }
+
+  .histogram-stage .tower-grid {
+    gap: 5px;
+  }
+
+  .histogram-stage .histogram-tower {
+    grid-template-rows: 36px 198px 32px 28px;
+  }
+
+  .histogram-stage .tower-shaft {
+    padding: 3px;
+  }
+
+  .histogram-stage .tower-block {
+    height: 10px;
+  }
+
+  .histogram-stage .tower-count {
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .histogram-stage .tower-count span {
+    display: none;
+  }
+
+  .histogram-stage .forge-report {
+    grid-template-columns: 1fr;
+  }
+
+  .histogram-stage .report-heading,
+  .histogram-stage .forge-complexity {
+    grid-column: auto;
+  }
+}

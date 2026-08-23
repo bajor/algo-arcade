@@ -1,0 +1,316 @@
+.frequency-map-stage .frequency-layout {
+  display: grid;
+  min-height: 472px;
+  grid-template-columns: minmax(0, 1fr) 304px;
+}
+
+.frequency-map-stage .tally-workbench {
+  min-width: 0;
+  padding: var(--space-4);
+  border-right: var(--border) solid var(--paper);
+}
+
+.frequency-map-stage .tally-report-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  color: var(--cyan);
+  font-family: var(--font-display);
+  font-size: 0.48rem;
+}
+
+.frequency-map-stage .lookup-console {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 48px minmax(0, 1fr);
+  margin-top: var(--space-3);
+  border: 3px solid var(--yellow);
+  background: var(--ink-2);
+  box-shadow: 5px 5px 0 var(--ink-0);
+}
+
+.frequency-map-stage .current-token,
+.frequency-map-stage .lookup-result {
+  display: grid;
+  min-width: 0;
+  min-height: 88px;
+  place-items: center;
+  padding: 8px;
+  text-align: center;
+}
+
+.frequency-map-stage .current-token span,
+.frequency-map-stage .lookup-result span {
+  color: var(--muted);
+  font-size: 0.54rem;
+}
+
+.frequency-map-stage .current-token strong,
+.frequency-map-stage .lookup-result strong {
+  overflow: hidden;
+  max-width: 100%;
+  color: var(--paper);
+  font-family: var(--font-display);
+  font-size: 0.62rem;
+  text-overflow: ellipsis;
+}
+
+.frequency-map-stage .lookup-result strong {
+  color: var(--yellow);
+}
+
+.frequency-map-stage .lookup-arrow {
+  display: grid;
+  place-items: center;
+  border-inline: 3px solid var(--yellow);
+  color: var(--yellow);
+  font-family: var(--font-display);
+  font-size: 0.62rem;
+}
+
+.frequency-map-stage .sparse-map {
+  margin-top: var(--space-3);
+  border: 3px solid var(--cyan-dark);
+  background: var(--ink-1);
+}
+
+.frequency-map-stage .sparse-map > div {
+  padding: 12px;
+  border-bottom: 2px solid var(--cyan-dark);
+}
+
+.frequency-map-stage .sparse-map > div span {
+  color: var(--cyan);
+  font-family: var(--font-display);
+  font-size: 0.42rem;
+}
+
+.frequency-map-stage .sparse-map h3 {
+  margin: 6px 0 0;
+  color: var(--paper);
+  font-size: 0.68rem;
+}
+
+.frequency-map-stage .sparse-map ol {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(144px, 1fr));
+  gap: 8px;
+  margin: 0;
+  padding: 12px;
+  list-style: none;
+}
+
+.frequency-map-stage .map-slot {
+  display: grid;
+  min-width: 0;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-rows: auto 1fr;
+  border: 3px solid var(--cyan-dark);
+  background: var(--ink-2);
+  box-shadow: 3px 3px 0 var(--ink-0);
+}
+
+.frequency-map-stage .map-slot.is-lookup {
+  border-color: var(--yellow);
+}
+
+.frequency-map-stage .map-slot.is-updated {
+  border-color: var(--green);
+  box-shadow: 3px 3px 0 var(--green);
+}
+
+.frequency-map-stage .slot-address {
+  grid-column: 1 / -1;
+  padding: 5px 8px;
+  border-bottom: 2px solid var(--cyan-dark);
+  color: var(--muted);
+  font-size: 0.5rem;
+}
+
+.frequency-map-stage .slot-key {
+  overflow: hidden;
+  align-self: center;
+  padding: 12px 8px;
+  color: var(--paper);
+  font-size: 0.78rem;
+  text-overflow: ellipsis;
+}
+
+.frequency-map-stage .slot-count {
+  display: grid;
+  min-width: 56px;
+  place-items: center;
+  padding: 8px;
+  border-left: 2px solid var(--cyan-dark);
+  color: var(--cyan);
+}
+
+.frequency-map-stage .slot-count small {
+  font-size: 0.42rem;
+}
+
+.frequency-map-stage .slot-count b {
+  font-family: var(--font-display);
+  font-size: 0.68rem;
+}
+
+.frequency-map-stage .empty-map {
+  margin: 0;
+  padding: var(--space-3);
+  color: var(--muted);
+  font-family: var(--font-display);
+  font-size: 0.54rem;
+  text-align: center;
+}
+
+.frequency-map-stage .tally-report {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  padding: var(--space-3);
+  background: var(--ink-1);
+}
+
+.frequency-map-stage .tally-report-heading {
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--stage-border);
+}
+
+.frequency-map-stage .tally-report-heading strong {
+  color: var(--paper);
+}
+
+.frequency-map-stage .ordered-counts {
+  display: grid;
+  gap: 8px;
+  margin: 12px 0;
+}
+
+.frequency-map-stage .ordered-counts div {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 56px;
+  border: 2px solid var(--green);
+  background: var(--ink-2);
+}
+
+.frequency-map-stage .ordered-counts dt,
+.frequency-map-stage .ordered-counts dd {
+  margin: 0;
+  padding: 9px;
+}
+
+.frequency-map-stage .ordered-counts dt {
+  overflow: hidden;
+  color: var(--paper);
+  font-weight: 700;
+  text-overflow: ellipsis;
+}
+
+.frequency-map-stage .ordered-counts dt small {
+  margin-right: 8px;
+  color: var(--muted);
+}
+
+.frequency-map-stage .ordered-counts dd {
+  border-left: 2px solid var(--green);
+  color: var(--green);
+  font-family: var(--font-display);
+  font-size: 0.62rem;
+  text-align: center;
+}
+
+.frequency-map-stage .tally-result,
+.frequency-map-stage .tally-summary {
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+  border: 3px solid var(--green);
+  background: var(--ink-2);
+}
+
+.frequency-map-stage .tally-result span,
+.frequency-map-stage .tally-summary span {
+  color: var(--green);
+  font-family: var(--font-display);
+  font-size: 0.46rem;
+}
+
+.frequency-map-stage .tally-result strong {
+  overflow-wrap: anywhere;
+  color: var(--paper);
+  line-height: 1.6;
+}
+
+.frequency-map-stage .tally-summary {
+  margin-top: auto;
+  border-color: var(--cyan-dark);
+}
+
+.frequency-map-stage .tally-summary strong {
+  color: var(--cyan);
+  font-family: var(--font-display);
+  font-size: 0.54rem;
+}
+
+.frequency-map-stage .tally-summary small {
+  color: var(--muted);
+}
+
+.frequency-map-stage .frequency-legend-current {
+  background: var(--yellow);
+}
+
+.frequency-map-stage .frequency-legend-lookup {
+  border: 2px solid var(--cyan);
+}
+
+.frequency-map-stage .frequency-legend-updated {
+  background: var(--green);
+}
+
+@media (max-width: 840px) {
+  .frequency-map-stage .frequency-layout {
+    grid-template-columns: minmax(0, 1fr) 264px;
+  }
+
+  .frequency-map-stage .tally-workbench {
+    padding: var(--space-3);
+  }
+}
+
+@media (max-width: 700px) {
+  .frequency-map-stage .frequency-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .frequency-map-stage .tally-workbench {
+    border-right: 0;
+    border-bottom: var(--border) solid var(--paper);
+  }
+}
+
+@media (max-width: 460px) {
+  .frequency-map-stage .tally-workbench,
+  .frequency-map-stage .tally-report {
+    padding: 16px;
+  }
+
+  .frequency-map-stage .lookup-console {
+    grid-template-columns: minmax(0, 1fr) 32px minmax(0, 1fr);
+  }
+
+  .frequency-map-stage .current-token strong,
+  .frequency-map-stage .lookup-result strong {
+    font-size: 0.52rem;
+  }
+
+  .frequency-map-stage .sparse-map ol {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .frequency-map-stage * {
+    scroll-behavior: auto;
+  }
+}
