@@ -14,7 +14,7 @@ body {
   background: var(--ink-1);
   color: var(--paper);
   font-family: var(--font-body);
-  font-size: 16px;
+  font-size: var(--font-size-base);
   line-height: 1.6;
 }
 
@@ -60,6 +60,16 @@ p {
 
 h1,
 h2,
+h3 {
+  font-size: var(--font-size-large);
+}
+
+small {
+  font-size: var(--font-size-small);
+}
+
+h1,
+h2,
 h3,
 .eyebrow,
 .pixel-button {
@@ -77,7 +87,7 @@ h3,
   box-shadow: 6px 6px 0 var(--ink-0);
   color: var(--ink-0);
   cursor: pointer;
-  font-size: 0.7rem;
+  font-size: var(--font-size-small);
   text-decoration: none;
 }
 

@@ -2,6 +2,21 @@ import { expect, test, type Page } from "@playwright/test";
 
 type ChallengeAnswer = "pop" | "stop";
 
+const APP_ROUTES = [
+  { path: "./", heading: "SEE EVERY ALGORITHM MOVE" },
+  { path: "./#/games/next-greater-element", heading: "Stack Reactor" },
+  { path: "./#/games/pair-sum", heading: "Target Lock" },
+  { path: "./#/games/palindrome", heading: "Mirror Scan" },
+  { path: "./#/games/minimum-window", heading: "Window Rescue" },
+  { path: "./#/games/unique-substring", heading: "Repeat Breaker" },
+  { path: "./#/games/prefix-sum", heading: "Range Relay" },
+  { path: "./#/games/anagram-grouping", heading: "Anagram Assembly" },
+  { path: "./#/games/frequency-map", heading: "Token Tally" },
+  { path: "./#/games/histogram-counting", heading: "Histogram Forge" },
+] as const;
+
+const ALLOWED_FONT_SIZES: readonly string[] = ["12px", "16px", "32px"];
+
 async function expectedChallengeAnswer(page: Page): Promise<ChallengeAnswer> {
   const prompt = (await page.locator("#decision-prompt").textContent()) ?? "";
   const values = /CURRENT (-?\d+) VS STACK TOP (-?\d+)/.exec(prompt);
@@ -28,6 +43,82 @@ test("sorts games by technique and title", async ({ page }) => {
     "Mirror Scan",
     "Target Lock",
   ]);
+});
+
+test("uses only the three shared text sizes", async ({ page }) => {
+  for (const route of APP_ROUTES) {
+    await page.goto(route.path);
+    await page
+      .getByRole("heading", { level: 1, name: route.heading })
+      .waitFor();
+
+    const unexpectedSizes = await unexpectedFontSizes(page);
+    expect(unexpectedSizes, `${route.path} Explore`).toEqual([]);
+
+    if (route.path !== "./") {
+      await page.getByRole("button", { name: /CHALLENGE/ }).click();
+      await page.locator(".challenge-brief, .challenge-complete").waitFor();
+      expect(
+        await unexpectedFontSizes(page),
+        `${route.path} Challenge`,
+      ).toEqual([]);
+    }
+  }
+});
+
+async function unexpectedFontSizes(page: Page): Promise<string[]> {
+  return page
+    .locator("body *")
+    .evaluateAll(
+      (elements, allowedSizes) =>
+        [
+          ...new Set(
+            elements.flatMap((element) => [
+              getComputedStyle(element).fontSize,
+              getComputedStyle(element, "::before").fontSize,
+              getComputedStyle(element, "::after").fontSize,
+            ]),
+          ),
+        ].filter((fontSize) => fontSize && !allowedSizes.includes(fontSize)),
+      ALLOWED_FONT_SIZES,
+    );
+}
+
+test("renders code listings smaller than body text", async ({ page }) => {
+  await page.goto("./#/games/pair-sum");
+  await page.locator(".game-screen").waitFor();
+  await page.getByRole("tab", { name: "PYTHON CODE" }).click();
+
+  const codeSize = await page
+    .locator(".code-panel code")
+    .first()
+    .evaluate((element) =>
+      Number.parseFloat(getComputedStyle(element).fontSize),
+    );
+  const bodySize = await page
+    .locator(".operation-readout p")
+    .evaluate((element) =>
+      Number.parseFloat(getComputedStyle(element).fontSize),
+    );
+
+  expect(codeSize).toBeLessThan(bodySize);
+});
+
+test("uses shared text sizes in Challenge completion", async ({ page }) => {
+  await page.addInitScript(() => {
+    Math.random = () => 0;
+  });
+  await page.goto("./#/games/next-greater-element");
+  await page.getByRole("button", { name: /CHALLENGE/ }).click();
+
+  for (let answerCount = 0; answerCount < 50; answerCount += 1) {
+    if (await page.locator(".challenge-complete").isVisible()) break;
+    const answer = await expectedChallengeAnswer(page);
+    await page.getByRole("button", { name: answerName(answer) }).click();
+  }
+
+  await expect(page.locator(".challenge-complete")).toBeVisible();
+  expect(await unexpectedFontSizes(page)).toEqual([]);
 });
 
 test("discovers the game and completes a custom Explore trace", async ({

@@ -14,7 +14,7 @@
 .nge-stage .reactor-heading span {
   color: var(--cyan);
   font-family: var(--font-display);
-  font-size: 0.48rem;
+  font-size: var(--font-size-small);
 }
 
 .nge-stage .track-heading {
@@ -62,13 +62,13 @@
   top: 3px;
   left: 5px;
   color: var(--muted);
-  font-size: 0.58rem;
+  font-size: var(--font-size-small);
 }
 
 .nge-stage .signal-cell strong {
   margin-top: 6px;
   font-family: var(--font-display);
-  font-size: 1.05rem;
+  font-size: var(--font-size-base);
 }
 
 .nge-stage .signal-cell span {
@@ -78,7 +78,7 @@
   left: -3px;
   background: var(--stage-border);
   color: var(--paper);
-  font-size: 0.56rem;
+  font-size: var(--font-size-small);
   font-weight: 600;
   text-align: center;
 }
@@ -137,13 +137,13 @@
   place-items: center;
   background: var(--stage-border);
   color: var(--paper);
-  font-size: 0.6rem;
+  font-size: var(--font-size-small);
 }
 
 .nge-stage .answer-cell strong {
   color: var(--muted);
   font-family: var(--font-display);
-  font-size: 0.9rem;
+  font-size: var(--font-size-base);
 }
 
 .nge-stage .answer-cell.is-locked {
@@ -209,7 +209,7 @@
 .nge-stage .stack-slot span,
 .nge-stage .stack-slot small {
   color: var(--muted);
-  font-size: 0.58rem;
+  font-size: var(--font-size-small);
 }
 
 .nge-stage .stack-slot strong {
@@ -229,14 +229,14 @@
   margin-block: auto;
   color: var(--muted);
   font-family: var(--font-display);
-  font-size: 0.7rem;
+  font-size: var(--font-size-small);
   line-height: 2;
   text-align: center;
 }
 
 .nge-stage .empty-stack small {
   font-family: var(--font-body);
-  font-size: 0.7rem;
+  font-size: var(--font-size-small);
 }
 
 .nge-stage .stack-reactor > p {
@@ -244,7 +244,7 @@
   padding: 12px;
   border-top: 2px solid var(--stage-border);
   color: var(--muted);
-  font-size: 0.7rem;
+  font-size: var(--font-size-small);
   text-align: center;
 }
 

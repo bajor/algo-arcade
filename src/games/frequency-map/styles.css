@@ -17,7 +17,7 @@
   gap: 8px;
   color: var(--cyan);
   font-family: var(--font-display);
-  font-size: 0.48rem;
+  font-size: var(--font-size-small);
 }
 
 .frequency-map-stage .lookup-console {
@@ -42,7 +42,7 @@
 .frequency-map-stage .current-token span,
 .frequency-map-stage .lookup-result span {
   color: var(--muted);
-  font-size: 0.54rem;
+  font-size: var(--font-size-small);
 }
 
 .frequency-map-stage .current-token strong,
@@ -51,7 +51,7 @@
   max-width: 100%;
   color: var(--paper);
   font-family: var(--font-display);
-  font-size: 0.62rem;
+  font-size: var(--font-size-small);
   text-overflow: ellipsis;
 }
 
@@ -65,7 +65,7 @@
   border-inline: 3px solid var(--yellow);
   color: var(--yellow);
   font-family: var(--font-display);
-  font-size: 0.62rem;
+  font-size: var(--font-size-small);
 }
 
 .frequency-map-stage .sparse-map {
@@ -82,13 +82,13 @@
 .frequency-map-stage .sparse-map > div span {
   color: var(--cyan);
   font-family: var(--font-display);
-  font-size: 0.42rem;
+  font-size: var(--font-size-small);
 }
 
 .frequency-map-stage .sparse-map h3 {
   margin: 6px 0 0;
   color: var(--paper);
-  font-size: 0.68rem;
+  font-size: var(--font-size-small);
 }
 
 .frequency-map-stage .sparse-map ol {
@@ -124,7 +124,7 @@
   padding: 5px 8px;
   border-bottom: 2px solid var(--cyan-dark);
   color: var(--muted);
-  font-size: 0.5rem;
+  font-size: var(--font-size-small);
 }
 
 .frequency-map-stage .slot-key {
@@ -132,7 +132,7 @@
   align-self: center;
   padding: 12px 8px;
   color: var(--paper);
-  font-size: 0.78rem;
+  font-size: var(--font-size-small);
   text-overflow: ellipsis;
 }
 
@@ -146,12 +146,12 @@
 }
 
 .frequency-map-stage .slot-count small {
-  font-size: 0.42rem;
+  font-size: var(--font-size-small);
 }
 
 .frequency-map-stage .slot-count b {
   font-family: var(--font-display);
-  font-size: 0.68rem;
+  font-size: var(--font-size-small);
 }
 
 .frequency-map-stage .empty-map {
@@ -159,7 +159,7 @@
   padding: var(--space-3);
   color: var(--muted);
   font-family: var(--font-display);
-  font-size: 0.54rem;
+  font-size: var(--font-size-small);
   text-align: center;
 }
 
@@ -215,7 +215,7 @@
   border-left: 2px solid var(--green);
   color: var(--green);
   font-family: var(--font-display);
-  font-size: 0.62rem;
+  font-size: var(--font-size-small);
   text-align: center;
 }
 
@@ -232,7 +232,7 @@
 .frequency-map-stage .tally-summary span {
   color: var(--green);
   font-family: var(--font-display);
-  font-size: 0.46rem;
+  font-size: var(--font-size-small);
 }
 
 .frequency-map-stage .tally-result strong {
@@ -249,7 +249,7 @@
 .frequency-map-stage .tally-summary strong {
   color: var(--cyan);
   font-family: var(--font-display);
-  font-size: 0.54rem;
+  font-size: var(--font-size-small);
 }
 
 .frequency-map-stage .tally-summary small {
@@ -301,7 +301,7 @@
 
   .frequency-map-stage .current-token strong,
   .frequency-map-stage .lookup-result strong {
-    font-size: 0.52rem;
+    font-size: var(--font-size-small);
   }
 
   .frequency-map-stage .sparse-map ol {

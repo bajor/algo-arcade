@@ -40,7 +40,7 @@
 .palindrome-stage .verdict-panel span,
 .palindrome-stage .verdict-panel small {
   font-family: var(--font-display);
-  font-size: 0.48rem;
+  font-size: var(--font-size-small);
 }
 
 .palindrome-stage .pointer-port span,
@@ -53,7 +53,7 @@
   max-width: 100%;
   color: var(--paper);
   font-family: var(--font-display);
-  font-size: 1rem;
+  font-size: var(--font-size-base);
   text-overflow: ellipsis;
 }
 
@@ -118,13 +118,13 @@
   top: 4px;
   left: 5px;
   color: var(--muted);
-  font-size: 0.56rem;
+  font-size: var(--font-size-small);
 }
 
 .palindrome-stage .character-glyph {
   margin-top: 4px;
   font-family: var(--font-display);
-  font-size: 0.9rem;
+  font-size: var(--font-size-base);
 }
 
 .palindrome-stage .pointer-markers {
@@ -143,7 +143,7 @@
   flex: 1;
   place-items: center;
   color: var(--ink-0);
-  font-size: 0.46rem;
+  font-size: var(--font-size-small);
   font-weight: 700;
 }
 
@@ -163,7 +163,7 @@
   padding: 3px 1px;
   background: var(--stage-border);
   color: var(--paper);
-  font-size: 0.52rem;
+  font-size: var(--font-size-small);
   font-weight: 700;
   text-align: center;
 }
@@ -231,7 +231,7 @@
   margin: auto;
   color: var(--muted);
   font-family: var(--font-display);
-  font-size: 0.5rem;
+  font-size: var(--font-size-small);
 }
 
 .palindrome-stage .match-link {
@@ -256,7 +256,7 @@
 
 .palindrome-stage .match-link small {
   color: var(--muted);
-  font-size: 0.52rem;
+  font-size: var(--font-size-small);
 }
 
 .palindrome-stage .match-link i {
@@ -271,7 +271,7 @@
   padding-inline: 4px;
   background: var(--ink-2);
   color: var(--green);
-  font-size: 0.48rem;
+  font-size: var(--font-size-small);
   font-style: normal;
 }
 
@@ -293,7 +293,7 @@
 .palindrome-stage .verdict-panel strong {
   color: var(--yellow);
   font-family: var(--font-display);
-  font-size: 0.72rem;
+  font-size: var(--font-size-small);
   line-height: 1.7;
 }
 
@@ -353,7 +353,7 @@
   .palindrome-stage .pointer-port span,
   .palindrome-stage .pointer-port small,
   .palindrome-stage .mirror-axis span {
-    font-size: 0.42rem;
+    font-size: var(--font-size-small);
   }
 
   .palindrome-stage .character-viewport {

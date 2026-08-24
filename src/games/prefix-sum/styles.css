@@ -33,7 +33,7 @@
 .prefix-sum-stage .relay-summary > span {
   color: var(--cyan);
   font-family: var(--font-display);
-  font-size: 0.46rem;
+  font-size: var(--font-size-small);
 }
 
 .prefix-sum-stage .range-ticket strong {
@@ -41,12 +41,12 @@
   grid-column: 2;
   color: var(--yellow);
   font-family: var(--font-display);
-  font-size: 0.92rem;
+  font-size: var(--font-size-base);
 }
 
 .prefix-sum-stage .range-ticket small {
   color: var(--muted);
-  font-size: 0.62rem;
+  font-size: var(--font-size-small);
 }
 
 .prefix-sum-stage .relay-track-heading {
@@ -102,14 +102,14 @@
   top: 4px;
   left: 5px;
   color: var(--muted);
-  font-size: 0.55rem;
+  font-size: var(--font-size-small);
 }
 
 .prefix-sum-stage .relay-input-cell strong,
 .prefix-sum-stage .prefix-cell > strong {
   margin-top: 5px;
   font-family: var(--font-display);
-  font-size: 0.9rem;
+  font-size: var(--font-size-base);
 }
 
 .prefix-sum-stage .relay-input-cell > span,
@@ -121,7 +121,7 @@
   padding: 3px 1px;
   background: var(--stage-border);
   color: var(--paper);
-  font-size: 0.48rem;
+  font-size: var(--font-size-small);
   font-weight: 700;
   text-align: center;
 }
@@ -156,7 +156,7 @@
   height: 52px;
   color: var(--cyan);
   font-family: var(--font-display);
-  font-size: 0.42rem;
+  font-size: var(--font-size-small);
 }
 
 .prefix-sum-stage .prefix-connector i {
@@ -221,7 +221,7 @@
   background: var(--magenta);
   color: var(--ink-0);
   font-family: var(--font-display);
-  font-size: 0.38rem;
+  font-size: var(--font-size-small);
 }
 
 .prefix-sum-stage .prefix-cell.is-end-boundary .boundary-flags span {
@@ -255,7 +255,7 @@
 .prefix-sum-stage .relay-summary strong {
   color: var(--yellow);
   font-family: var(--font-display);
-  font-size: 0.72rem;
+  font-size: var(--font-size-small);
   line-height: 1.7;
 }
 
@@ -264,7 +264,7 @@
 .prefix-sum-stage .relay-summary small,
 .prefix-sum-stage .boundary-card small {
   color: var(--muted);
-  font-size: 0.62rem;
+  font-size: var(--font-size-small);
   line-height: 1.5;
 }
 
@@ -307,7 +307,7 @@
 .prefix-sum-stage .boundary-card strong {
   color: var(--paper);
   font-family: var(--font-display);
-  font-size: 0.66rem;
+  font-size: var(--font-size-small);
 }
 
 .prefix-sum-stage .range-equation > strong {
@@ -317,7 +317,7 @@
   align-items: center;
   color: var(--paper);
   font-family: var(--font-display);
-  font-size: 0.72rem;
+  font-size: var(--font-size-small);
 }
 
 .prefix-sum-stage .range-equation b,
@@ -347,7 +347,7 @@
 }
 
 .prefix-sum-stage .relay-summary > strong {
-  font-size: 1.2rem;
+  font-size: var(--font-size-base);
 }
 
 .prefix-sum-stage .relay-summary.is-complete {

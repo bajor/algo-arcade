@@ -240,3 +240,27 @@ test("shared game controls support keyboard operation", async ({ page }) => {
     page.getByRole("heading", { name: /LEFT .* RIGHT/ }),
   ).toBeVisible();
 });
+
+test("code panel fills a phone row", async ({ page }) => {
+  for (const viewport of [
+    { width: 320, height: 800 },
+    { width: 844, height: 390 },
+  ]) {
+    await page.setViewportSize(viewport);
+    await page.goto("./#/games/pair-sum");
+    await page.getByRole("tab", { name: "PYTHON CODE" }).click();
+
+    const debugBox = await page.locator(".debug-grid").boundingBox();
+    const codeBox = await page.locator(".code-panel").boundingBox();
+    const diagnosticsBox = await page
+      .locator(".diagnostics-panel")
+      .boundingBox();
+    if (!debugBox || !codeBox || !diagnosticsBox) {
+      throw new Error("Expected code and diagnostics layout boxes.");
+    }
+
+    expect(Math.abs(codeBox.width - debugBox.width)).toBeLessThan(1);
+    expect(Math.abs(diagnosticsBox.width - debugBox.width)).toBeLessThan(1);
+    expect(diagnosticsBox.y).toBeGreaterThanOrEqual(codeBox.y + codeBox.height);
+  }
+});
