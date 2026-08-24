@@ -1,6 +1,11 @@
 import { gameRegistry } from "./registry";
 
 const HOME_ROUTE = "#/";
+const gamesByTechnique = [...gameRegistry].sort(
+  (left, right) =>
+    left.technique.localeCompare(right.technique) ||
+    left.title.localeCompare(right.title),
+);
 
 export function mountApp(root: HTMLElement): () => void {
   root.innerHTML = `
@@ -52,10 +57,10 @@ export function mountApp(root: HTMLElement): () => void {
       return;
     }
 
-    const gameIndex = gameRegistry.findIndex(
+    const gameIndex = gamesByTechnique.findIndex(
       (candidate) => candidate.slug === slug,
     );
-    const game = gameRegistry[gameIndex];
+    const game = gamesByTechnique[gameIndex];
     if (!game) {
       renderNotFound(outlet);
       focusRoute(outlet);
@@ -106,7 +111,7 @@ function readGameSlug(hash: string): string | undefined {
 }
 
 function renderHome(outlet: HTMLElement): void {
-  const cards = gameRegistry
+  const cards = gamesByTechnique
     .map(
       (game, index) => `
         <a class="game-card" href="#/games/${game.slug}" data-game-number="${String(index + 1).padStart(2, "0")}">
@@ -133,7 +138,7 @@ function renderHome(outlet: HTMLElement): void {
     <section class="game-library" aria-labelledby="library-title">
       <div class="section-heading">
         <h2 id="library-title">SELECT A GAME</h2>
-        <span>${gameRegistry.length} LOADED</span>
+        <span>${gamesByTechnique.length} LOADED</span>
       </div>
       <div class="game-grid">
         ${cards || '<p class="empty-library">NEW TRAINING CARTRIDGE INCOMING...</p>'}

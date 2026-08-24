@@ -14,6 +14,22 @@ function answerName(answer: ChallengeAnswer): RegExp {
   return answer === "pop" ? /POP TOP/ : /STOP & PUSH/;
 }
 
+test("sorts games by technique and title", async ({ page }) => {
+  await page.goto("./");
+
+  await expect(page.locator(".game-card h2")).toHaveText([
+    "Histogram Forge",
+    "Token Tally",
+    "Anagram Assembly",
+    "Stack Reactor",
+    "Range Relay",
+    "Repeat Breaker",
+    "Window Rescue",
+    "Mirror Scan",
+    "Target Lock",
+  ]);
+});
+
 test("discovers the game and completes a custom Explore trace", async ({
   page,
 }) => {
