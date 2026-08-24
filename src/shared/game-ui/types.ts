@@ -1,5 +1,7 @@
 export type GameMode = "explore" | "challenge";
 export type FeedbackTone = "correct" | "incorrect";
+export const CODE_TABS = ["pseudocode", "python"] as const;
+export type CodeTab = (typeof CODE_TABS)[number];
 
 export type ParseResult<Example> =
   | { readonly ok: true; readonly value: Example }
@@ -29,6 +31,7 @@ export interface GameUiState<Example, Snapshot, Decision> {
   readonly trace: readonly Snapshot[];
   readonly stepIndex: number;
   readonly mode: GameMode;
+  readonly codeTab: CodeTab;
   readonly isPlaying: boolean;
   readonly speedMs: number;
   readonly challenge: ChallengeProgress<Decision>;
@@ -44,10 +47,12 @@ export interface StageLegendItem {
   readonly markerClass: string;
 }
 
-export interface PseudocodeEntry {
+export interface CodeLine {
   readonly id: string;
   readonly code: string;
 }
+
+export type CodeListing = readonly [CodeLine, ...CodeLine[]];
 
 export interface DiagnosticEntry {
   readonly label: string;
@@ -94,9 +99,9 @@ export interface GameUiConfig<
     readonly explanation: (snapshot: Snapshot, hideDecision: boolean) => string;
     readonly legend: readonly StageLegendItem[];
   };
-  readonly pseudocode: {
-    readonly entries: readonly PseudocodeEntry[];
-    readonly activeEntryId: (snapshot: Snapshot) => string;
+  readonly code: {
+    readonly listings: Readonly<Record<CodeTab, CodeListing>>;
+    readonly activeLineId: (snapshot: Snapshot) => string;
   };
   readonly diagnostics: {
     readonly entries: (

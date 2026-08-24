@@ -2,8 +2,8 @@ import {
   escapeHtml,
   type ChallengeActionOption,
   type ChallengePrompt,
+  type CodeListing,
   type DiagnosticEntry,
-  type PseudocodeEntry,
   type StageLegendItem,
 } from "../../shared/game-ui";
 import type { Pair, TraceSnapshot } from "./algorithm";
@@ -25,7 +25,65 @@ export const PSEUDOCODE = [
     code: "if sum >= target: move right; skip matched duplicates",
   },
   { id: "complete", code: "return the unique recorded value pairs" },
-] as const satisfies readonly PseudocodeEntry[];
+] as const satisfies CodeListing;
+
+export const PYTHON_CODE = [
+  {
+    id: "python-signature",
+    code: "def pair_sum(values: list[int], target: int) -> list[tuple[int, int]]:",
+  },
+  { id: "initialize", code: "    left, right = 0, len(values) - 1" },
+  { id: "python-pairs", code: "    pairs: list[tuple[int, int]] = []" },
+  { id: "python-left-helper", code: "    def move_left() -> None:" },
+  { id: "python-left-nonlocal", code: "        nonlocal left" },
+  { id: "move-left", code: "        left += 1" },
+  { id: "python-right-helper", code: "    def move_right() -> None:" },
+  { id: "python-right-nonlocal", code: "        nonlocal right" },
+  { id: "move-right", code: "        right -= 1" },
+  { id: "python-loop", code: "    while left < right:" },
+  {
+    id: "compare-sum",
+    code: "        total = values[left] + values[right]",
+  },
+  {
+    id: "python-small-condition",
+    code: "        if total < target:",
+  },
+  { id: "python-move-left", code: "            move_left()" },
+  { id: "python-left-continue", code: "            continue" },
+  {
+    id: "python-large-condition",
+    code: "        if total > target:",
+  },
+  { id: "python-move-right", code: "            move_right()" },
+  { id: "python-right-continue", code: "            continue" },
+  {
+    id: "record-pair",
+    code: "        pairs.append((values[left], values[right]))",
+  },
+  {
+    id: "python-matched-values",
+    code: "        left_value, right_value = values[left], values[right]",
+  },
+  { id: "python-move-matched-left", code: "        move_left()" },
+  {
+    id: "python-skip-left-loop",
+    code: "        while left < right and values[left] == left_value:",
+  },
+  { id: "python-skip-left", code: "            move_left()" },
+  { id: "python-move-right-condition", code: "        if left < right:" },
+  { id: "python-move-matched-right", code: "            move_right()" },
+  {
+    id: "python-skip-right-loop",
+    code: "        while left < right and values[right] == right_value:",
+  },
+  { id: "python-skip-right", code: "            move_right()" },
+  { id: "complete", code: "    return pairs" },
+  {
+    id: "python-example",
+    code: "# pair_sum([-4, -1, -1, 0, 1, 2, 2, 5, 10], 4) == [(-1, 5), (2, 2)]",
+  },
+] as const satisfies CodeListing;
 
 export const STAGE_LEGEND = [
   { label: "POINTER BADGE", markerClass: "pair-sum-legend-pointer" },

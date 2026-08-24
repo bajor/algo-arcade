@@ -1,8 +1,8 @@
 import type {
   ChallengeActionOption,
   ChallengePrompt,
+  CodeListing,
   DiagnosticEntry,
-  PseudocodeEntry,
   StageLegendItem,
 } from "../../shared/game-ui";
 import type { TraceSnapshot } from "./algorithm";
@@ -14,7 +14,34 @@ export const PSEUDOCODE = [
   { id: "resolve", code: "answer[stack.pop()] = value[i]" },
   { id: "push", code: "stack.push(i)" },
   { id: "complete", code: "replace unresolved answers with -1" },
-] as const satisfies readonly PseudocodeEntry[];
+] as const satisfies CodeListing;
+
+export const PYTHON_CODE = [
+  {
+    id: "python-signature",
+    code: "def next_greater(values: list[int]) -> list[int]:",
+  },
+  {
+    id: "python-answer",
+    code: "    answer: list[int | None] = [None] * len(values)",
+  },
+  { id: "python-stack", code: "    stack: list[int] = []" },
+  { id: "scan", code: "    for index, value in enumerate(values):" },
+  {
+    id: "compare",
+    code: "        while stack and value > values[stack[-1]]:",
+  },
+  { id: "resolve", code: "            answer[stack.pop()] = value" },
+  { id: "push", code: "        stack.append(index)" },
+  {
+    id: "complete",
+    code: "    return [value if value is not None else -1 for value in answer]",
+  },
+  {
+    id: "python-example",
+    code: "# next_greater([2, 1, 2, 4, 3]) == [4, 2, 4, -1, -1]",
+  },
+] as const satisfies CodeListing;
 
 export const STAGE_LEGEND = [
   { label: "CURRENT", markerClass: "nge-legend-current" },

@@ -1,7 +1,9 @@
 import type { GameMountContext } from "../../app/registry";
 import { renderGameUi } from "./render";
+import { CODE_TABS } from "./types";
 import type {
   ChallengeProgress,
+  CodeTab,
   GameMode,
   GameUiConfig,
   GameUiState,
@@ -16,6 +18,7 @@ interface MutableGameState<Example, Snapshot, Decision> {
   trace: readonly Snapshot[];
   stepIndex: number;
   mode: GameMode;
+  codeTab: CodeTab;
   isPlaying: boolean;
   speedMs: number;
   challenge: ChallengeProgress<Decision>;
@@ -51,6 +54,7 @@ export function mountGameUi<
     trace: initialTrace,
     stepIndex: 0,
     mode: "explore",
+    codeTab: "pseudocode",
     isPlaying: false,
     speedMs: DEFAULT_SPEED_MS,
     challenge: newChallenge(config, initialTrace),
@@ -197,6 +201,11 @@ export function mountGameUi<
     render(mode === "explore" ? "show-explore" : "show-challenge");
   };
 
+  const showCodeTab = (codeTab: CodeTab): void => {
+    state.codeTab = codeTab;
+    render(`code-tab-${codeTab}`);
+  };
+
   const answerChallenge = (answer: Action): void => {
     const decision = state.challenge.decisions[state.challenge.cursor];
     if (!decision) return;
@@ -254,6 +263,11 @@ export function mountGameUi<
       case "show-challenge":
         showMode("challenge");
         break;
+      case "show-code": {
+        const codeTab = element.dataset.codeTab;
+        if (isCodeTab(codeTab)) showCodeTab(codeTab);
+        break;
+      }
       case "first":
         moveToStep(0, "first");
         break;
@@ -309,6 +323,41 @@ export function mountGameUi<
       acceptInput(input.value, "run-trace");
   };
 
+  const handleKeydown = (event: KeyboardEvent): void => {
+    const target = event.target;
+    if (
+      !(target instanceof HTMLButtonElement) ||
+      target.dataset.action !== "show-code"
+    ) {
+      return;
+    }
+
+    const currentTab = target.dataset.codeTab;
+    if (!isCodeTab(currentTab)) return;
+    const currentIndex = CODE_TABS.indexOf(currentTab);
+    let nextIndex: number;
+    switch (event.key) {
+      case "ArrowLeft":
+        nextIndex = (currentIndex - 1 + CODE_TABS.length) % CODE_TABS.length;
+        break;
+      case "ArrowRight":
+        nextIndex = (currentIndex + 1) % CODE_TABS.length;
+        break;
+      case "Home":
+        nextIndex = 0;
+        break;
+      case "End":
+        nextIndex = CODE_TABS.length - 1;
+        break;
+      default:
+        return;
+    }
+
+    event.preventDefault();
+    const nextTab = CODE_TABS[nextIndex];
+    if (nextTab) showCodeTab(nextTab);
+  };
+
   const handleInput = (event: Event): void => {
     const input = event.target;
     if (!(input instanceof HTMLInputElement)) return;
@@ -328,6 +377,7 @@ export function mountGameUi<
   };
 
   root.addEventListener("click", handleClick);
+  root.addEventListener("keydown", handleKeydown);
   root.addEventListener("submit", handleSubmit);
   root.addEventListener("input", handleInput);
   root.addEventListener("change", handleChange);
@@ -339,11 +389,16 @@ export function mountGameUi<
       window.clearTimeout(announcementTimer);
     }
     root.removeEventListener("click", handleClick);
+    root.removeEventListener("keydown", handleKeydown);
     root.removeEventListener("submit", handleSubmit);
     root.removeEventListener("input", handleInput);
     root.removeEventListener("change", handleChange);
     root.innerHTML = "";
   };
+}
+
+function isCodeTab(value: string | undefined): value is CodeTab {
+  return CODE_TABS.some((tab) => tab === value);
 }
 
 function generateTrace<
@@ -360,7 +415,33 @@ function generateTrace<
   if (trace.length === 0) {
     throw new Error("A game trace must contain at least one snapshot.");
   }
+  validateCodeListings(config, trace);
   return trace;
+}
+
+function validateCodeListings<
+  Example,
+  Snapshot,
+  Decision,
+  Action extends string,
+  ChallengeSnapshot extends Snapshot,
+>(
+  config: GameUiConfig<Example, Snapshot, Decision, Action, ChallengeSnapshot>,
+  trace: readonly Snapshot[],
+): void {
+  const activeLineIds = new Set(trace.map(config.code.activeLineId));
+  for (const tab of CODE_TABS) {
+    for (const activeLineId of activeLineIds) {
+      const matches = config.code.listings[tab].filter(
+        (line) => line.id === activeLineId,
+      ).length;
+      if (matches !== 1) {
+        throw new Error(
+          `${tab} must contain exactly one line for trace ID "${activeLineId}".`,
+        );
+      }
+    }
+  }
 }
 
 function newChallenge<

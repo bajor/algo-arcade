@@ -19,6 +19,7 @@ import {
 import {
   CHALLENGE_ACTIONS,
   PSEUDOCODE,
+  PYTHON_CODE,
   STAGE_LEGEND,
   explainChallengeAnswer,
   getDiagnostics,
@@ -47,9 +48,9 @@ const gameUiConfig = {
     explanation: stageExplanation,
     legend: STAGE_LEGEND,
   },
-  pseudocode: {
-    entries: PSEUDOCODE,
-    activeEntryId: (snapshot) => snapshot.line,
+  code: {
+    listings: { pseudocode: PSEUDOCODE, python: PYTHON_CODE },
+    activeLineId: (snapshot) => snapshot.line,
   },
   diagnostics: {
     entries: getDiagnostics,

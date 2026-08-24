@@ -461,6 +461,33 @@
   background: var(--ink-2);
 }
 
+.code-tabs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border-bottom: 2px solid var(--stage-border);
+}
+
+.code-tabs button {
+  min-width: 0;
+  padding: 8px;
+  border: 0;
+  border-right: 2px solid var(--stage-border);
+  background: var(--ink-1);
+  color: var(--muted);
+  cursor: pointer;
+  font-family: var(--font-display);
+  font-size: 0.54rem;
+}
+
+.code-tabs button:last-child {
+  border-right: 0;
+}
+
+.code-tabs button[aria-selected="true"] {
+  background: var(--cyan);
+  color: var(--ink-0);
+}
+
 .code-panel ol {
   margin: 0;
   padding: 12px 0;
@@ -486,6 +513,7 @@
   color: var(--muted);
   font-family: var(--font-body);
   font-weight: 600;
+  white-space: pre-wrap;
 }
 
 .code-panel li.is-active {

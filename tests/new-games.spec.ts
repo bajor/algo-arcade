@@ -153,6 +153,9 @@ test("Anagram Assembly completes Explore and recovers in Challenge", async ({
     "[[eat,tea,ate],[tan,nat],[bat]]",
   );
   await expectNoPageOverflow(page);
+  await page.getByRole("tab", { name: "PYTHON CODE" }).click();
+  await expect(page.getByRole("tabpanel")).toContainText("def group_anagrams");
+  await expectNoPageOverflow(page);
 
   await expectChallengeRecovery(page, /APPEND TO GROUP/, /CREATE NEW GROUP/);
   await expectNoPageOverflow(page);
@@ -218,6 +221,17 @@ test("shared game controls support keyboard operation", async ({ page }) => {
     "(1, 4)",
     "(2, 3)",
   ]);
+
+  const pseudocode = page.getByRole("tab", { name: "PSEUDOCODE" });
+  await pseudocode.focus();
+  await page.keyboard.press("ArrowRight");
+  const pythonCode = page.getByRole("tab", { name: "PYTHON CODE" });
+  await expect(pythonCode).toHaveAttribute("aria-selected", "true");
+  await expect(pythonCode).toBeFocused();
+  await expect(page.getByRole("tabpanel")).toContainText("def pair_sum");
+  await page.keyboard.press("Tab");
+  await expect(page.getByRole("tabpanel")).toBeFocused();
+  await expectNoPageOverflow(page);
 
   const challenge = page.getByRole("button", { name: /CHALLENGE/ });
   await challenge.focus();

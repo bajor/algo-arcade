@@ -2,8 +2,8 @@ import {
   escapeHtml,
   type ChallengeActionOption,
   type ChallengePrompt,
+  type CodeListing,
   type DiagnosticEntry,
-  type PseudocodeEntry,
   type StageLegendItem,
 } from "../../shared/game-ui";
 import {
@@ -24,7 +24,33 @@ export const PSEUDOCODE = [
   { id: "classify", code: "bin = fixed range containing value" },
   { id: "increment", code: "counts[bin] += 1" },
   { id: "complete", code: "return counts and every tallest bin" },
-] as const satisfies readonly PseudocodeEntry[];
+] as const satisfies CodeListing;
+
+export const PYTHON_CODE = [
+  {
+    id: "python-signature",
+    code: "def build_histogram(values: list[int]) -> tuple[dict[str, int], list[str]]:",
+  },
+  {
+    id: "python-bins",
+    code: '    bins = ("0-24", "25-49", "50-74", "75-99")',
+  },
+  {
+    id: "initialize",
+    code: "    counts = {bin_id: 0 for bin_id in bins}",
+  },
+  { id: "inspect", code: "    for value in values:" },
+  { id: "classify", code: "        bin_id = bins[value // 25]" },
+  { id: "increment", code: "        counts[bin_id] += 1" },
+  {
+    id: "complete",
+    code: "    tallest = [bin_id for bin_id, count in counts.items() if count == max(counts.values())]; return counts, tallest",
+  },
+  {
+    id: "python-example",
+    code: '# build_histogram([4, 18, 26, 31, 51, 74, 75, 99, 26]) == ({"0-24": 2, "25-49": 3, "50-74": 2, "75-99": 2}, ["25-49"])',
+  },
+] as const satisfies CodeListing;
 
 export const STAGE_LEGEND = [
   { label: "CURRENT VALUE", markerClass: "histogram-legend-current" },

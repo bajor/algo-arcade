@@ -3,9 +3,9 @@ import {
   renderItemFeed,
   type ChallengeActionOption,
   type ChallengePrompt,
+  type CodeListing,
   type DiagnosticEntry,
   type ItemFeedState,
-  type PseudocodeEntry,
   type StageLegendItem,
 } from "../../shared/game-ui";
 import { formatEntries, type TraceSnapshot } from "./algorithm";
@@ -22,7 +22,32 @@ export const PSEUDOCODE = [
   { id: "insert-key", code: "if absent: counts[token] = 1" },
   { id: "increment-count", code: "otherwise: counts[token] += 1" },
   { id: "complete", code: "return ordered key/count entries" },
-] as const satisfies readonly PseudocodeEntry[];
+] as const satisfies CodeListing;
+
+export const PYTHON_CODE = [
+  {
+    id: "python-signature",
+    code: "def count_tokens(tokens: list[str]) -> dict[str, int]:",
+  },
+  { id: "initialize", code: "    counts: dict[str, int] = {}" },
+  { id: "inspect-token", code: "    for token in tokens:" },
+  {
+    id: "lookup-token",
+    code: "        existing = counts.get(token)",
+  },
+  { id: "python-insert-condition", code: "        if existing is None:" },
+  { id: "insert-key", code: "            counts[token] = 1" },
+  { id: "python-increment-branch", code: "        else:" },
+  {
+    id: "increment-count",
+    code: "            counts[token] = existing + 1",
+  },
+  { id: "complete", code: "    return counts" },
+  {
+    id: "python-example",
+    code: '# count_tokens(["red", "blue", "red", "gold", "blue", "red"]) == {"red": 3, "blue": 2, "gold": 1}',
+  },
+] as const satisfies CodeListing;
 
 export const STAGE_LEGEND = [
   { label: "CURRENT TOKEN", markerClass: "frequency-legend-current" },

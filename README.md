@@ -39,12 +39,12 @@ Token Tally: red, blue, red, gold, blue, red -> {red: 3, blue: 2, gold: 1}
 Histogram Forge: 4, 18, 26, 31, 51, 74, 75, 99, 26 -> {0-24: 2, 25-49: 3, 50-74: 2, 75-99: 2}
 ```
 
-Explore mode provides complete trace playback, active pseudocode, operation
-counts, and plain-language explanations. Challenge mode asks the learner to
-predict the next algorithm decision from the same canonical trace. Fresh
-procedural examples avoid immediate repetition and deliberately exercise the
-important branches of each technique. Presets and manual input remain available
-for controlled dry runs.
+Explore mode provides complete trace playback, trace-linked pseudocode and
+Python examples, operation counts, and plain-language explanations. Challenge
+mode asks the learner to predict the next algorithm decision from the same
+canonical trace. Fresh procedural examples avoid immediate repetition and
+deliberately exercise the important branches of each technique. Presets and
+manual input remain available for controlled dry runs.
 
 ## Local Development
 
