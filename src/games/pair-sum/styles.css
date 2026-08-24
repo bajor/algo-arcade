@@ -30,7 +30,7 @@
   display: block;
   color: var(--cyan);
   font-family: var(--font-display);
-  font-size: 0.46rem;
+  font-size: var(--font-size-small);
 }
 
 .pair-sum-stage .sum-lock > div:first-child > strong {
@@ -41,7 +41,7 @@
   margin-top: 10px;
   color: var(--paper);
   font-family: var(--font-display);
-  font-size: clamp(0.65rem, 2vw, 0.92rem);
+  font-size: var(--font-size-small);
   line-height: 1.7;
 }
 
@@ -76,14 +76,14 @@
   margin-top: 8px;
   color: var(--magenta);
   font-family: var(--font-display);
-  font-size: 1rem;
+  font-size: var(--font-size-base);
 }
 
 .pair-sum-stage .sum-lock > p {
   grid-column: 1 / -1;
   margin: 0;
   color: var(--muted);
-  font-size: 0.68rem;
+  font-size: var(--font-size-small);
 }
 
 .pair-sum-stage .sum-lock.is-closed {
@@ -105,7 +105,7 @@
 
 .pair-sum-stage .range-heading strong {
   color: var(--muted);
-  font-size: 0.65rem;
+  font-size: var(--font-size-small);
   text-align: right;
 }
 
@@ -134,8 +134,8 @@
 
 .pair-sum-stage .range-cell {
   display: grid;
-  width: 88px;
-  min-width: 88px;
+  width: 136px;
+  min-width: 136px;
   min-height: 132px;
   grid-template-rows: 28px 18px 1fr auto;
   place-items: center;
@@ -150,15 +150,15 @@
   min-height: 28px;
   align-items: start;
   justify-content: space-between;
-  gap: 2px;
+  gap: 0;
 }
 
 .pair-sum-stage .pointer-badges span {
-  padding: 4px 3px;
+  padding: 4px 1px;
   background: var(--blue);
   color: var(--ink-0);
   font-family: var(--font-display);
-  font-size: 0.38rem;
+  font-size: var(--font-size-small);
   line-height: 1.5;
 }
 
@@ -178,12 +178,12 @@
 
 .pair-sum-stage .range-cell > small {
   color: var(--muted);
-  font-size: 0.58rem;
+  font-size: var(--font-size-small);
 }
 
 .pair-sum-stage .range-cell > strong {
   font-family: var(--font-display);
-  font-size: 1rem;
+  font-size: var(--font-size-base);
 }
 
 .pair-sum-stage .cell-state {
@@ -195,7 +195,7 @@
   padding: 3px;
   background: var(--stage-border);
   color: var(--paper);
-  font-size: 0.46rem;
+  font-size: var(--font-size-small);
   font-weight: 600;
   line-height: 1.25;
   text-align: center;
@@ -245,7 +245,7 @@
 .pair-sum-stage .vault-heading strong {
   color: var(--green);
   font-family: var(--font-display);
-  font-size: 0.46rem;
+  font-size: var(--font-size-small);
 }
 
 .pair-sum-stage .pair-vault-list {
@@ -269,18 +269,18 @@
 .pair-sum-stage .vault-pair > span {
   color: var(--green);
   font-family: var(--font-display);
-  font-size: 0.42rem;
+  font-size: var(--font-size-small);
 }
 
 .pair-sum-stage .vault-pair > strong {
   color: var(--paper);
   font-family: var(--font-display);
-  font-size: 0.72rem;
+  font-size: var(--font-size-small);
 }
 
 .pair-sum-stage .vault-pair > small {
   color: var(--muted);
-  font-size: 0.6rem;
+  font-size: var(--font-size-small);
 }
 
 .pair-sum-stage .vault-pair.is-new {
@@ -306,13 +306,13 @@
 .pair-sum-stage .empty-vault > strong {
   color: var(--muted);
   font-family: var(--font-display);
-  font-size: 0.64rem;
+  font-size: var(--font-size-small);
   line-height: 1.8;
 }
 
 .pair-sum-stage .empty-vault > p {
   margin: 0;
-  font-size: 0.7rem;
+  font-size: var(--font-size-small);
 }
 
 .pair-sum-stage .vault-final {
@@ -321,7 +321,7 @@
   border: 2px solid var(--green);
   color: var(--green);
   font-family: var(--font-display);
-  font-size: 0.45rem;
+  font-size: var(--font-size-small);
   line-height: 1.6;
   text-align: center;
 }

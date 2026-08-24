@@ -15,7 +15,7 @@
 .minimum-window-stage .scanner-stations,
 .minimum-window-stage .sum-meter,
 .minimum-window-stage .rescue-archive {
-  font-size: 0.68rem;
+  font-size: var(--font-size-small);
 }
 
 .minimum-window-stage .scanner-heading {
@@ -25,7 +25,7 @@
   margin-bottom: var(--space-2);
   color: var(--cyan);
   font-family: var(--font-display);
-  font-size: 0.48rem;
+  font-size: var(--font-size-small);
 }
 
 .minimum-window-stage .scanner-heading span:last-child {
@@ -47,7 +47,7 @@
 .minimum-window-stage .rescue-archive > span {
   color: var(--muted);
   font-family: var(--font-display);
-  font-size: 0.47rem;
+  font-size: var(--font-size-small);
 }
 
 .minimum-window-stage .window-coordinate strong {
@@ -104,13 +104,13 @@
   top: 4px;
   left: 5px;
   color: var(--muted);
-  font-size: 0.55rem;
+  font-size: var(--font-size-small);
 }
 
 .minimum-window-stage .tape-cell strong {
   margin-top: 5px;
   font-family: var(--font-display);
-  font-size: 1rem;
+  font-size: var(--font-size-base);
 }
 
 .minimum-window-stage .tape-cell > span {
@@ -121,7 +121,7 @@
   padding: 3px;
   background: var(--stage-border);
   color: var(--paper);
-  font-size: 0.52rem;
+  font-size: var(--font-size-small);
   font-weight: 600;
   text-align: center;
 }
@@ -163,7 +163,7 @@
 .minimum-window-stage .tape-boundary strong {
   color: var(--yellow);
   font-family: var(--font-display);
-  font-size: 1.1rem;
+  font-size: var(--font-size-base);
   white-space: nowrap;
 }
 
@@ -172,7 +172,7 @@
   left: 50%;
   color: var(--muted);
   font-family: var(--font-display);
-  font-size: 0.42rem;
+  font-size: var(--font-size-small);
   line-height: 1.4;
   text-align: center;
   white-space: nowrap;
@@ -210,7 +210,7 @@
 
 .minimum-window-stage .scanner-stations strong {
   color: var(--paper);
-  font-size: 0.7rem;
+  font-size: var(--font-size-small);
 }
 
 .minimum-window-stage .rescue-console {
@@ -237,12 +237,12 @@
 .minimum-window-stage .sum-meter strong {
   color: var(--yellow);
   font-family: var(--font-display);
-  font-size: 1.1rem;
+  font-size: var(--font-size-base);
 }
 
 .minimum-window-stage .sum-meter small {
   color: var(--muted);
-  font-size: 0.62rem;
+  font-size: var(--font-size-small);
 }
 
 .minimum-window-stage .sum-meter.is-met {
@@ -301,7 +301,7 @@
 
 .minimum-window-stage .rescue-archive dt {
   color: var(--muted);
-  font-size: 0.58rem;
+  font-size: var(--font-size-small);
 }
 
 .minimum-window-stage .rescue-archive dd {
@@ -321,7 +321,7 @@
   margin-top: var(--space-3);
   color: var(--muted);
   font-family: var(--font-display);
-  font-size: 1.1rem;
+  font-size: var(--font-size-base);
 }
 
 .minimum-window-stage .rescue-archive.is-empty p {

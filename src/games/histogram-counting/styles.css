@@ -31,13 +31,13 @@
 .histogram-stage .forge-complexity > span {
   color: var(--cyan);
   font-family: var(--font-display);
-  font-size: 0.46rem;
+  font-size: var(--font-size-small);
 }
 
 .histogram-stage .current-value-console strong {
   color: var(--yellow);
   font-family: var(--font-display);
-  font-size: clamp(0.58rem, 2vw, 0.78rem);
+  font-size: var(--font-size-small);
   line-height: 1.7;
   text-align: right;
 }
@@ -52,7 +52,7 @@
 
 .histogram-stage .feed-heading strong {
   color: var(--muted);
-  font-size: 0.65rem;
+  font-size: var(--font-size-small);
 }
 
 .histogram-stage .input-feed {
@@ -93,13 +93,13 @@
   place-items: center;
   background: var(--stage-border);
   color: var(--paper);
-  font-size: 0.48rem;
+  font-size: var(--font-size-small);
 }
 
 .histogram-stage .feed-cell strong {
   color: var(--paper);
   font-family: var(--font-display);
-  font-size: 0.62rem;
+  font-size: var(--font-size-small);
 }
 
 .histogram-stage .feed-cell span {
@@ -109,7 +109,7 @@
   place-items: center;
   background: var(--ink-0);
   color: var(--muted);
-  font-size: 0.42rem;
+  font-size: var(--font-size-small);
 }
 
 .histogram-stage .feed-cell.is-processed {
@@ -169,13 +169,13 @@
 
 .histogram-stage .tower-count span {
   color: var(--muted);
-  font-size: 0.42rem;
+  font-size: var(--font-size-small);
 }
 
 .histogram-stage .tower-count strong {
   color: var(--cyan);
   font-family: var(--font-display);
-  font-size: 0.65rem;
+  font-size: var(--font-size-small);
 }
 
 .histogram-stage .tower-shaft {
@@ -212,7 +212,7 @@
   border-top: 3px solid var(--paper);
   color: var(--paper);
   font-family: var(--font-display);
-  font-size: clamp(0.42rem, 1.2vw, 0.58rem);
+  font-size: var(--font-size-small);
 }
 
 .histogram-stage .tower-state {
@@ -220,7 +220,7 @@
   place-items: center;
   background: var(--stage-border);
   color: var(--paper);
-  font-size: 0.44rem;
+  font-size: var(--font-size-small);
   font-weight: 600;
 }
 
@@ -266,7 +266,7 @@
 .histogram-stage .report-heading strong {
   color: var(--yellow);
   font-family: var(--font-display);
-  font-size: 0.44rem;
+  font-size: var(--font-size-small);
 }
 
 .histogram-stage .histogram-result {
@@ -290,14 +290,14 @@
 .histogram-stage .histogram-result dt {
   color: var(--muted);
   font-family: var(--font-display);
-  font-size: 0.42rem;
+  font-size: var(--font-size-small);
 }
 
 .histogram-stage .histogram-result dd {
   margin: 0;
   color: var(--cyan);
   font-family: var(--font-display);
-  font-size: 1rem;
+  font-size: var(--font-size-base);
 }
 
 .histogram-stage .tallest-result {
@@ -313,7 +313,7 @@
 .histogram-stage .tallest-result strong {
   color: var(--green);
   font-family: var(--font-display);
-  font-size: 0.52rem;
+  font-size: var(--font-size-small);
   line-height: 1.7;
 }
 
@@ -328,12 +328,12 @@
 .histogram-stage .forge-complexity strong {
   color: var(--yellow);
   font-family: var(--font-display);
-  font-size: 0.5rem;
+  font-size: var(--font-size-small);
 }
 
 .histogram-stage .forge-complexity small {
   color: var(--muted);
-  font-size: 0.6rem;
+  font-size: var(--font-size-small);
 }
 
 .histogram-stage .histogram-legend-current {

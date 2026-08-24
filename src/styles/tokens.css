@@ -2,6 +2,9 @@
   color-scheme: dark;
   --font-display: "Press Start 2P", monospace;
   --font-body: "IBM Plex Mono", monospace;
+  --font-size-small: 0.75rem;
+  --font-size-base: 1rem;
+  --font-size-large: 2rem;
   --ink-0: #080b16;
   --ink-1: #11182b;
   --ink-2: #1c2942;
