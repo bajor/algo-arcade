@@ -8,6 +8,7 @@ type TestAction = "advance" | "wait";
 
 interface TestSnapshot {
   readonly label: string;
+  readonly line: "ready" | "complete";
 }
 
 interface TestDecision {
@@ -71,7 +72,10 @@ function createConfig(): GameUiConfig<
       },
     },
     trace: {
-      generate: () => [{ label: "READY" }, { label: "COMPLETE" }],
+      generate: () => [
+        { label: "READY", line: "ready" },
+        { label: "COMPLETE", line: "complete" },
+      ],
     },
     stage: {
       className: "test-stage",
@@ -81,9 +85,19 @@ function createConfig(): GameUiConfig<
       explanation: (snapshot) => snapshot.label,
       legend: [],
     },
-    pseudocode: {
-      entries: [{ id: "test", code: "test" }],
-      activeEntryId: () => "test",
+    code: {
+      listings: {
+        pseudocode: [
+          { id: "ready", code: "prepare" },
+          { id: "complete", code: "finish" },
+        ],
+        python: [
+          { id: "python-signature", code: "def solve():" },
+          { id: "ready", code: '    state = "<ready>"' },
+          { id: "complete", code: '    return "<done>"' },
+        ],
+      },
+      activeLineId: (snapshot) => snapshot.line,
     },
     diagnostics: {
       entries: () => [],
@@ -129,6 +143,85 @@ function element<TElement extends Element>(selector: string): TElement {
 }
 
 describe("shared game UI runtime", () => {
+  it("exposes Pseudocode as the initially selected code tab", () => {
+    const pseudocode = element<HTMLButtonElement>(
+      '[data-code-tab="pseudocode"]',
+    );
+
+    expect(pseudocode.getAttribute("aria-selected")).toBe("true");
+  });
+
+  it("keeps the current trace step when switching code tabs", () => {
+    element<HTMLButtonElement>('[data-action="next"]').click();
+    element<HTMLButtonElement>('[data-code-tab="python"]').click();
+
+    expect(element(".timeline-control label").textContent).toContain(
+      "STEP 2 / 2",
+    );
+  });
+
+  it("highlights the Python line for the current trace step", () => {
+    element<HTMLButtonElement>('[data-action="next"]').click();
+    element<HTMLButtonElement>('[data-code-tab="python"]').click();
+
+    expect(element(".code-panel li.is-active code").textContent).toBe(
+      '    return "<done>"',
+    );
+  });
+
+  it("escapes Python source before rendering it", () => {
+    element<HTMLButtonElement>('[data-code-tab="python"]').click();
+
+    expect(element('[role="tabpanel"]').textContent).toContain('"<ready>"');
+    expect(root.querySelector("ready")).toBeNull();
+  });
+
+  it("selects the next code tab with the right arrow key", () => {
+    const pseudocode = element<HTMLButtonElement>(
+      '[data-code-tab="pseudocode"]',
+    );
+    pseudocode.focus();
+    pseudocode.dispatchEvent(
+      new KeyboardEvent("keydown", { key: "ArrowRight", bubbles: true }),
+    );
+
+    const python = element<HTMLButtonElement>('[data-code-tab="python"]');
+    expect(python.getAttribute("aria-selected")).toBe("true");
+  });
+
+  it("moves focus to the code tab selected with an arrow key", () => {
+    const pseudocode = element<HTMLButtonElement>(
+      '[data-code-tab="pseudocode"]',
+    );
+    pseudocode.focus();
+    pseudocode.dispatchEvent(
+      new KeyboardEvent("keydown", { key: "ArrowRight", bubbles: true }),
+    );
+
+    expect(document.activeElement).toBe(
+      element<HTMLButtonElement>('[data-code-tab="python"]'),
+    );
+  });
+
+  it("rejects a code listing without the active trace line", () => {
+    const invalidRoot = document.createElement("div");
+    const config = createConfig();
+    const invalidConfig = {
+      ...config,
+      code: {
+        ...config.code,
+        listings: {
+          ...config.code.listings,
+          python: [{ id: "missing", code: "pass" }],
+        },
+      },
+    } satisfies typeof config;
+
+    expect(() => mountGameUi(invalidRoot, context, invalidConfig)).toThrow(
+      'python must contain exactly one line for trace ID "ready".',
+    );
+  });
+
   it("pauses before rendering the final autoplay snapshot", () => {
     vi.useFakeTimers();
     element<HTMLButtonElement>('[data-action="toggle-play"]').click();

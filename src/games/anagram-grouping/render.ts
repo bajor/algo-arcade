@@ -3,9 +3,9 @@ import {
   renderItemFeed,
   type ChallengeActionOption,
   type ChallengePrompt,
+  type CodeListing,
   type DiagnosticEntry,
   type ItemFeedState,
-  type PseudocodeEntry,
   type StageLegendItem,
 } from "../../shared/game-ui";
 import { formatGroups, type TraceSnapshot } from "./algorithm";
@@ -22,7 +22,49 @@ export const PSEUDOCODE = [
   },
   { id: "append-word", code: "otherwise: append word to its existing group" },
   { id: "complete", code: "return groups in first-seen order" },
-] as const satisfies readonly PseudocodeEntry[];
+] as const satisfies CodeListing;
+
+export const PYTHON_CODE = [
+  {
+    id: "python-signature",
+    code: "def group_anagrams(words: list[str]) -> list[list[str]]:",
+  },
+  {
+    id: "initialize",
+    code: "    groups: list[list[str]] = []",
+  },
+  {
+    id: "python-signature-map",
+    code: "    signature_to_group: dict[str, int] = {}",
+  },
+  { id: "inspect", code: "    for word in words:" },
+  {
+    id: "build-signature",
+    code: '        signature = "".join(sorted(word))',
+  },
+  {
+    id: "lookup",
+    code: "        group_index = signature_to_group.get(signature)",
+  },
+  {
+    id: "python-new-condition",
+    code: "        if group_index is None:",
+  },
+  {
+    id: "create-group",
+    code: "            signature_to_group[signature] = len(groups); groups.append([word])",
+  },
+  { id: "python-existing-branch", code: "        else:" },
+  {
+    id: "append-word",
+    code: "            groups[group_index].append(word)",
+  },
+  { id: "complete", code: "    return groups" },
+  {
+    id: "python-example",
+    code: '# group_anagrams(["eat", "tea", "tan", "ate", "nat", "bat"]) == [["eat", "tea", "ate"], ["tan", "nat"], ["bat"]]',
+  },
+] as const satisfies CodeListing;
 
 export const STAGE_LEGEND = [
   { label: "INCOMING WORD", markerClass: "anagram-legend-incoming" },

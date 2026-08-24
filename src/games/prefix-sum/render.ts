@@ -2,8 +2,8 @@ import {
   escapeHtml,
   type ChallengeActionOption,
   type ChallengePrompt,
+  type CodeListing,
   type DiagnosticEntry,
-  type PseudocodeEntry,
   type StageLegendItem,
 } from "../../shared/game-ui";
 import type { TraceSnapshot } from "./algorithm";
@@ -23,7 +23,28 @@ export const PSEUDOCODE = [
   { id: "read-end", code: "throughEnd = prefix[end]" },
   { id: "subtract", code: "rangeSum = throughEnd - before" },
   { id: "complete", code: "return rangeSum" },
-] as const satisfies readonly PseudocodeEntry[];
+] as const satisfies CodeListing;
+
+export const PYTHON_CODE = [
+  {
+    id: "python-signature",
+    code: "def range_sum(values: list[int], start: int, end: int) -> int:",
+  },
+  { id: "initialize", code: "    prefix = [0]" },
+  { id: "python-loop", code: "    for value in values:" },
+  {
+    id: "accumulate",
+    code: "        prefix.append(prefix[-1] + value)",
+  },
+  { id: "read-start", code: "    before = prefix[start]" },
+  { id: "read-end", code: "    through_end = prefix[end]" },
+  { id: "subtract", code: "    result = through_end - before" },
+  { id: "complete", code: "    return result" },
+  {
+    id: "python-example",
+    code: "# range_sum([2, -1, 4, 3], 1, 4) == 6",
+  },
+] as const satisfies CodeListing;
 
 export const STAGE_LEGEND = [
   { label: "CURRENT INPUT", markerClass: "prefix-legend-current" },

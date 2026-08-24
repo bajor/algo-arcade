@@ -1,6 +1,8 @@
 import type { GameMountContext } from "../../app/registry";
+import { CODE_TABS } from "./types";
 import type {
   ChallengeProgress,
+  CodeTab,
   GameMode,
   GameUiConfig,
   GameUiState,
@@ -167,7 +169,7 @@ function renderExplore<
     ${renderStage(snapshot, false, config)}
     ${renderPlayback(model, config, snapshot)}
     <div class="debug-grid">
-      ${renderPseudocode(snapshot, config)}
+      ${renderCodePanel(snapshot, model.codeTab, config)}
       ${renderDiagnostics(snapshot, model.stepIndex, model.trace.length, config)}
     </div>
   `;
@@ -318,7 +320,7 @@ function renderPlayback<
   `;
 }
 
-function renderPseudocode<
+function renderCodePanel<
   Example,
   Snapshot,
   Decision,
@@ -326,25 +328,48 @@ function renderPseudocode<
   ChallengeSnapshot extends Snapshot,
 >(
   snapshot: Snapshot,
+  selectedTab: CodeTab,
   config: GameUiConfig<Example, Snapshot, Decision, Action, ChallengeSnapshot>,
 ): string {
-  const activeEntryId = config.pseudocode.activeEntryId(snapshot);
-  const lines = config.pseudocode.entries
-    .map(
-      (line, index) => `
-        <li class="${activeEntryId === line.id ? "is-active" : ""}">
+  const activeLineId = config.code.activeLineId(snapshot);
+  const tabs = CODE_TABS.map((tab) => renderCodeTab(tab, selectedTab)).join("");
+  const lines = config.code.listings[selectedTab]
+    .map((line, index) => {
+      const isActive = activeLineId === line.id;
+      return `
+        <li${isActive ? ' class="is-active" aria-current="step"' : ""}>
           <span>${formatNumber(index + 1)}</span>
           <code>${escapeHtml(line.code)}</code>
         </li>
-      `,
-    )
+      `;
+    })
     .join("");
 
   return `
     <section class="code-panel" aria-labelledby="code-heading">
-      <div class="panel-heading"><span>PROGRAM ROM</span><h2 id="code-heading">PSEUDOCODE</h2></div>
-      <ol>${lines}</ol>
+      <div class="panel-heading"><span>PROGRAM ROM</span><h2 id="code-heading">CODE VIEWER</h2></div>
+      <div class="code-tabs" role="tablist" aria-label="Code language">${tabs}</div>
+      <div id="code-listing" role="tabpanel" aria-labelledby="code-tab-${selectedTab}" tabindex="0" data-focus="code-listing">
+        <ol>${lines}</ol>
+      </div>
     </section>
+  `;
+}
+
+function renderCodeTab(tab: CodeTab, selectedTab: CodeTab): string {
+  const isSelected = tab === selectedTab;
+  return `
+    <button
+      id="code-tab-${tab}"
+      type="button"
+      role="tab"
+      data-action="show-code"
+      data-code-tab="${tab}"
+      data-focus="code-tab-${tab}"
+      aria-controls="code-listing"
+      aria-selected="${String(isSelected)}"
+      tabindex="${isSelected ? "0" : "-1"}"
+    >${tab === "pseudocode" ? "PSEUDOCODE" : "PYTHON CODE"}</button>
   `;
 }
 

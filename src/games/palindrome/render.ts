@@ -2,8 +2,8 @@ import {
   escapeHtml,
   type ChallengeActionOption,
   type ChallengePrompt,
+  type CodeListing,
   type DiagnosticEntry,
-  type PseudocodeEntry,
   type StageLegendItem,
 } from "../../shared/game-ui";
 import type { TraceSnapshot } from "./algorithm";
@@ -16,7 +16,30 @@ export const PSEUDOCODE = [
   { id: "match", code: "if equal: left += 1; right -= 1" },
   { id: "mismatch", code: "else: verdict = false; stop" },
   { id: "complete", code: "return the verdict after the scan stops" },
-] as const satisfies readonly PseudocodeEntry[];
+] as const satisfies CodeListing;
+
+export const PYTHON_CODE = [
+  {
+    id: "python-signature",
+    code: "def is_palindrome(text: str) -> bool:",
+  },
+  { id: "initialize", code: "    left, right = 0, len(text) - 1" },
+  { id: "python-verdict", code: "    verdict = True" },
+  { id: "python-loop", code: "    while left <= right:" },
+  { id: "center", code: "        if left == right:" },
+  {
+    id: "python-center-move",
+    code: "            left, right = left + 1, right - 1",
+  },
+  { id: "python-center-break", code: "            break" },
+  { id: "compare", code: "        if text[left] == text[right]:" },
+  { id: "match", code: "            left, right = left + 1, right - 1" },
+  { id: "python-else", code: "        else:" },
+  { id: "mismatch", code: "            verdict = False" },
+  { id: "python-mismatch-break", code: "            break" },
+  { id: "complete", code: "    return verdict" },
+  { id: "python-example", code: '# is_palindrome("racecar") is True' },
+] as const satisfies CodeListing;
 
 export const STAGE_LEGEND = [
   { label: "LEFT POINTER", markerClass: "pal-legend-left" },

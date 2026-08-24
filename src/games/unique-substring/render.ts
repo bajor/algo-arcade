@@ -2,8 +2,8 @@ import {
   escapeHtml,
   type ChallengeActionOption,
   type ChallengePrompt,
+  type CodeListing,
   type DiagnosticEntry,
-  type PseudocodeEntry,
   type StageLegendItem,
 } from "../../shared/game-ui";
 import type { TraceSnapshot } from "./algorithm";
@@ -16,7 +16,36 @@ export const PSEUDOCODE = [
   { id: "expand", code: "cache.add(text[right]); right += 1" },
   { id: "evaluate-best", code: "best = longer(best, text[left:right])" },
   { id: "complete", code: "return earliest longest substring" },
-] as const satisfies readonly PseudocodeEntry[];
+] as const satisfies CodeListing;
+
+export const PYTHON_CODE = [
+  {
+    id: "python-signature",
+    code: "def longest_unique_substring(text: str) -> tuple[str, int, int]:",
+  },
+  { id: "initialize", code: "    left = right = best_start = best_end = 0" },
+  { id: "python-active", code: "    active: set[str] = set()" },
+  { id: "python-loop", code: "    while right < len(text):" },
+  { id: "inspect", code: "        if text[right] in active:" },
+  {
+    id: "shrink",
+    code: "            active.remove(text[left]); left += 1",
+  },
+  { id: "python-continue", code: "            continue" },
+  { id: "expand", code: "        active.add(text[right]); right += 1" },
+  {
+    id: "evaluate-best",
+    code: "        best_start, best_end = (left, right) if right - left > best_end - best_start else (best_start, best_end)",
+  },
+  {
+    id: "complete",
+    code: "    return text[best_start:best_end], best_start, best_end",
+  },
+  {
+    id: "python-example",
+    code: '# longest_unique_substring("abcabcbb") == ("abc", 0, 3)',
+  },
+] as const satisfies CodeListing;
 
 export const STAGE_LEGEND = [
   { label: "REMOVED", markerClass: "unique-legend-removed" },

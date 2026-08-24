@@ -1,8 +1,8 @@
 import type {
   ChallengeActionOption,
   ChallengePrompt,
+  CodeListing,
   DiagnosticEntry,
-  PseudocodeEntry,
   StageLegendItem,
 } from "../../shared/game-ui";
 import type { TraceSnapshot, WindowResult } from "./algorithm";
@@ -30,7 +30,42 @@ export const PSEUDOCODE = [
     code: "sum -= values[left]; left += 1",
   },
   { id: "complete", code: "return best" },
-] as const satisfies readonly PseudocodeEntry[];
+] as const satisfies CodeListing;
+
+export const PYTHON_CODE = [
+  {
+    id: "python-signature",
+    code: "def minimum_window(values: list[int], target: int) -> tuple[int, int] | None:",
+  },
+  { id: "initialize", code: "    left = right = total = 0" },
+  {
+    id: "python-best",
+    code: "    best: tuple[int, int] | None = None",
+  },
+  {
+    id: "decide",
+    code: "    while total >= target or right < len(values):",
+  },
+  { id: "python-expand-condition", code: "        if total < target:" },
+  {
+    id: "expand",
+    code: "            total, right = total + values[right], right + 1",
+  },
+  { id: "python-shrink-branch", code: "        else:" },
+  {
+    id: "qualify",
+    code: "            best = (left, right) if best is None or right - left < best[1] - best[0] else best",
+  },
+  {
+    id: "shrink",
+    code: "            total, left = total - values[left], left + 1",
+  },
+  { id: "complete", code: "    return best" },
+  {
+    id: "python-example",
+    code: "# minimum_window([2, 3, 1, 2, 4, 3], 7) == (4, 6)",
+  },
+] as const satisfies CodeListing;
 
 export const STAGE_LEGEND = [
   {
