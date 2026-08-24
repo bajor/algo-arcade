@@ -86,7 +86,6 @@ src/
   shared/                 genuinely reused TypeScript utilities and controls
   styles/                 global tokens, shell, controls, and shared patterns
 tests/                    Playwright browser tests
-visual-explanations/      temporary PR-only architecture SVGs when required
 ```
 
 Keep game-specific behavior inside its game directory. Move code to `shared/`
